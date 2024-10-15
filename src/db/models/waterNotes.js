@@ -1,5 +1,11 @@
 import { Schema, model } from "mongoose";
 
+const setTimeToSevenAM = () => {
+    const now = new Date();
+    now.setHours(10, 0, 0, 0); // Встановлюємо час на 7:00:00.000
+    return now;
+};
+
 const waterNotes = new Schema(
     {
         waterVolume: {
@@ -11,10 +17,14 @@ const waterNotes = new Schema(
         },
         date: {
             type: Date,
+            default: setTimeToSevenAM,
             required: true,
         }
     },
     { timestamps: true, versionKey: false },
 );
 
-export const waterNotesCollection = model('water_notes', waterNotes);
+export const waterNotesCollection = model('water-notes', waterNotes);
+
+
+
