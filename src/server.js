@@ -25,7 +25,7 @@ export const setupServer = () => {
   });
 
   // Всі маршрути писати тут
-  app.use('/water_notes', waterNotesRouter);
+  app.use('/water-notes', waterNotesRouter);
   //
 
   app.use('*', notFoundHandler);
