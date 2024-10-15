@@ -5,6 +5,7 @@ import { env } from './utils/env.js';
 import { waterNotesRouter } from './routers/waterNotes.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
+import { authRouter } from './routers/auth.js';
 
 const PORT = Number(env('PORT', '3000'));
 
@@ -25,7 +26,8 @@ export const setupServer = () => {
   });
 
   // Всі маршрути писати тут
-  app.use('/water-notes', waterNotesRouter);
+  app.use('/water_notes', waterNotesRouter);
+  app.use('/auth', authRouter);
   //
 
   app.use('*', notFoundHandler);
