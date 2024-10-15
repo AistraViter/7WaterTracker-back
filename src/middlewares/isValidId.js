@@ -2,10 +2,13 @@ import { isValidObjectId } from 'mongoose';
 import createHttpError from 'http-errors';
 
 export const isValidId = (req, res, next) => {
-  const { userId } = req.params;
+  const { userId, waterId } = req.params;
 
-  if (!isValidObjectId) {
+  const idToCheck = userId || waterId;
+
+  if (!isValidObjectId(idToCheck)) {
     throw createHttpError(400, 'Bad request');
   }
+
   next();
 };
