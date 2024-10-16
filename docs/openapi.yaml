@@ -12,7 +12,7 @@ tags:
     description: Auth operations.
 servers:
   - url: http://localhost:3000
-  - url: https://x.onrender.com
+  - url: https://sevenwatertracker-back-1.onrender.com
    
 components:
   securitySchemes:
