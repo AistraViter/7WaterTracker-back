@@ -2,10 +2,12 @@ import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
 import { env } from './utils/env.js';
+import router from './routers/index.js';
 import { waterNotesRouter } from './routers/waterNotes.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { authRouter } from './routers/auth.js';
+import cookieParser from 'cookie-parser';
 
 const PORT = Number(env('PORT', '3000'));
 
@@ -16,6 +18,7 @@ export const setupServer = () => {
       target: 'pino-pretty',
     },
   });
+  app.use(cookieParser());
   app.use(logger);
   app.use(cors());
   app.use(express.json());
@@ -26,6 +29,7 @@ export const setupServer = () => {
   });
 
   // Всі маршрути писати тут
+  app.use(router);
   app.use('/water_notes', waterNotesRouter);
   app.use('/auth', authRouter);
   //
