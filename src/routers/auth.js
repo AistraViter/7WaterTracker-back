@@ -12,7 +12,7 @@ export const authRouter = Router();
 
 authRouter.post(
   '/registration',
-  validateRegistrationData,
+  validateRegistrationData, // Це треба переробити в стилі як зроблено логін. 
   registrationUserController,
 );
 
