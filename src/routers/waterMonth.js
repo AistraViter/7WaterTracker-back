@@ -1,14 +1,9 @@
 import express from 'express';
-import { getMonthlyWaterConsumption } from '../controllers/waterMonth.js';
+import { getMonthlyWaterConsumptionController } from '../controllers/waterMonth.js';
 
 const router = express.Router();
 
-router.get('/water-notes/:year/:month', getMonthlyWaterConsumption);
+// Маршрут для отримання місячного споживання води
+router.get('/water-consumption', getMonthlyWaterConsumptionController);
 
 export default router;
-
-
-
-
-
-
