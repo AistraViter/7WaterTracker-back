@@ -19,7 +19,10 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    dailyNorm: { type: Number, default: 1500 },
+    dailyNorm: {
+      type: Number,
+      default: 1500
+    },
     gender: {
       type: String,
       enum: ['Woman', 'Man'],
@@ -37,5 +40,12 @@ const userSchema = new Schema(
   },
 );
 
-const User = mongoose.model('User', userSchema);
-export { User }; // Используйте именованный экспорт
+userSchema.methods.toJSON = function () {
+  const obj = this.toObject();
+  delete obj.password;
+  return obj;
+}; //потрібно для видалення паролю
+
+
+const UsersCollection = mongoose.model('users', userSchema);
+export { UsersCollection }; // Используйте именованный экспорт

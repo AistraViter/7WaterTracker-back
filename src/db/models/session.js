@@ -1,4 +1,3 @@
-// src/models/session.js
 import mongoose from 'mongoose';
 
 // Схема для моделі Session
@@ -7,7 +6,7 @@ const sessionSchema = new mongoose.Schema(
     userId: {
       type: mongoose.Schema.Types.ObjectId, // Ссылка на пользователя (User)
       required: [true, 'User ID is required'], // Обязательное поле
-      ref: 'User', // Ссылка на коллекцию пользователей
+      ref: 'users', // Ссылка на коллекцию пользователей
     },
     accessToken: {
       type: String,
@@ -27,11 +26,11 @@ const sessionSchema = new mongoose.Schema(
     },
   },
   {
-    timestamps: true, // Автоматически добавляет поля createdAt и updatedAt
+    timestamps: true,  versionKey: false,// Автоматически добавляет поля createdAt и updatedAt
   },
 );
 
 // Создаем модель Session
-const Session = mongoose.model('Session', sessionSchema);
+const Session = mongoose.model('sessions', sessionSchema);
 
 export default Session;
