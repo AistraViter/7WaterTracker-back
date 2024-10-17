@@ -87,7 +87,7 @@ export async function loginUserController(req, res, next) {
     // Возвращаем успешный ответ с access токеном
     res.status(200).json({
       status: 200,
-      message: 'Пользователь успешно авторизован!',
+      message: 'Successfully logged in',
       data: { accessToken },
     });
   } catch (error) {

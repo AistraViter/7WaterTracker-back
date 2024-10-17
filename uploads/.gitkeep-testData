@@ -5,7 +5,12 @@
 // "gender": "Man"
 // }
 
-// http://localhost:51442/auth/registration
-// http://localhost:51442/auth/login
+// {
+// "email": "happ@gmail.com",
+// "password": "123456"
+// }
+
+// http://localhost:53696/auth/register
+// http://localhost:53696/auth/login
 
 

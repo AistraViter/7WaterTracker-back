@@ -11,7 +11,7 @@ import {
 export const authRouter = Router();
 
 authRouter.post(
-  '/registration',
+  '/register',
   validateRegistrationData, // Це треба переробити в стилі як зроблено логін. 
   registrationUserController,
 );
