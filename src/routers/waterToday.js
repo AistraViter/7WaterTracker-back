@@ -6,4 +6,4 @@ import { authenticate } from '../middlewares/authenticate.js';
 export const waterTodayRouter = Router();
 waterTodayRouter.use(authenticate);
 
-waterTodayRouter.get('/', ctrlWrapper(getWaterTodayController));
+waterTodayRouter.get('/today', ctrlWrapper(getWaterTodayController));
