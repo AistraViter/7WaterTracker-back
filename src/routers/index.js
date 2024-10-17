@@ -5,7 +5,9 @@ import { authRouter } from './auth.js';
 import { waterNotesRouter } from './waterNotes.js';
 
 const router = Router();
-// Всі маршрути пишемо тут
+
+// router.use('/users', usersRouter);
+
 router.use('/auth', authRouter);
 
 router.use('/water-options', waterNotesRouter, usersRouter); // об'єднала маршрути

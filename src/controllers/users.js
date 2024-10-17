@@ -3,7 +3,8 @@ import { getUserById, updateUserDailyNorm } from '../services/users.js';
 
 //////////////////////////////// updateDailyNorm ////////////////////////////////
 export const updateDailyNormController = async (req, res, next) => {
-  const userId = req.params.userId;
+  // userId comes from the req.user._id parameter, which is provided by the authenticate.js middleware
+  const userId = req.user._id;
   const { weight, activeTime, dailyNorm } = req.body;
 
   let newDailyNorm;
@@ -18,9 +19,9 @@ export const updateDailyNormController = async (req, res, next) => {
   const T = activeTime !== undefined ? activeTime : user.activeTime;
 
   // calculate dailyNorm for genders
-  if (user.gender === 'woman') {
+  if (user.gender === 'Woman') {
     newDailyNorm = Number((M * 0.03 + T * 0.4).toFixed(2));
-  } else if (user.gender === 'man') {
+  } else if (user.gender === 'Man') {
     newDailyNorm = Number((M * 0.04 + T * 0.6).toFixed(2));
   }
 
