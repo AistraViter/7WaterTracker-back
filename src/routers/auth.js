@@ -11,6 +11,7 @@ import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
   userLoginSchema,
   requestResetEmailSchema,
+  userRegisterSchema,
   resetPasswordSchema
 } from '../validation/user.js'; // Схемы валидации
 
@@ -20,8 +21,8 @@ export const authRouter = Router();
 
 authRouter.post(
   '/register',
-  validateRegistrationData, // Це треба переробити в стилі як зроблено логін.
-  registrationUserController,
+  validateRegistrationData(userRegisterSchema), // Це треба переробити в стилі як зроблено логін.
+  ctrlWrapper(registrationUserController),
 );
 
 // Маршрут для логина пользователя
