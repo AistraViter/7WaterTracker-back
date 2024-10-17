@@ -7,7 +7,6 @@ import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import cookieParser from 'cookie-parser';
 import router from './routers/index.js';
 
-
 const PORT = Number(env('PORT', '3000'));
 
 export const setupServer = () => {
@@ -26,7 +25,6 @@ export const setupServer = () => {
       message: 'Hello world! Meet our 7WaterTracker!',
     });
   });
-
 
   app.use('/', router); // Всі маршрути пишемо у routers/index.js
   app.use('*', notFoundHandler);
