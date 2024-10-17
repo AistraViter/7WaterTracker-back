@@ -1,4 +1,3 @@
-// src/models/session.js
 import mongoose from 'mongoose';
 
 // Схема для моделі Session
@@ -27,7 +26,7 @@ const sessionSchema = new mongoose.Schema(
     },
   },
   {
-    timestamps: true, // Автоматически добавляет поля createdAt и updatedAt
+    timestamps: true,  versionKey: false,// Автоматически добавляет поля createdAt и updatedAt
   },
 );
 
