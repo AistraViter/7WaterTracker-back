@@ -1,0 +1,11 @@
+// {
+// "name": "happywater",
+// "email": "happy@gmail.com",
+// "password": "123456",
+// "gender": "Man"
+// }
+
+// http://localhost:51442/auth/registration
+// http://localhost:51442/auth/login
+
+
