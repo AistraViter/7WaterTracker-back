@@ -13,6 +13,7 @@ const parseAndAdjustTime = (timeString) => {
         throw createHttpError(400, 'Вкажіть коректний формат часу (HH:mm).');
     }
 
+    // eslint-disable-next-line no-unused-vars
     const [_, hours, minutes] = parsedTime;
 
     let currentDate = new Date();

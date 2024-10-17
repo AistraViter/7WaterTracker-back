@@ -19,7 +19,10 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    dailyNorm: { type: Number, default: 1500 },
+    dailyNorm: {
+      type: Number,
+      default: 1500
+    },
     gender: {
       type: String,
       enum: ['Woman', 'Man'],
