@@ -1,0 +1,63 @@
+tags:
+  - Water
+summary: Get water intake information for a specific month
+operationId: getMonthlyWaterConsumption
+description: 'Retrieves water intake records for a specific month'
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          firstDate:
+            type: string
+            format: date
+            example: '2024-09-01'
+            description: 'The starting date of the month for which to retrieve water intake information'
+          lastDate:
+            type: string
+            format: date
+            example: '2024-09-30'
+            description: 'The ending date of the month for which to retrieve water intake information'
+responses:
+  '200':
+    description: 'Successfully retrieved water intake information for the specified month'
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: 'Water data retrieved successfully'
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  date:
+                    type: string
+                    example: '1, September'
+                  dailyTotal:
+                    type: number
+                    example: 1500
+                  consumptionCount:
+                    type: integer
+                    example: 3
+                  dailyNorm:
+                    type: number
+                    example: 1.8
+                    description: 'Daily recommended water intake in liters'
+                  waterPercent:
+                    type: string
+                    example: '83.33%'
+  '404':
+    $ref: '../../../components/responses/404.yaml'
+  '400':
+    $ref: '../../../components/responses/400.yaml'

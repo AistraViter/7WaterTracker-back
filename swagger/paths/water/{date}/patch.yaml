@@ -1,0 +1,54 @@
+tags:
+  - Water
+summary: Update a water intake record
+operationId: patchWater
+description: 'Update a water intake record by date'
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: date
+    schema:
+      type: string
+      format: date
+      example: '2024-09-01T14:00'
+    required: true
+    description: 'The date of the record to update'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          waterVolume:
+            type: number
+            description: 'The updated amount of water consumed in milliliters'
+          date:
+            type: string
+            format: date
+            example: '2024-09-01T14:00'
+            description: 'The updated date of water consumption'
+responses:
+  '200':
+    description: 'Update a water intake record by date'
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: 'Successfully updated a water intake record!'
+            data:
+              type: object
+              $ref: '../../../components/schemas/waterNotes.yaml'
+  '404':
+    $ref: '../../../components/responses/404.yaml'

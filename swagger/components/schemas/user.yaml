@@ -1,0 +1,34 @@
+type: object
+required:
+  - _id
+  - name
+  - email
+  - dailyNorm
+  - gender
+  - photo
+properties:
+  _id:
+    description: "User's id"
+    type: string
+    example: 65e4decdd286b30065d54af9
+  name:
+    description: "User's name"
+    type: string
+    example: 'John Doe'
+  email:
+    description: "User's email"
+    type: string
+    example: mail@mail.com
+  dailyNorm:
+    description: "User's daily norm"
+    type: number
+    example: 150
+  gender:
+    description: "User's gender"
+    type: string
+    enum: ['woman', 'man']
+    example: 'woman'
+  photo:
+    description: "Link to user's photo"
+    type: string
+    example: https://res.cloudinary.com/uqwgdu/image/upload/image.png

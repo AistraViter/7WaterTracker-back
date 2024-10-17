@@ -19,6 +19,13 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+<<<<<<< Updated upstream
+=======
+    dailyNorm: {
+      type: Number,
+      default: 1500
+    },
+>>>>>>> Stashed changes
     gender: {
       type: String,
       enum: ['Woman', 'Man'],
@@ -36,5 +43,10 @@ const userSchema = new Schema(
   },
 );
 
+<<<<<<< Updated upstream
 export const User = mongoose.model('User', userSchema);
 
+=======
+const User = mongoose.model('users', userSchema);
+export { User }; // Используйте именованный экспорт
+>>>>>>> Stashed changes

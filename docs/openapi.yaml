@@ -1,0 +1,72 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: 7WaterTracker app
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+<<<<<<< HEAD
+<<<<<<< HEAD
+  description: This is a documentation of 7WaterTracker app
+=======
+  description: This is a documentation of contacts app
+>>>>>>> da5454c3198e4589f1f50af6404371bff77ae8de
+=======
+  description: This is a documentation of contacts app
+>>>>>>> da5454c3198e4589f1f50af6404371bff77ae8de
+tags:
+  - name: Users
+    description: Operations about users.
+  - name: Auth
+    description: Auth operations.
+servers:
+  - url: http://localhost:3000
+  - url: https://sevenwatertracker-back-1.onrender.com
+<<<<<<< HEAD
+<<<<<<< HEAD
+paths:
+  /auth/register:
+    post:
+      $ref: ../swagger/paths/auth/register/post.yaml
+  /auth/login:
+    post:
+      $ref: ../swagger/paths/auth/login/post.yaml
+  /auth/logout:
+    post:
+      $ref: ../swagger/paths/auth/logout/post.yaml
+  /auth/refresh:
+    post:
+      $ref: ../swagger/paths/auth/refresh/post.yaml
+  /users:
+    post:
+      $ref: ../swagger/paths/users/post.yaml
+  /users/{id}:
+    get:
+      $ref: ../swagger/paths/users/{id}/get.yaml
+    patch:
+      $ref: ../swagger/paths/users/{id}/patch.yaml
+    delete:
+      $ref: ../swagger/paths/users/{id}/delete.yaml
+  /water:
+    post:
+      $ref: ../swagger/paths/water/post.yaml
+  /water/{date}:
+    patch:
+      $ref: ../swagger/paths/water/{date}/patch.yaml
+    delete:
+      $ref: ../swagger/paths/water/{date}/delete.yaml
+  /water/waterDay:
+    get:
+      $ref: ../swagger/paths/water/waterDay/get.yaml
+  /water/waterMonth:
+    get:
+      $ref: ../swagger/paths/water/waterMonth/get.yaml
+=======
+>>>>>>> da5454c3198e4589f1f50af6404371bff77ae8de
+=======
+>>>>>>> da5454c3198e4589f1f50af6404371bff77ae8de
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer

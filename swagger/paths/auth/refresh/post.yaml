@@ -1,0 +1,46 @@
+tags:
+  - Auth
+summary: Refresh the user session
+operationId: refreshUserSession
+description: >
+  This endpoint refreshes the user session by generating new access and refresh tokens. 
+  It requires a valid session ID and refresh token to be provided in the request cookies.
+requestBody:
+  required: false
+  content:
+    application/json:
+      schema:
+        type: object
+        description: This endpoint doesn't require a body. The session ID and refresh token are retrieved from cookies.
+security:
+  - bearerAuth: []
+responses:
+  '200':
+    description: 'Successfully refreshed user session'
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: 'Successfully refreshed user session!'
+            data:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                  example: 'newAccessToken123456'
+  '401':
+    $ref: '../../../components/responses/401.yaml'
+  '400':
+    $ref: '../../../components/responses/400.yaml'
+  '404':
+    $ref: '../../../components/responses/404.yaml'

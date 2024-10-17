@@ -1,0 +1,49 @@
+tags:
+  - Water
+summary: Add a new water intake record
+operationId: postWater
+description: 'Adds a new water intake record based on provided date'
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - waterVolume
+          - date
+        properties:
+          waterVolume:
+            type: number
+            example: 250
+            description: 'The amount of water consumed in milliliters'
+          date:
+            type: string
+            format: date
+            example: '2024-09-01T14:00'
+            description: 'The date of water consumption'
+responses:
+  '201':
+    description: 'Adds a new water intake record'
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: 'Successfully created a water record!'
+            data:
+              type: object
+              $ref: '../../components/schemas/waterNotes.yaml'
+  '400':
+    $ref: '../../components/responses/400.yaml'

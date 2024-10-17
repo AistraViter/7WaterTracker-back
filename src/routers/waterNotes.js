@@ -4,9 +4,14 @@ import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { isValidId } from '../middlewares/isValidId.js';
 import { getWaterNotesController, createWaterNotesController, deleteWaterNotesController, patchWaterNotesController } from '../controllers/waterNotes.js';
 import { waterNotesSchema, updateWaterNotesSchema } from '../validation/waterNotes.js';
+import { authenticate } from '../middlewares/authenticate.js';
+
+
 
 
 export const waterNotesRouter = Router();
+
+waterNotesRouter.use(authenticate);
 
 waterNotesRouter.get('/get-water', ctrlWrapper(getWaterNotesController), validateBody(waterNotesSchema));
 waterNotesRouter.post('/post-water', ctrlWrapper(createWaterNotesController), validateBody(waterNotesSchema));

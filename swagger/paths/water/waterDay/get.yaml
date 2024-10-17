@@ -1,0 +1,41 @@
+tags:
+  - Water
+summary: Get information on water intake for a day
+operationId: getWaterNotes
+description: 'Retrieves water intake records for a specific day'
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          date:
+            type: string
+            format: date
+            example: '2024-09-01'
+            description: 'The date for which to retrieve water intake information'
+responses:
+  '200':
+    description: 'Successfully retrieved water intake information for the specified day'
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 200
+            WaterProcent:
+              type: string
+              example: '50%'
+            data:
+              type: array
+              items:
+                $ref: ../../../components/schemas/waterNotes.yaml
+  '404':
+    $ref: '../../../components/responses/404.yaml'
+  '400':
+    $ref: '../../../components/responses/400.yaml'
