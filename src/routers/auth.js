@@ -12,7 +12,7 @@ import {
   userLoginSchema,
   requestResetEmailSchema,
   resetPasswordSchema
-} from '../validation/userValidation.js'; // Схемы валидации
+} from '../validation/user.js'; // Схемы валидации
 
 
 

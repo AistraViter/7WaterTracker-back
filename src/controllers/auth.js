@@ -5,7 +5,7 @@ import {
   refreshTokenValidUntil,
   JWT_SECRET,
   REFRESH_TOKEN_EXPIRES_IN } from '../constants/index.js';
-import { User } from '../db/models/user.js';
+import { UsersCollection } from '../db/models/user.js';
 
 import Session from '../db/models/session.js';
 import createHttpError from 'http-errors';
