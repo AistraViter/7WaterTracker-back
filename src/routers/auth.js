@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { validateRegistrationData } from '../middlewares/validateRegistrationData.js';
 import {
   registrationUserController,
   loginUserController,
@@ -21,7 +20,7 @@ export const authRouter = Router();
 
 authRouter.post(
   '/register',
-  validateRegistrationData(userRegisterSchema), // Це треба переробити в стилі як зроблено логін.
+  validateBody(userRegisterSchema), // Це треба переробити в стилі як зроблено логін.
   ctrlWrapper(registrationUserController),
 );
 
