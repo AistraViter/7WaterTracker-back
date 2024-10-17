@@ -8,7 +8,9 @@ import { waterMonthRouter } from './waterMonth.js';
 
 
 const router = Router();
-// Всі маршрути пишемо тут
+
+// router.use('/users', usersRouter);
+
 router.use('/auth', authRouter);
 router.use('/water', waterNotesRouter, waterMonthRouter, waterTodayRouter); 
 router.use('/', usersRouter); 
