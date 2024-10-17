@@ -10,6 +10,6 @@ const router = Router();
 
 router.use('/auth', authRouter);
 
-router.use('/water-options', waterNotesRouter, usersRouter); // об'єднала маршрути
+router.use('/water', waterNotesRouter, usersRouter); // об'єднала маршрути
 
 export default router;

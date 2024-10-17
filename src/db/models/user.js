@@ -40,5 +40,12 @@ const userSchema = new Schema(
   },
 );
 
-const User = mongoose.model('users', userSchema);
-export { User }; // Используйте именованный экспорт
+userSchema.methods.toJSON = function () {
+  const obj = this.toObject();
+  delete obj.password;
+  return obj;
+}; //потрібно для видалення паролю
+
+
+const UsersCollection = mongoose.model('users', userSchema);
+export { UsersCollection }; // Используйте именованный экспорт

@@ -8,6 +8,11 @@ const setTimeToSevenAM = () => {
 
 const waterNotes = new Schema(
     {
+        userId: {
+            type: Schema.Types.ObjectId,
+            required: [true, 'User ID is required'],
+            ref: 'users',
+        },
         waterVolume: {
             type: Number,
             required: true,
@@ -17,14 +22,11 @@ const waterNotes = new Schema(
         },
         date: {
             type: Date,
-            default: setTimeToSevenAM,
-            required: true,
+            default: () => setTimeToSevenAM(),
+            // required: true,
         }
     },
     { timestamps: true, versionKey: false },
 );
 
 export const waterNotesCollection = model('water-notes', waterNotes);
-
-
-

@@ -2,7 +2,7 @@ import Joi from 'joi';
 
 // Схема для валидации данных регистрации пользователя
 export const userRegisterSchema = Joi.object({
-  name: Joi.string().min(3).max(30).required(),
+  name: Joi.string().min(2).required(),
   email: Joi.string().email().required(),
   password: Joi.string().min(8).max(64).required(),
 });
