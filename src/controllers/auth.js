@@ -2,7 +2,7 @@ import { registrationUser } from '../services/auth.js';
 import { JWT_EXPIRES_IN } from '../constants/index.js';
 import { JWT_SECRET } from '../constants/index.js';
 import { REFRESH_TOKEN_EXPIRES_IN } from '../constants/index.js';
-import { User } from '../db/models/user.js';
+import { UsersCollection } from '../db/models/user.js';
 import Session from '../db/models/session.js';
 import createHttpError from 'http-errors';
 import bcrypt from 'bcrypt';
@@ -46,7 +46,7 @@ export async function loginUserController(req, res, next) {
     }
 
     // Ищем пользователя по email
-    const user = await User.findOne({ email });
+    const user = await UsersCollection.findOne({ email });
     if (!user) {
       throw createHttpError(401, 'Incorrect email or password'); // Ошибка 401, если пользователь не найден
     }

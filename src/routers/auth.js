@@ -5,7 +5,7 @@ import { validateBody } from '../middlewares/validateBody.js'; // Middleware д�
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
   userLoginSchema,
-} from '../validation/userValidation.js'; // Схемы валидации
+} from '../validation/user.js'; // Схемы валидации
 
 
 export const authRouter = Router();
