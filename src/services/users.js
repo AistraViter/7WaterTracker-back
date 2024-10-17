@@ -1,12 +1,12 @@
-import {  User  } from '../db/models/user.js';
+import { UsersCollection } from '../db/models/user.js';
 
 export const getUserById = async (userId) => {
-  const user = await User.findOne({ _id: userId });
+  const user = await UsersCollection.findOne({ _id: userId });
   return user;
 };
 
 export const updateUserDailyNorm = async (userId, newDailyNorm) => {
-  const updatedUser = await User.findOneAndUpdate(
+  const updatedUser = await UsersCollection.findOneAndUpdate(
     { _id: userId },
     { dailyNorm: newDailyNorm },
     { new: true },

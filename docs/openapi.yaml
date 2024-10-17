@@ -5,19 +5,15 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  description:
-    This is a documentation of contacts app
+  description: This is a documentation of contacts app
 tags:
   - name: Auth
     description: Auth operations.
 servers:
   - url: http://localhost:3000
   - url: https://sevenwatertracker-back-1.onrender.com
-   
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
-
-      

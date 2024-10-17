@@ -30,6 +30,3 @@ const waterNotes = new Schema(
 );
 
 export const waterNotesCollection = model('water-notes', waterNotes);
-
-
-

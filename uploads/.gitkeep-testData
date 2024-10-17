@@ -10,7 +10,13 @@
 // "password": "123456"
 // }
 
-// http://localhost:54266/auth/register
-// http://localhost:54266/auth/login
+// http://localhost:49263/auth/register
+// http://localhost:49263/auth/login
+// http://localhost:49263/water/note
 
 
+
+// {
+//     "waterVolume": 250,  
+//     "date": "2024-10-17T07:00:00.000Z"  
+//   }
