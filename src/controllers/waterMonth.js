@@ -1,73 +1,53 @@
 import createHttpError from 'http-errors';
-import { waterNotesCollection } from '../db/models/waterNotes.js'; 
-import { User } from '../db/models/user.js'; 
+import { waterNotesCollection as WaterNote } from '../db/models/waterNotes.js';
+import { User } from '../db/models/user.js';
+import moment from 'moment-timezone';
 
-export const getMonthlyWaterConsumptionController = async (req, res, next) => {
-    const { userId } = req.params; // Зберігаємо userId з параметрів
-    const { year, month } = req.query; // Зберігаємо year та month з запиту
+export const getMonthlyWaterConsumptionController = async (userId, month) => {
+  // Визначення початкової та кінцевої дати для поточного року
+  const start = moment.utc().month(month - 1).startOf('month').toDate();
+  const end = moment.utc().month(month - 1).endOf('month').toDate();
 
-    try {
-        // Отримуємо денну норму для користувача
-        const user = await User.findById(userId).select('dailyNorm');
-        
-        if (!user) {
-            return next(createHttpError(404, 'User not found'));
-        }
+  // Паралельні запити до бази даних
+  const [monthlyWaterNotes, user] = await Promise.all([
+    WaterNote.find({ userId, date: { $gte: start, $lte: end } }).lean(),
+    User.findById(userId).lean(),
+  ]);
 
-        const dailyNorm = user.dailyNorm || 0; // Отримуємо значення денної норми
+  // Перевірка наявності даних
+  if (!monthlyWaterNotes.length || !user) {
+    throw createHttpError(404, 'Water notes or user not found');
+  }
 
-        // Отримуємо дані споживання води за вказаний місяць
-        const consumptions = await waterNotesCollection.aggregate([
-            {
-                $match: {
-                    userId: userId,
-                    date: {
-                        $gte: new Date(`${year}-${month}-01`), // Перший день місяця
-                        $lt: new Date(`${year}-${month}-01T23:59:59Z`), // Останній день місяця
-                    },
-                },
-            },
-            {
-                $group: {
-                    _id: {
-                        $dateToString: { format: '%Y-%m-%d', date: '$date' },
-                    },
-                    totalConsumption: { $sum: '$amount' }, // Загальна кількість споживання
-                    count: { $sum: 1 }, // Кількість записів
-                },
-            },
-        ]);
-
-        // Форматування відповіді
-        const response = [];
-        const daysInMonth = new Date(year, month, 0).getDate(); // Отримуємо кількість днів у місяці
-
-        for (let day = 1; day <= daysInMonth; day++) {
-            const currentDate = new Date(year, month - 1, day);
-            const dateString = currentDate.toISOString().split('T')[0]; // Формат дати YYYY-MM-DD
-            const consumptionData = consumptions.find(entry => entry._id === dateString) || { totalConsumption: 0, count: 0 };
-
-            const totalConsumption = consumptionData.totalConsumption; // Споживання для цього дня
-            const count = consumptionData.count; // Кількість записів для цього дня
-            const percentage = dailyNorm ? ((totalConsumption / dailyNorm) * 100).toFixed(2) : 0; // Відсоток споживання
-
-            response.push({
-                date: `${day}, ${currentDate.toLocaleString('default', { month: 'long' })}`,
-                dailyNorm: `${dailyNorm} L`,
-                percentage: `${totalConsumption > 0 ? percentage : 0}%`,
-                consumptionCount: count,
-            });
-        }
-
-        res.status(200).json({
-            success: true,
-            data: response,
-        });
-    } catch (error) {
-        console.error('Error retrieving monthly water consumption:', error.message);
-        next(createHttpError(500, 'Internal Server Error'));
+  // Групування записів за датою
+  const waterPerDay = monthlyWaterNotes.reduce((acc, record) => {
+    const day = moment.utc(record.date).date(); // Отримання числа дня
+    if (!acc[day]) {
+      acc[day] = { totalWater: 0, count: 0 }; // Ініціалізація, якщо дня ще немає в об'єкті
     }
+    acc[day].totalWater += record.waterVolume; // Додавання спожитої води
+    acc[day].count += 1; // Збільшення лічильника записів
+    return acc;
+  }, {});
+
+  // Формування результату
+  return Object.keys(waterPerDay).map((day) => {
+    const { totalWater, count } = waterPerDay[day];
+    const waterRate = user.waterRate || 0; // Добова норма споживання
+
+    const percentOfWaterRate = waterRate > 0 
+      ? Math.min(((totalWater / waterRate) * 100).toFixed(0), 100) 
+      : 0; // Уникаємо ділення на нуль
+
+    return {
+      date: `${day} ${moment(start).format('MMMM')}`, // Форматування дати
+      waterRate: `${(waterRate / 1000).toFixed(1)} L`, // Добова норма в літрах
+      percentOfWaterRate: `${percentOfWaterRate}%`, // Відсоток від норми
+      amountOfRecords: count, // Кількість записів за день
+    };
+  });
 };
+
 
 
 
