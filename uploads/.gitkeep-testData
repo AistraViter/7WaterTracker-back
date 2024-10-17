@@ -10,9 +10,16 @@
 // "password": "123456"
 // }
 
+//    { 
+//     "name": "happywater",
+//     "email": "happwwww@gmail.com",
+//     "gender": "Woman",
+//     "photo": null
+//    }
+
 // http://localhost:49263/auth/register
-// http://localhost:49263/auth/login
-// http://localhost:49263/water/note
+// http://localhost:52558/auth/login
+// http://localhost:52558/water/note
 
 
 
