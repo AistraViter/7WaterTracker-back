@@ -11,7 +11,7 @@ export const usersRouter = Router();
 
 usersRouter.put(
   // userId comes from the req.user._id parameter, which is provided by the authenticate.js middleware
-  '/update-daily-norm',
+  '/daily-norm',
   isValidId('userId'),
   authenticate,
   ctrlWrapper(updateDailyNormController),

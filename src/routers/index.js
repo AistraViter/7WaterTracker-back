@@ -13,7 +13,7 @@ const router = Router();
 
 router.use('/auth', authRouter);
 router.use('/water', waterNotesRouter, waterMonthRouter, waterTodayRouter); 
-router.use('/', usersRouter); 
+router.use('/user', usersRouter); 
 
 
 export default router;
