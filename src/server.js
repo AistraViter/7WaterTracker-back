@@ -4,6 +4,7 @@ import cors from 'cors';
 import { env } from './utils/env.js';
 import router from './routers/index.js';
 import { waterNotesRouter } from './routers/waterNotes.js';
+import { waterStatsRouter } from './routers/waterStats.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { authRouter } from './routers/auth.js';
@@ -31,6 +32,7 @@ export const setupServer = () => {
   // Всі маршрути писати тут
   app.use(router);
   app.use('/water_notes', waterNotesRouter);
+  app.use('/water_stats', waterStatsRouter);
   app.use('/auth', authRouter);
   //
 
