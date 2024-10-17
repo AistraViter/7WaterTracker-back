@@ -1,5 +1,3 @@
-// src/validation/userValidation.js
-
 import Joi from 'joi';
 
 // Схема для валидации данных регистрации пользователя

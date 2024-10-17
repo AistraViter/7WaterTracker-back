@@ -30,8 +30,8 @@ export const updateDailyNormController = async (req, res, next) => {
   }
 
   // restricted dailyNorm
-  if (dailyNorm > 1500) {
-    newDailyNorm = 1500;
+  if (dailyNorm > 15000) {
+    newDailyNorm = 15000; // по тз максимум 15000мл
   }
 
   try {
