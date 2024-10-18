@@ -3,10 +3,16 @@ import { waterNotesCollection as WaterNote } from '../db/models/waterNotes.js';
 import { User } from '../db/models/user.js';
 import moment from 'moment-timezone';
 
+<<<<<<< Updated upstream
 export const getMonthlyWaterConsumptionController = async (userId, month) => {
   // Визначення початкової та кінцевої дати для поточного року
   const start = moment.utc().month(month - 1).startOf('month').toDate();
   const end = moment.utc().month(month - 1).endOf('month').toDate();
+=======
+export const getWaterMonthController = async (req, res, next) => {
+    const { _id: userId } = req.user;  // Зберігаємо userId з параметрів
+    const { year, month } = req.query; // Зберігаємо year та month з запиту
+>>>>>>> Stashed changes
 
   // Паралельні запити до бази даних
   const [monthlyWaterNotes, user] = await Promise.all([
