@@ -4,33 +4,8 @@ import {
   registrationUser,
   updateUserEmail,
 } from '../services/auth.js';
-import {
-  accessTokenValidUntil,
-  JWT_EXPIRES_IN,
-  refreshTokenValidUntil,
-  JWT_SECRET,
-  REFRESH_TOKEN_EXPIRES_IN,
-} from '../constants/index.js';
 
-import Session from '../db/models/session.js';
 import createHttpError from 'http-errors';
-import jwt from 'jsonwebtoken';
-
-export function createSession(user) {
-  const accessToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
-    expiresIn: JWT_EXPIRES_IN,
-  });
-  const refreshToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
-    expiresIn: REFRESH_TOKEN_EXPIRES_IN,
-  });
-
-  return {
-    accessToken,
-    refreshToken,
-    accessTokenValidUntilValue: accessTokenValidUntil,
-    refreshTokenValidUntilValue: refreshTokenValidUntil,
-  };
-}
 
 export function setRefreshTokenCookie(res, refreshToken) {
   res.cookie('refreshToken', refreshToken, {
@@ -51,27 +26,14 @@ export const registrationUserController = async (req, res) => {
 export async function loginUserController(req, res, next) {
   const { email, password } = req.body;
 
-  const user = await loginUser(email, password);
+  const session = await loginUser(email, password);
 
-  await Session.deleteOne({ userId: user._id });
-
-  const { accessToken, refreshToken } = createSession(user);
-
-  // Создаем новую сессию и сохраняем её в базе данных
-  await Session.create({
-    userId: user._id,
-    accessToken,
-    refreshToken,
-    accessTokenValidUntil,
-    refreshTokenValidUntil,
-  });
-
-  setRefreshTokenCookie(res, refreshToken);
+  setRefreshTokenCookie(res, session.refreshToken);
 
   res.status(200).json({
     status: 200,
     message: 'Successfully logged in',
-    data: { accessToken },
+    data: { accessToken: session.accessToken },
   });
 }
 

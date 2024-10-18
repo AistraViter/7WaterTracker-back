@@ -4,6 +4,29 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { env } from '../utils/env.js';
 import Session from '../db/models/session.js';
+import {
+  accessTokenValidUntil,
+  JWT_EXPIRES_IN,
+  refreshTokenValidUntil,
+  JWT_SECRET,
+  REFRESH_TOKEN_EXPIRES_IN,
+} from '../constants/index.js';
+
+export function createSession(user) {
+  const accessToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
+    expiresIn: JWT_EXPIRES_IN,
+  });
+  const refreshToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
+    expiresIn: REFRESH_TOKEN_EXPIRES_IN,
+  });
+
+  return {
+    accessToken,
+    refreshToken,
+    accessTokenValidUntilValue: accessTokenValidUntil,
+    refreshTokenValidUntilValue: refreshTokenValidUntil,
+  };
+}
 
 export const registrationUser = async (userData) => {
   const existingUser = await UsersCollection.findOne({ email: userData.email });
@@ -33,7 +56,19 @@ export const loginUser = async (email, password) => {
     throw createHttpError(401, 'Incorrect email or password');
   }
 
-  return user;
+  await Session.deleteOne({ userId: user._id });
+
+  const { accessToken, refreshToken } = createSession(user);
+
+  const session = await Session.create({
+    userId: user._id,
+    accessToken,
+    refreshToken,
+    accessTokenValidUntil,
+    refreshTokenValidUntil,
+  });
+
+  return session;
 };
 
 export const logoutUser = async (refreshToken) => {
