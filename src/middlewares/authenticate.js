@@ -1,8 +1,6 @@
-import jwt from 'jsonwebtoken';
 import createHttpError from 'http-errors';
-import { env } from '../utils/env.js';
-
-const jwtSecret = env('JWT_SECRET');
+import Session from '../db/models/session.js';
+import { UsersCollection } from '../db/models/user.js';
 
 export const authenticate = async (req, res, next) => {
   try {
@@ -12,9 +10,28 @@ export const authenticate = async (req, res, next) => {
     }
 
     const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, jwtSecret);
+    const session = await Session.findOne({ accessToken: token });
 
-    req.user = { _id: decoded.userId };
+    if (!session) {
+      next(createHttpError(401, 'Session not found'));
+      return;
+    }
+
+    const isAccessTokenExpired =
+      new Date() > new Date(session.accessTokenValidUntil);
+
+    if (isAccessTokenExpired) {
+      next(createHttpError(401, 'Access token expired'));
+    }
+
+    const user = await UsersCollection.findOne({ _id: session.userId });
+
+    if (!user) {
+      next(createHttpError(401, 'Session for user not found'));
+      return;
+    }
+
+    req.user = { _id: user._id };
 
     next();
   } catch (error) {

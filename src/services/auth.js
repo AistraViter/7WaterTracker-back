@@ -3,33 +3,41 @@ import createHttpError from 'http-errors';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { env } from '../utils/env.js';
+import Session from '../db/models/session.js';
 
-export const registrationUser = async ({
-  name,
-  email,
-  password,
-  gender,
-  photo,
-}) => {
-  const existingUser = await UsersCollection.findOne({ email });
+export const registrationUser = async (userData) => {
+  const existingUser = await UsersCollection.findOne({ email: userData.email });
 
   if (existingUser) {
     throw createHttpError(409, 'Email in use');
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(userData.password, 10);
 
-  const newUser = new UsersCollection({
-    name,
-    email,
+  const newUser = await UsersCollection.create({
+    ...userData,
     password: hashedPassword,
-    gender,
-    photo,
   });
 
-  await newUser.save();
-
   return newUser;
+};
+
+export const loginUser = async (email, password) => {
+  const user = await UsersCollection.findOne({ email });
+  if (!user) {
+    throw createHttpError(401, 'Incorrect email or password');
+  }
+
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+  if (!isPasswordValid) {
+    throw createHttpError(401, 'Incorrect email or password');
+  }
+
+  return user;
+};
+
+export const logoutUser = async (refreshToken) => {
+  await Session.deleteOne({ refreshToken });
 };
 
 export const updateUserEmail = async (token) => {
