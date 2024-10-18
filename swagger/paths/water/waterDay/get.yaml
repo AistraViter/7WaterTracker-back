@@ -12,7 +12,7 @@ requestBody:
       schema:
         type: object
         properties:
-          date:
+          data:
             type: string
             format: date
             example: '2024-09-01'
@@ -28,10 +28,10 @@ responses:
             status:
               type: integer
               example: 200
-            WaterProcent:
+            percentage:
               type: string
               example: '50%'
-            data:
+            notes:
               type: array
               items:
                 $ref: ../../../components/schemas/waterNotes.yaml

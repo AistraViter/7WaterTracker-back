@@ -1,7 +1,7 @@
 tags:
   - Users
 summary: Update user by id
-operationId: patchUserById
+operationId: patchUser
 description: 'Update user details by id'
 security:
   - bearerAuth: []

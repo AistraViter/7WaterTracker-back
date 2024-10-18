@@ -30,5 +30,3 @@ responses:
               example: 'Successfully deleted a water intake record!'
   '404':
     $ref: '../../../components/responses/404.yaml'
-  '400':
-    $ref: '../../../components/responses/400.yaml'

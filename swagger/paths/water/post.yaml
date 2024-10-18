@@ -22,7 +22,7 @@ requestBody:
           date:
             type: string
             format: date
-            example: '2024-09-01T14:00'
+            example: '2024-09-01'
             description: 'The date of water consumption'
 responses:
   '201':

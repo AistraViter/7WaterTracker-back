@@ -1,7 +1,7 @@
 tags:
   - Auth
 summary: Register a new user
-operationId: registerUser
+operationId: registrationUser
 description: 'Registers a new user in the system'
 security:
   - bearerAuth: []
@@ -29,10 +29,6 @@ requestBody:
             type: string
             example: 'John Doe'
             description: "The user's name"
-          dailyNorm:
-            description: "User's daily norm"
-            type: number
-            example: 150
           gender:
             description: "User's gender"
             type: string

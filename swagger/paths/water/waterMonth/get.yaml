@@ -12,12 +12,12 @@ requestBody:
       schema:
         type: object
         properties:
-          firstDate:
+          $gte:
             type: string
             format: date
             example: '2024-09-01'
             description: 'The starting date of the month for which to retrieve water intake information'
-          lastDate:
+          $lt:
             type: string
             format: date
             example: '2024-09-30'
@@ -43,18 +43,18 @@ responses:
                 properties:
                   date:
                     type: string
-                    example: '1, September'
-                  dailyTotal:
+                    example: '2024-09-30'
+                  totalConsumption:
                     type: number
                     example: 1500
-                  consumptionCount:
+                  consumptions:
                     type: integer
                     example: 3
                   dailyNorm:
                     type: number
                     example: 1.8
                     description: 'Daily recommended water intake in liters'
-                  waterPercent:
+                  percentage:
                     type: string
                     example: '83.33%'
   '404':

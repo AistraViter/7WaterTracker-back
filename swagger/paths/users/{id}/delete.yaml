@@ -1,7 +1,7 @@
 tags:
   - Users
 summary: Delete user
-operationId: deleteUserById
+operationId: deleteUser
 description: 'Delete a user with this id'
 security:
   - bearerAuth: []
