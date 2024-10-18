@@ -3,7 +3,7 @@ import { waterNotesCollection } from '../db/models/waterNotes.js';
 import { UsersCollection } from '../db/models/user.js'; 
 
 export const getWaterMonthController = async (req, res, next) => {
-    const { userId } = req.params; // Зберігаємо userId з параметрів
+    const { _id:userId } = req.user; // Зберігаємо userId з параметрів
     const { year, month } = req.query; // Зберігаємо year та month з запиту
 
     try {
