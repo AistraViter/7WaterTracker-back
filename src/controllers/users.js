@@ -88,27 +88,26 @@ export const getUserInfoController = async (req, res, next) => {
 
 export const editUserInfoController = async (req, res, next) => {
   const { _id } = req.user;
+  const { password, confirmPassword, oldPassword } = req.body;
+  const { name, gender, email } = req.body;
 
   const user = await getUserById(_id);
   if (!user) return next(createHttpError(404, 'User not found'));
 
-  const { password, confirmPassword, oldPassword } = req.body;
-  const { name, gender, email } = req.body;
-
   let dataToUpdate = {};
 
   if (
-    oldPassword.lenght > 0 &&
+    oldPassword.length > 0 &&
     password.length > 0 &&
-    confirmPassword.lenght > 0
+    confirmPassword.length > 0
   ) {
     const isCurrentPasswordValid = await bcrypt.compare(
-      password,
+      oldPassword,
       user.password,
     );
 
     if (!isCurrentPasswordValid) {
-      return next(createHttpError(401, 'Old password is incorrect'));
+      return next(createHttpError(400, 'Old password is incorrect'));
     }
 
     const hashedNewPassword = await bcrypt.hash(password, 10);
