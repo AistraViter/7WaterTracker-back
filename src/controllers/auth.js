@@ -1,10 +1,11 @@
-import { registrationUser, sendResetUser, resetPassword } from '../services/auth.js';
+import { registrationUser, updateUserEmail } from '../services/auth.js';
 import {
   accessTokenValidUntil,
   JWT_EXPIRES_IN,
   refreshTokenValidUntil,
   JWT_SECRET,
-  REFRESH_TOKEN_EXPIRES_IN } from '../constants/index.js';
+  REFRESH_TOKEN_EXPIRES_IN,
+} from '../constants/index.js';
 import { UsersCollection } from '../db/models/user.js';
 
 import Session from '../db/models/session.js';
@@ -13,8 +14,12 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 export async function createSession(user) {
-  const accessToken = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
-  const refreshToken = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRES_IN });
+  const accessToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
+    expiresIn: JWT_EXPIRES_IN,
+  });
+  const refreshToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
+    expiresIn: REFRESH_TOKEN_EXPIRES_IN,
+  });
 
   const accessTokenValidUntilValue = accessTokenValidUntil;
   const refreshTokenValidUntilValue = refreshTokenValidUntil;
@@ -25,7 +30,7 @@ export async function createSession(user) {
     accessTokenValidUntilValue,
     refreshTokenValidUntilValue,
   };
-};
+}
 
 export function setRefreshTokenCookie(res, refreshToken) {
   res.cookie('refreshToken', refreshToken, {
@@ -33,7 +38,7 @@ export function setRefreshTokenCookie(res, refreshToken) {
     secure: process.env.NODE_ENV === 'production',
     maxAge: 30 * 24 * 60 * 60 * 1000,
   });
-};
+}
 
 export const registrationUserController = async (req, res, next) => {
   try {
@@ -103,7 +108,7 @@ export async function loginUserController(req, res, next) {
     res.status(200).json({
       status: 200,
       message: 'Successfully logged in',
-      data: {accessToken}
+      data: { accessToken },
     });
   } catch (error) {
     next(error); // Передаем ошибку в следующий middleware для обработки
@@ -137,7 +142,6 @@ export async function logoutUserController(req, res, next) {
 }
 
 // Секреты и настройки для токенов (их следует хранить в переменных окружения)
-
 
 // //Контроллер для создания нового пользователя (регистрация)
 // export async function createUserController(req, res, next) {
@@ -175,24 +179,14 @@ export async function logoutUserController(req, res, next) {
 //   }
 // }
 
-export const sendResetEmailController = async (req, res) => {
-  await sendResetUser(req.body.email);
+export const updateUserEmailController = async (req, res) => {
+  const { token } = req.query;
+
+  const updatedUser = await updateUserEmail(token);
 
   res.status(200).json({
     status: 200,
-    message: "Reset password email has been successfully sent.",
-    data: {}
-});
+    message: 'Email has been changed successfully',
+    data: updatedUser,
+  });
 };
-
-export const resetPasswordController = async (req, res) => {
-  await resetPassword(req.body);
-
-  res.status(200).json({
-    status: 200,
-    message: "Password has been successfully reset.",
-    data: {}
-});
-};
-
-

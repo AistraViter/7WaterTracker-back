@@ -1,5 +1,18 @@
+import path from 'path';
+import fs from 'fs/promises';
+import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
-import { getUserById, updateUserDailyNorm } from '../services/users.js';
+import handlebars from 'handlebars';
+import {
+  getUserById,
+  updateUserById,
+  updateUserDailyNorm,
+} from '../services/users.js';
+import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
+import { TEMPLATES_DIR } from '../constants/index.js';
+import { env } from '../utils/env.js';
+import { createJwtToken } from '../utils/jwt.js';
+import { sendEmail } from '../utils/sendEmail.js';
 
 //////////////////////////////// updateDailyNorm ////////////////////////////////
 export const updateDailyNormController = async (req, res, next) => {
@@ -44,4 +57,96 @@ export const updateDailyNormController = async (req, res, next) => {
   } catch (error) {
     createHttpError(500, error);
   }
+};
+
+export const editUserAvatarController = async (req, res, next) => {
+  const { _id } = req.user;
+  const avatar = req.file;
+  const photoUrl = await saveFileToCloudinary(avatar, 'final-project');
+
+  const result = await updateUserById(_id, { photo: photoUrl });
+  if (!result) return next(createHttpError(404, 'User not found'));
+
+  res.status(200).json({
+    status: 200,
+    message: 'User`s photo has been updated successfully',
+  });
+};
+
+export const getUserInfoController = async (req, res, next) => {
+  const { _id } = req.user;
+
+  const user = await getUserById(_id);
+  if (!user) return next(createHttpError(404, 'User not found'));
+
+  res.status(200).json({
+    status: 200,
+    message: 'User has been found successfully',
+    data: user,
+  });
+};
+
+export const editUserInfoController = async (req, res, next) => {
+  const { _id } = req.user;
+
+  const user = await getUserById(_id);
+  if (!user) return next(createHttpError(404, 'User not found'));
+
+  const { password, confirmPassword, oldPassword } = req.body;
+  const { name, gender, email } = req.body;
+
+  let dataToUpdate = {};
+
+  if (
+    oldPassword.lenght > 0 &&
+    password.length > 0 &&
+    confirmPassword.lenght > 0
+  ) {
+    const isCurrentPasswordValid = await bcrypt.compare(
+      password,
+      user.password,
+    );
+
+    if (!isCurrentPasswordValid) {
+      return next(createHttpError(401, 'Old password is incorrect'));
+    }
+
+    const hashedNewPassword = await bcrypt.hash(password, 10);
+    dataToUpdate.password = hashedNewPassword;
+  }
+
+  if (email !== user.email) {
+    const resetToken = createJwtToken({ sub: user._id, email });
+
+    const changeEmailTemplatePath = path.join(
+      TEMPLATES_DIR,
+      'send-change-email.html',
+    );
+    const templateSource = (
+      await fs.readFile(changeEmailTemplatePath)
+    ).toString();
+    const template = handlebars.compile(templateSource);
+    const html = template({
+      name: user.name,
+      link: `${env('APP_DOMAIN')}/auth/send-change-email?token=${resetToken}`,
+    });
+
+    await sendEmail({
+      to: user.email,
+      subject: 'Change your email',
+      html,
+    });
+  }
+
+  const updatedUser = await updateUserById(_id, {
+    ...dataToUpdate,
+    name,
+    gender,
+  });
+
+  res.status(200).json({
+    status: 200,
+    message: 'User`s ifno has been updated successfully',
+    data: updatedUser,
+  });
 };
