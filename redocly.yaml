@@ -7,6 +7,25 @@ extends:
 rules:
   no-unused-components: error
 theme:
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+  openapi:
+    htmlTemplate: ./docs/index.html
+    theme:
+      colors:
+        primary:
+          main: '#32329f'
+    generateCodeSamples:
+      languages:
+        - lang: curl
+        - lang: Node.js
+        - lang: JavaScript
+=======
+=======
+>>>>>>> 9e1efba9541c02d7378373a4c82dfb049adc911a
+>>>>>>> Stashed changes
   htmlTemplate: ./docs/index.html
   colors:
     primary:
@@ -16,3 +35,10 @@ theme:
       - lang: curl
       - lang: Node.js
       - lang: JavaScript
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+>>>>>>> 9e1efba9541c02d7378373a4c82dfb049adc911a
+=======
+>>>>>>> 9e1efba9541c02d7378373a4c82dfb049adc911a
+>>>>>>> Stashed changes

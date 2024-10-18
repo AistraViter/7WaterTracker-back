@@ -1,3 +1,12 @@
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+{}
+=======
+=======
+>>>>>>> 9e1efba9541c02d7378373a4c82dfb049adc911a
+>>>>>>> Stashed changes
 {
   "openapi": "3.1.0",
   "info": {
@@ -1200,4 +1209,15 @@
       }
     }
   }
+<<<<<<< Updated upstream
 }
+=======
+}
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+>>>>>>> 9e1efba9541c02d7378373a4c82dfb049adc911a
+=======
+>>>>>>> 9e1efba9541c02d7378373a4c82dfb049adc911a
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes

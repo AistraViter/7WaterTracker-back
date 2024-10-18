@@ -3,6 +3,7 @@ import pino from 'pino-http';
 import cors from 'cors';
 import { env } from './utils/env.js';
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import { waterNotesRouter } from './routers/waterNotes.js';
 =======
 >>>>>>> Stashed changes
@@ -27,6 +28,12 @@ import router from './routers/index.js';
 
 >>>>>>> da5454c3198e4589f1f50af6404371bff77ae8de
 >>>>>>> Stashed changes
+=======
+import { errorHandler } from './middlewares/errorHandler.js';
+import { notFoundHandler } from './middlewares/notFoundHandler.js';
+import cookieParser from 'cookie-parser';
+import router from './routers/index.js';
+>>>>>>> Stashed changes
 
 const PORT = Number(env('PORT', '3000'));
 
@@ -46,6 +53,7 @@ export const setupServer = () => {
     });
   });
 
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 <<<<<<< HEAD
   // Всі маршрути писати тут
@@ -59,6 +67,8 @@ export const setupServer = () => {
 =======
 >>>>>>> da5454c3198e4589f1f50af6404371bff77ae8de
 
+=======
+>>>>>>> Stashed changes
   app.use('/', router); // Всі маршрути пишемо у routers/index.js
   app.use('*', notFoundHandler);
   app.use(errorHandler);

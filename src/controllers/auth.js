@@ -1,12 +1,50 @@
+<<<<<<< Updated upstream
 import { registrationUser } from '../services/auth.js';
 import { JWT_EXPIRES_IN } from '../constants/index.js';
 import { JWT_SECRET } from '../constants/index.js';
 import { REFRESH_TOKEN_EXPIRES_IN } from '../constants/index.js';
 import { User } from '../db/models/user.js';
+=======
+import { registrationUser, sendResetUser, resetPassword } from '../services/auth.js';
+import {
+  accessTokenValidUntil,
+  JWT_EXPIRES_IN,
+  refreshTokenValidUntil,
+  JWT_SECRET,
+  REFRESH_TOKEN_EXPIRES_IN } from '../constants/index.js';
+import { UsersCollection } from '../db/models/user.js';
+
+>>>>>>> Stashed changes
 import Session from '../db/models/session.js';
 import createHttpError from 'http-errors';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+<<<<<<< Updated upstream
+=======
+
+export async function createSession(user) {
+  const accessToken = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
+  const refreshToken = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRES_IN });
+
+  const accessTokenValidUntilValue = accessTokenValidUntil;
+  const refreshTokenValidUntilValue = refreshTokenValidUntil;
+
+  return {
+    accessToken,
+    refreshToken,
+    accessTokenValidUntilValue,
+    refreshTokenValidUntilValue,
+  };
+};
+
+export function setRefreshTokenCookie(res, refreshToken) {
+  res.cookie('refreshToken', refreshToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+  });
+};
+>>>>>>> Stashed changes
 
 export const registrationUserController = async (req, res, next) => {
   try {
@@ -48,7 +86,11 @@ export async function loginUserController(req, res, next) {
     }
 
     // Ищем пользователя по email
+<<<<<<< Updated upstream
     const user = await User.findOne({ email });
+=======
+    const user = await UsersCollection.findOne({ email });
+>>>>>>> Stashed changes
     if (!user) {
       throw createHttpError(401, 'Incorrect email or password'); // Ошибка 401, если пользователь не найден
     }
@@ -60,6 +102,7 @@ export async function loginUserController(req, res, next) {
     }
 
     // Создаем access и refresh токены с использованием JWT
+<<<<<<< Updated upstream
     const accessToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
       expiresIn: JWT_EXPIRES_IN,
     });
@@ -69,6 +112,12 @@ export async function loginUserController(req, res, next) {
 
     const accessTokenValidUntil = new Date(Date.now() + 15 * 60 * 1000); // Токен на 15 минут
     const refreshTokenValidUntil = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // Токен на 30 дней
+=======
+    const { accessToken, refreshToken } = await createSession(user);
+
+    // Устанавливаем refresh токен в cookies (например, на 30 дней)
+    setRefreshTokenCookie(res, refreshToken);
+>>>>>>> Stashed changes
 
     // Создаем новую сессию и сохраняем её в базе данных
     await Session.create({
@@ -79,6 +128,7 @@ export async function loginUserController(req, res, next) {
       refreshTokenValidUntil,
     });
 
+<<<<<<< Updated upstream
     // Устанавливаем refresh токен в cookies (например, на 30 дней)
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true, // Ограничиваем доступ к cookie только через HTTP (защита от XSS)
@@ -86,11 +136,17 @@ export async function loginUserController(req, res, next) {
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 дней
     });
 
+=======
+>>>>>>> Stashed changes
     // Возвращаем успешный ответ с access токеном
     res.status(200).json({
       status: 200,
       message: 'Successfully logged in',
+<<<<<<< Updated upstream
       data: { accessToken },
+=======
+      data: {accessToken}
+>>>>>>> Stashed changes
     });
   } catch (error) {
     next(error); // Передаем ошибку в следующий middleware для обработки
@@ -114,10 +170,14 @@ export async function logoutUserController(req, res, next) {
       throw createHttpError(404, 'Session not found');
     }
     // Очищаем cookies с refresh токеном
+<<<<<<< Updated upstream
     res.clearCookie('refreshToken', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
     });
+=======
+    res.clearCookie('refreshToken');
+>>>>>>> Stashed changes
 
     // Возвращаем успешный ответ без тела
     res.status(204).send();
@@ -164,6 +224,30 @@ export async function logoutUserController(req, res, next) {
 //     next(error); // Передаем ошибку в middleware для обработки
 //   }
 // }
+
+<<<<<<< Updated upstream
+
+>>>>>>> Stashed changes
+=======
+export const sendResetEmailController = async (req, res) => {
+  await sendResetUser(req.body.email);
+
+  res.status(200).json({
+    status: 200,
+    message: "Reset password email has been successfully sent.",
+    data: {}
+});
+};
+
+export const resetPasswordController = async (req, res) => {
+  await resetPassword(req.body);
+
+  res.status(200).json({
+    status: 200,
+    message: "Password has been successfully reset.",
+    data: {}
+});
+};
 
 
 >>>>>>> Stashed changes

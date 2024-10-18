@@ -10,7 +10,31 @@
 // "password": "123456"
 // }
 
+<<<<<<< Updated upstream
 // http://localhost:54266/auth/register
 // http://localhost:54266/auth/login
+=======
+// {
+//     "email": "happwwww@gmail.com",
+//     "password": "123456qw"
+// }
+
+//    { 
+//     "name": "happywater",
+//     "email": "happwwww@gmail.com",
+//     "password": "123456qw"
+//     "gender": "Woman",
+//     "photo": null
+//    }
+
+// http://localhost:58779/auth/register
+// http://localhost:58779/auth/login
+// http://localhost:58779/water/note
+>>>>>>> Stashed changes
 
 
+
+// {
+//     "waterVolume": 250,  
+//     "date": "2024-10-17T07:00:00.000Z"  
+//   }

@@ -20,11 +20,17 @@ const userSchema = new Schema(
       required: true,
     },
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
     dailyNorm: {
       type: Number,
       default: 1500
     },
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     gender: {
       type: String,
@@ -44,9 +50,21 @@ const userSchema = new Schema(
 );
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 export const User = mongoose.model('User', userSchema);
 
 =======
 const User = mongoose.model('users', userSchema);
 export { User }; // Используйте именованный экспорт
+>>>>>>> Stashed changes
+=======
+userSchema.methods.toJSON = function () {
+  const obj = this.toObject();
+  delete obj.password;
+  return obj;
+}; //потрібно для видалення паролю
+
+
+const UsersCollection = mongoose.model('users', userSchema);
+export { UsersCollection }; // Используйте именованный экспорт
 >>>>>>> Stashed changes

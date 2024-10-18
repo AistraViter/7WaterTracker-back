@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 import createHttpError from 'http-errors';
 import { waterNotesCollection } from '../db/models/waterNotes.js'; 
@@ -5,11 +6,23 @@ import { User } from '../db/models/user.js';
 
 export const getMonthlyWaterConsumptionController = async (req, res, next) => {
     const { userId } = req.params; // Зберігаємо userId з параметрів
+=======
+import createHttpError from 'http-errors';
+import { waterNotesCollection } from '../db/models/waterNotes.js'; 
+import { UsersCollection } from '../db/models/user.js'; 
+
+export const getWaterMonthController = async (req, res, next) => {
+    const { _id:userId } = req.user; // Зберігаємо userId з параметрів
+>>>>>>> Stashed changes
     const { year, month } = req.query; // Зберігаємо year та month з запиту
 
     try {
         // Отримуємо денну норму для користувача
+<<<<<<< Updated upstream
         const user = await User.findById(userId).select('dailyNorm');
+=======
+        const user = await UsersCollection.findById(userId).select('dailyNorm');
+>>>>>>> Stashed changes
         
         if (!user) {
             return next(createHttpError(404, 'User not found'));
@@ -74,6 +87,7 @@ export const getMonthlyWaterConsumptionController = async (req, res, next) => {
 
 
 
+<<<<<<< Updated upstream
 =======
 import createHttpError from 'http-errors';
 import { waterNotesCollection } from '../db/models/waterNotes.js'; 
@@ -151,3 +165,5 @@ export const getMonthlyWaterConsumptionController = async (req, res, next) => {
 
 
 >>>>>>> da5454c3198e4589f1f50af6404371bff77ae8de
+=======
+>>>>>>> Stashed changes

@@ -1,10 +1,27 @@
 openapi: 3.1.0
 info:
   version: 1.0.0
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+  title: 7WaterTracker
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  description: This is a documentation of 7WaterTracker
+tags:
+  - name: Users
+    description: Operations about users.
+=======
+=======
+>>>>>>> 9e1efba9541c02d7378373a4c82dfb049adc911a
+>>>>>>> Stashed changes
   title: 7WaterTracker app
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 <<<<<<< HEAD
   description: This is a documentation of 7WaterTracker app
@@ -17,11 +34,33 @@ info:
 tags:
   - name: Users
     description: Operations about users.
+=======
+  description: This is a documentation of contacts app
+tags:
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+>>>>>>> 9e1efba9541c02d7378373a4c82dfb049adc911a
+=======
+>>>>>>> 9e1efba9541c02d7378373a4c82dfb049adc911a
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
   - name: Auth
     description: Auth operations.
 servers:
   - url: http://localhost:3000
+<<<<<<< Updated upstream
   - url: https://sevenwatertracker-back-1.onrender.com
+<<<<<<< HEAD
+   
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+  - url:
+paths: $ref: ../swagger/paths/users/{id}/get.yaml
+=======
+  - url: https://sevenwatertracker-back-1.onrender.com
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 <<<<<<< HEAD
 paths:
@@ -65,8 +104,40 @@ paths:
 >>>>>>> da5454c3198e4589f1f50af6404371bff77ae8de
 =======
 >>>>>>> da5454c3198e4589f1f50af6404371bff77ae8de
+=======
+   
+>>>>>>> 9e1efba9541c02d7378373a4c82dfb049adc911a
+=======
+  - url: https://sevenwatertracker-back-1.onrender.com
+   
+>>>>>>> 9e1efba9541c02d7378373a4c82dfb049adc911a
+>>>>>>> Stashed changes
+=======
+>>>>>>> 343e630a102cd6c5382a022875952dd28c7826bc
+>>>>>>> Stashed changes
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+
+      
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+      
+>>>>>>> 9e1efba9541c02d7378373a4c82dfb049adc911a
+=======
+
+      
+>>>>>>> 9e1efba9541c02d7378373a4c82dfb049adc911a
+>>>>>>> Stashed changes
+=======
+>>>>>>> 343e630a102cd6c5382a022875952dd28c7826bc
+>>>>>>> Stashed changes

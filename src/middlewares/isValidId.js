@@ -1,11 +1,37 @@
 import { isValidObjectId } from 'mongoose';
 import createHttpError from 'http-errors';
 
+<<<<<<< Updated upstream
 export const isValidId = (req, res, next) => {
   const { waterId } = req.params;
   if (!isValidObjectId(waterId)) {
     throw createHttpError(400, 'Bad Request');
   }
+=======
+export const isValidId = (...params) => {
+  return (req, res, next) => {
+    for (const param of params) {
+      console.log('From isValidId >> req.params[param]: ', req.params[param]);
 
-  next();
+      const idToCheck = req.params[param];
+
+      if (idToCheck && !isValidObjectId(idToCheck)) {
+        throw createHttpError(400, 'Bad request');
+      }
+>>>>>>> Stashed changes
+
+      next();
+    }
+  };
 };
+
+// export const isValidId = (req, res, next) => {
+//   const { userId, waterId } = req.params;
+//   const idToCheck = userId || waterId;
+
+//   if (!isValidObjectId(idToCheck)) {
+//     throw createHttpError(400, 'Bad request');
+//   }
+
+//   next();
+// };
