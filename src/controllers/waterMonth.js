@@ -1,15 +1,14 @@
 import createHttpError from 'http-errors';
 import { waterNotesCollection } from '../db/models/waterNotes.js'; 
-import { User } from '../db/models/user.js';
-
+import { UsersCollection } from '../db/models/user.js'; 
 
 export const getWaterMonthController = async (req, res, next) => {
-    const { _id:userId } = req.user; // Зберігаємо userId з параметрів
+    const { _id: userId } = req.user;  // Зберігаємо userId з параметрів
     const { year, month } = req.query; // Зберігаємо year та month з запиту
 
     try {
         // Отримуємо денну норму для користувача
-        const user = await User.findById(userId).select('dailyNorm');
+        const user = await UsersCollection.findById(userId).select('dailyNorm');
         
         if (!user) {
             return next(createHttpError(404, 'User not found'));
@@ -69,6 +68,10 @@ export const getWaterMonthController = async (req, res, next) => {
         next(createHttpError(500, 'Internal Server Error'));
     }
 };
+
+
+
+
 
 
 

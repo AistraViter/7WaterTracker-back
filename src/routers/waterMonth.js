@@ -5,3 +5,4 @@ export const waterMonthRouter = Router();
 
 // Маршрут для отримання місячного споживання води
   waterMonthRouter.get('/month', getWaterMonthController);
+

@@ -1,8 +1,15 @@
-import { waterNotesCollection } from "../db/models/waterNotes.js";
+import { waterNotesCollection } from '../db/models/waterNotes.js';
 
-export const getWaterNotes = async () => {
-    const water = waterNotesCollection.find();
-    return water;
+export const getWaterNotes = async (userId) => {
+  const water = waterNotesCollection.find(userId);
+  return water;
+};
+
+export const getWaterNotesInRange = async (userId, startDate, endDate) => {
+  return waterNotesCollection.find({
+    userId,
+    date: { $gte: startDate, $lt: endDate },
+  });
 };
 
 export const getWaterNoteById = async (waterId) => {
@@ -11,28 +18,37 @@ export const getWaterNoteById = async (waterId) => {
 };
 
 export const postWaterNotes = async (payload) => {
-    const water = await waterNotesCollection.create(payload);
-    return water;
+  const water = await waterNotesCollection.create(payload);
+  return water;
 };
 
-export const updateWaterNoteById = async (waterId, updatedData) => {
+export const updateWaterNoteById = async (waterId, userId, updatedData) => {
+  const existingWaterNote = await waterNotesCollection.findById({
+    _id: waterId,
+    userId,
+  });
 
-    const existingWaterNote = await waterNotesCollection.findById(waterId);
+  if (!existingWaterNote) {
+    return null;
+  }
 
-    if (updatedData.waterVolume !== undefined) {
-        existingWaterNote.waterVolume = updatedData.waterVolume;
-    }
+  if (updatedData.waterVolume !== undefined) {
+    existingWaterNote.waterVolume = updatedData.waterVolume;
+  }
 
-    if (updatedData.date !== undefined) {
-        existingWaterNote.date = updatedData.date;
-    }
+  if (updatedData.date !== undefined) {
+    existingWaterNote.date = updatedData.date;
+  }
 
-    const savedWaterNote = await existingWaterNote.save();
+  const savedWaterNote = await existingWaterNote.save();
 
-    return savedWaterNote;
+  return savedWaterNote;
 };
 
-export const deleteWaterNotes = async (waterId) => {
-    const water = await waterNotesCollection.findOneAndDelete({_id: waterId});
-    return water;
+export const deleteWaterNotes = async (waterId, userId) => {
+  const water = await waterNotesCollection.findOneAndDelete({
+    _id: waterId,
+    userId,
+  });
+  return water;
 };
