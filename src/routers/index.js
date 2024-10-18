@@ -6,14 +6,10 @@ import { waterNotesRouter } from './waterNotes.js';
 import { waterTodayRouter } from './waterToday.js';
 import { waterMonthRouter } from './waterMonth.js';
 
-
 const router = Router();
 
-// router.use('/users', usersRouter);
-
 router.use('/auth', authRouter);
-router.use('/water', waterNotesRouter, waterMonthRouter, waterTodayRouter); 
-router.use('/user', usersRouter); 
-
+router.use('/water', waterNotesRouter, waterMonthRouter, waterTodayRouter);
+router.use('/user', usersRouter);
 
 export default router;

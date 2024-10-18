@@ -14,3 +14,15 @@ export const updateUserDailyNorm = async (userId, newDailyNorm) => {
 
   return updatedUser;
 };
+
+export const updateUserById = async (userId, update) => {
+  const result = await UsersCollection.findOneAndUpdate(
+    { _id: userId },
+    update,
+    {
+      new: true,
+    },
+  );
+
+  return result;
+};
