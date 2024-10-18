@@ -1,7 +1,7 @@
 tags:
   - Water
 summary: Get information on water intake for a day
-operationId: getWaterNotes
+operationId: getWaterToday
 description: 'Retrieves water intake records for a specific day'
 security:
   - bearerAuth: []

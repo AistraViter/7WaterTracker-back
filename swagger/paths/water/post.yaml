@@ -1,7 +1,7 @@
 tags:
   - Water
 summary: Add a new water intake record
-operationId: postWater
+operationId: getWaterMonth
 description: 'Adds a new water intake record based on provided date'
 security:
   - bearerAuth: []
