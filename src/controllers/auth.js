@@ -15,11 +15,16 @@ export function setRefreshTokenCookie(res, refreshToken) {
 
 export const registrationUserController = async (req, res) => {
   const newUser = await registrationUser(req.body);
+  const session = await loginUser(newUser.email, req.body.password);
+  setRefreshTokenCookie(res, session.refreshToken);
 
   res.status(201).json({
     status: 201,
     message: 'Successfully registered a user!',
-    data: newUser,
+    data: {
+      user: newUser,
+      accessToken: session.accessToken,
+    },
   });
 };
 
