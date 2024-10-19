@@ -31,7 +31,7 @@ usersRouter.patch(
 
 usersRouter.get('/', ctrlWrapper(getUserInfoController));
 
-usersRouter.patch(
+usersRouter.put(
   '/',
   validateBody(editUserInfoSchema),
   ctrlWrapper(editUserInfoController),
