@@ -1,16 +1,16 @@
-import { UsersCollection } from '../db/models/user.js';
 import createHttpError from 'http-errors';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { env } from '../utils/env.js';
-import Session from '../db/models/session.js';
 import {
   accessTokenValidUntil,
-  JWT_EXPIRES_IN,
   refreshTokenValidUntil,
   JWT_SECRET,
+  JWT_EXPIRES_IN,
   REFRESH_TOKEN_EXPIRES_IN,
 } from '../constants/index.js';
+import SessionsCollection from '../db/models/session.js';
+import { UsersCollection } from '../db/models/user.js';
 
 export function createSession(user) {
   const accessToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
@@ -56,11 +56,11 @@ export const loginUser = async (email, password) => {
     throw createHttpError(401, 'Incorrect email or password');
   }
 
-  await Session.deleteOne({ userId: user._id });
+  await SessionsCollection.deleteOne({ userId: user._id });
 
   const { accessToken, refreshToken } = createSession(user);
 
-  const session = await Session.create({
+  const session = await SessionsCollection.create({
     userId: user._id,
     accessToken,
     refreshToken,
@@ -72,7 +72,7 @@ export const loginUser = async (email, password) => {
 };
 
 export const logoutUser = async (refreshToken) => {
-  await Session.deleteOne({ refreshToken });
+  await SessionsCollection.deleteOne({ refreshToken });
 };
 
 export const updateUserEmail = async (token) => {
@@ -99,3 +99,5 @@ export const updateUserEmail = async (token) => {
 
   return user;
 };
+
+// Цей файл перевірено 19.10.2024 22.50 by AistraViter

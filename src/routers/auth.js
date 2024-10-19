@@ -27,4 +27,7 @@ authRouter.post(
 // Маршрут для логаута пользователя
 authRouter.post('/logout', ctrlWrapper(logoutUserController)); // Добавляем контроллер для логаута
 
+// Подумаю що з цим робити (AistraViter)
 authRouter.post('/send-change-email', ctrlWrapper(updateUserEmailController));
+
+// Цей файл перевірено 20.10.2024 00.34 by AistraViter, повторно ще перевірю authRouter.post 

@@ -1,5 +1,4 @@
-import mongoose from 'mongoose';
-const Schema = mongoose.Schema;
+import { model, Schema } from 'mongoose';
 
 const userSchema = new Schema(
   {
@@ -12,21 +11,21 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      lowercase: true, // Що дає нам це поле, а також поле матч? Навіщо така жорстка перевірка мейлу?
-      match: [/^\S+@\S+\.\S+$/, 'Please provide a valid email address'], //?
+      lowercase: true, 
+      match: [/^\S+@\S+\.\S+$/, 'Please provide a valid email address'], 
     },
     password: {
       type: String,
       required: true,
     },
-    dailyNorm: {
+    dailyNorma: {
       type: Number,
       default: 1500
     },
     gender: {
       type: String,
       enum: ['Woman', 'Man'],
-      default: 'Woman', //На макеті по дефолту вумен, і на лекції казали так робити
+      default: 'Woman', 
       required: true,
     },
     photo: {
@@ -47,5 +46,7 @@ userSchema.methods.toJSON = function () {
 }; //потрібно для видалення паролю
 
 
-const UsersCollection = mongoose.model('users', userSchema);
-export { UsersCollection }; // Используйте именованный экспорт
+const UsersCollection = model('users', userSchema);
+export { UsersCollection }; // Використовуйте іменованный експорт
+
+// Цей файл перевірено 19.10.2024 22.01 by AistraViter

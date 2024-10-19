@@ -11,11 +11,21 @@ import { authenticate } from '../middlewares/authenticate.js';
 import { upload } from '../middlewares/multer.js';
 import { editUserInfoSchema } from '../validation/editUserInfoValidation.js';
 import { updateDailyNormSchema } from '../validation/editUserInfoValidation.js';
+import { updateUserEmailController } from '../controllers/auth.js';
 
 export const usersRouter = Router();
 
 usersRouter.use(authenticate);
 
+
+
+usersRouter.get('/', ctrlWrapper(getUserInfoController));
+usersRouter.post('/email', ctrlWrapper(updateUserEmailController));
+usersRouter.patch(
+  '/avatar',
+  upload.single('avatar'),
+  ctrlWrapper(editUserAvatarController),
+);
 usersRouter.put(
   // userId comes from the req.user._id parameter, which is provided by the authenticate.js middleware
   '/daily-norm',
@@ -23,16 +33,11 @@ usersRouter.put(
   ctrlWrapper(updateDailyNormController),
 );
 
-usersRouter.patch(
-  '/avatar',
-  upload.single('avatar'),
-  ctrlWrapper(editUserAvatarController),
-);
 
-usersRouter.get('/', ctrlWrapper(getUserInfoController));
 
 usersRouter.put(
   '/',
   validateBody(editUserInfoSchema),
   ctrlWrapper(editUserInfoController),
 );
+

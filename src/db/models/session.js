@@ -31,6 +31,7 @@ const sessionSchema = new mongoose.Schema(
 );
 
 // Создаем модель Session
-const Session = mongoose.model('sessions', sessionSchema);
+const SessionsCollection = mongoose.model('sessions', sessionSchema);
 
-export default Session;
+export default SessionsCollection;
+// Цей файл перевірено 19.10.2024 21.40 by AistraViter
