@@ -23,3 +23,7 @@ export const editUserInfoSchema = Joi.object({
     'any.only': 'Confirmed password should match with original password',
   }),
 });
+
+export const updateDailyNormSchema = Joi.object({
+  dailyNorm: Joi.number().integer().min(0).max(15000)
+});

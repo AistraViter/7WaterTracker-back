@@ -17,7 +17,7 @@ export const getWaterTodayController = async (req, res, next) => {
     (partialSum, n) => partialSum + n.waterVolume,
     0,
   );
-  const percentage = consumed > 0 ? (consumed / user.dailyNorm) * 100 : 0;
+  const percentage = consumed > 0 ? Math.round((consumed / user.dailyNorm) * 100) : 0; // округлення до цілого числа
 
   res.status(200).json({
     notes,

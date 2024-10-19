@@ -12,8 +12,8 @@ export const getWaterNotesInRange = async (userId, startDate, endDate) => {
   });
 };
 
-export const getWaterNoteById = async (waterId) => {
-  const water = await waterNotesCollection(waterId);
+export const getWaterNoteById = async (waterId, userId) => {
+  const water = await waterNotesCollection.findOne({ _id: waterId, userId });
   return water;
 };
 

@@ -21,21 +21,21 @@ waterNotesRouter.use(authenticate);
 waterNotesRouter.get(
   '/note',
   ctrlWrapper(getWaterNotesController),
-  validateBody(waterNotesSchema),
 );
 waterNotesRouter.post(
   '/note',
-  ctrlWrapper(createWaterNotesController),
   validateBody(waterNotesSchema),
+  ctrlWrapper(createWaterNotesController),
 );
 waterNotesRouter.patch(
   '/note/:waterId',
-  isValidId,
-  ctrlWrapper(patchWaterNotesController),
+  isValidId('waterId'),
   validateBody(updateWaterNotesSchema),
+  ctrlWrapper(patchWaterNotesController),
 );
 waterNotesRouter.delete(
   '/note/:waterId',
-  isValidId,
+  isValidId('waterId'),
   ctrlWrapper(deleteWaterNotesController),
 );
+

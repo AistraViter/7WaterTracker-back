@@ -16,14 +16,3 @@ export const isValidId = (...params) => {
     }
   };
 };
-
-// export const isValidId = (req, res, next) => {
-//   const { userId, waterId } = req.params;
-//   const idToCheck = userId || waterId;
-
-//   if (!isValidObjectId(idToCheck)) {
-//     throw createHttpError(400, 'Bad request');
-//   }
-
-//   next();
-// };
