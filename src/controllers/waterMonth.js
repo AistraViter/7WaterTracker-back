@@ -1,75 +1,71 @@
-import createHttpError from 'http-errors';
-import { waterNotesCollection } from '../db/models/waterNotes.js'; 
-import { UsersCollection } from '../db/models/user.js'; 
+import createHttpError from 'http-errors'; // Імпорт бібліотеки для створення HTTP помилок
+import { addWater, getWaterForMonth } from '../services/waterMonth.js';// Імпорт моделі WaterCollection
+import { updateWaterService } from '../services/waterMonth.js';
 
-export const getWaterMonthController = async (req, res, next) => {
-    const { _id:userId } = req.user; // Зберігаємо userId з параметрів
-    const { year, month } = req.query; // Зберігаємо year та month з запиту
+export const updateWaterController = async (req, res) => {
+  const { id } = req.params;
+  const { _id: userId } = req.user;
+  const { volume, date } = req.body;
 
-    try {
-        // Отримуємо денну норму для користувача
-        const user = await UsersCollection.findById(userId).select('dailyNorm');
-        
-        if (!user) {
-            return next(createHttpError(404, 'User not found'));
-        }
+  const data = await updateWaterService({ _id: id, userId }, { volume, date });
 
-        const dailyNorm = user.dailyNorm || 0; // Отримуємо значення денної норми
+  if (!data) {
+    throw createHttpError(404, 'Water record not found');
+  }
 
-        // Отримуємо дані споживання води за вказаний місяць
-        const consumptions = await waterNotesCollection.aggregate([
-            {
-                $match: {
-                    userId: userId,
-                    date: {
-                        $gte: new Date(`${year}-${month}-01`), // Перший день місяця
-                        $lt: new Date(`${year}-${month}-01T23:59:59Z`), // Останній день місяця
-                    },
-                },
-            },
-            {
-                $group: {
-                    _id: {
-                        $dateToString: { format: '%Y-%m-%d', date: '$date' },
-                    },
-                    totalConsumption: { $sum: '$amount' }, // Загальна кількість споживання
-                    count: { $sum: 1 }, // Кількість записів
-                },
-            },
-        ]);
-
-        // Форматування відповіді
-        const response = [];
-        const daysInMonth = new Date(year, month, 0).getDate(); // Отримуємо кількість днів у місяці
-
-        for (let day = 1; day <= daysInMonth; day++) {
-            const currentDate = new Date(year, month - 1, day);
-            const dateString = currentDate.toISOString().split('T')[0]; // Формат дати YYYY-MM-DD
-            const consumptionData = consumptions.find(entry => entry._id === dateString) || { totalConsumption: 0, count: 0 };
-
-            const totalConsumption = consumptionData.totalConsumption; // Споживання для цього дня
-            const count = consumptionData.count; // Кількість записів для цього дня
-            const percentage = dailyNorm ? ((totalConsumption / dailyNorm) * 100).toFixed(2) : 0; // Відсоток споживання
-
-            response.push({
-                date: `${day}, ${currentDate.toLocaleString('default', { month: 'long' })}`,
-                dailyNorm: `${dailyNorm} L`,
-                percentage: `${totalConsumption > 0 ? percentage : 0}%`,
-                consumptionCount: count,
-            });
-        }
-
-        res.status(200).json({
-            success: true,
-            data: response,
-        });
-    } catch (error) {
-        console.error('Error retrieving monthly water consumption:', error.message);
-        next(createHttpError(500, 'Internal Server Error'));
-    }
+  res.status(200).json({
+    status: 200,
+    message: 'Successfully update water record',
+    data,
+  });
 };
 
+export const addWaterController = async (req, res) => {
+  const { _id: userId } = req.user;
+  const { date, volume, dailyNorma } = req.body;
+  const data = await addWater(userId, date, volume, dailyNorma);
 
+  res.status(201).json({
+    status: 201,
+    message: 'Successfully added water!',
+    data,
+  });
+};
+export async function getWaterForMonthController(req, res) {
+  try {
+    const { month } = req.query; // or req.body if you switch to POST
+    
+    // Validate the month parameter
+    if (!month) {
+      return res.status(400).json({
+        status: 400,
+        message: 'Month is required',
+      });
+    }
 
+    const userId = req.user._id; // Ensure user is authenticated
+    const year = new Date().getFullYear();
 
+    const data = await getWaterForMonth({ month, userId, year });
 
+    if (!data) {
+      return res.status(404).json({
+        status: 404,
+        message: 'No data found for the specified month',
+      });
+    }
+
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully retrieved data',
+      data,
+    });
+  } catch (error) {
+    console.error(error); // Log the error for debugging
+    res.status(500).json({
+      status: 500,
+      message: 'Internal Server Error',
+      error: error.message,
+    });
+  }
+}

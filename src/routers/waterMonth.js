@@ -1,8 +1,11 @@
 import { Router } from 'express';
-import { getWaterMonthController } from '../controllers/waterMonth.js';
+import { getWaterForMonthController } from '../controllers/waterMonth.js';
 
-export const waterMonthRouter = Router();
+const waterMonthRouter = Router();
 
-// Маршрут для отримання місячного споживання води
-  waterMonthRouter.get('/month', getWaterMonthController);
+// Define a specific path for the month route
+waterMonthRouter.get('/month', getWaterForMonthController);
+
+export { waterMonthRouter };
+
 
