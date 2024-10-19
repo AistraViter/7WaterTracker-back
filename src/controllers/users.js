@@ -3,16 +3,13 @@ import fs from 'fs/promises';
 import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
 import handlebars from 'handlebars';
-import {
-  getUserById,
-  updateUserById,
-  updateUserDailyNorm,
-} from '../services/users.js';
+import { updateUserById, getUserById, updateUserDailyNorm } from '../services/users.js';
 import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
 import { TEMPLATES_DIR } from '../constants/index.js';
 import { env } from '../utils/env.js';
 import { createJwtToken } from '../utils/jwt.js';
 import { sendEmail } from '../utils/sendEmail.js';
+import { WaterCollection } from '../db/models/Water.js';
 
 //////////////////////////////// updateDailyNorm ////////////////////////////////
 export const updateDailyNormController = async (req, res, next) => {
@@ -50,6 +47,12 @@ export const updateDailyNormController = async (req, res, next) => {
 
   try {
     const updatedUser = await updateUserDailyNorm(userId, newDailyNorm);
+
+    await WaterCollection.updateMany(
+      { userId: userId },  // Усі записи цього користувача
+      { $set: { dailyNorm: newDailyNorm } }  // Оновлюємо dailyNorm
+    );
+
     res.json({
       message: 'Daily water norm updated successfully',
       dailyNorm: updatedUser.dailyNorm,
@@ -58,6 +61,7 @@ export const updateDailyNormController = async (req, res, next) => {
     createHttpError(500, error);
   }
 };
+
 
 export const editUserAvatarController = async (req, res, next) => {
   const { _id } = req.user;

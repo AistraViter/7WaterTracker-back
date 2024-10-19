@@ -1,13 +1,17 @@
 import Joi from 'joi';
 
-export const waterNotesSchema = Joi.object({
+export const waterSchema = Joi.object({
+  dailyNorm: Joi.number().integer().max(15000),
   waterVolume: Joi.number().integer().min(1).max(5000).required(),
-  date: Joi.string().required(),
+  time: Joi.string().required(),
+  date: Joi.date().required(),
 });
 
-export const updateWaterNotesSchema = Joi.object({
+export const updateWaterSchema = Joi.object({
+  dailyNorm: Joi.number().integer().max(15000),
   waterVolume: Joi.number().integer().min(1).max(5000),
-  date: Joi.string(),
+  time: Joi.string(),
+  date: Joi.date(),
 });
 
 export const waterForMonthSchema = Joi.object({
