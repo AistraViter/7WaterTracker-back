@@ -19,10 +19,6 @@ properties:
     description: "User's email"
     type: string
     example: mail@mail.com
-  dailyNorm:
-    description: "User's daily norm"
-    type: number
-    example: 150
   gender:
     description: "User's gender"
     type: string

@@ -1,9 +1,7 @@
 <<<<<<< Updated upstream
 <<<<<<< HEAD
 <<<<<<< HEAD
-export const UPLOAD_DIR = path.resolve("uploads");
 
-export const SWAGGER_PATH = path.join(process.cwd(), "docs", "swagger.json");
 =======
 =======
 >>>>>>> da5454c3198e4589f1f50af6404371bff77ae8de
@@ -26,3 +24,6 @@ export const refreshTokenValidUntil = new Date(Date.now() + 30 * 24 * 60 * 60 * 
 
 export const TEMPLATES_DIR = path.join(process.cwd(), 'src', 'templates');
 >>>>>>> Stashed changes
+export const UPLOAD_DIR = path.resolve("uploads");
+
+export const SWAGGER_PATH = path.join(process.cwd(), "docs", "swagger.json");
