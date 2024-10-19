@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getWaterForMonthController } from '../controllers/waterMonth.js';
+import { getWaterForMonthController } from '../controllers/water.js';
 
 const waterMonthRouter = Router();
 

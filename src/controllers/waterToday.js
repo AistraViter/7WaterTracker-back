@@ -1,5 +1,5 @@
 import { getUserById } from '../services/users.js';
-import { getWaterNotesInRange } from '../services/waterNotes.js';
+import { getWaterForToday } from '../services/water.js';
 
 export const getWaterTodayController = async (req, res, next) => {
   // 1. get current user from auth
@@ -12,12 +12,12 @@ export const getWaterTodayController = async (req, res, next) => {
   today.setHours(0, 0, 0, 0);
   const nextDay = new Date(today);
   nextDay.setDate(today.getDate() + 1);
-  const notes = await getWaterNotesInRange(userId, today, nextDay);
+  const notes = await getWaterForToday(userId, today, nextDay);
   const consumed = notes.reduce(
     (partialSum, n) => partialSum + n.waterVolume,
     0,
   );
-  const percentage = consumed > 0 ? Math.round((consumed / user.dailyNorm) * 100) : 0; // округлення до цілого числа
+  const percentage = consumed > 0 ? Math.round((consumed / user.dailyNorm) * 100) : 0;
 
   res.status(200).json({
     notes,
