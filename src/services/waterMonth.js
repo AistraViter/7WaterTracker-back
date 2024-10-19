@@ -1,8 +1,9 @@
 import createHttpError from 'http-errors'; // Import for creating HTTP errors
-import { WaterCollection } from '../db/models/water.js';
+import { WaterCollection } from '../db/models/Water.js';
 
 
 
+// Функція для оновлення записів споживання води
 export const updateWaterService = async (filter, data, options = {}) => {
   const rawResult = await WaterCollection.findOneAndUpdate(filter, data, {
     includeResultMetadata: true,
@@ -13,6 +14,8 @@ export const updateWaterService = async (filter, data, options = {}) => {
 
   return rawResult.value;
 };
+
+// Функція для додавання нового запису про споживання води
 export const addWater = async (userId, date, volume, dailyNorma) => {
   const waterload = {
     userId,
@@ -23,6 +26,8 @@ export const addWater = async (userId, date, volume, dailyNorma) => {
   return await WaterCollection.create(waterload);
 };
 
+
+// Функція для отримання записів споживання води за певний місяць
 export async function getWaterForMonth({ year, userId, month }) {
   if (!month) {
     throw createHttpError(400, 'Month is required');
@@ -65,4 +70,8 @@ export async function getWaterForMonth({ year, userId, month }) {
   });
 
   return result;
-}
+};
+// Функція для видалення запису про споживання води
+export const deleteWater = async (filter) => {
+  return await WaterCollection.findOneAndDelete(filter); 
+};
