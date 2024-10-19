@@ -25,5 +25,5 @@ export const editUserInfoSchema = Joi.object({
 });
 
 export const updateDailyNormSchema = Joi.object({
-  dailyNorm: Joi.number().integer().min(1).max(15000)
+  dailyNorm: Joi.number().integer().min(0).max(15000)
 });
