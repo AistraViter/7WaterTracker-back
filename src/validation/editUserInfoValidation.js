@@ -19,7 +19,7 @@ export const editUserInfoSchema = Joi.object({
   password: Joi.string().allow('').messages({
     'string.base': 'Password should be a string type',
   }),
-  confirmPassword: Joi.string().valid(Joi.ref('password')).required().messages({
+  confirmPassword: Joi.string().valid(Joi.ref('password')).messages({
     'any.only': 'Confirmed password should match with original password',
   }),
 });
