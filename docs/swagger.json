@@ -18,13 +18,11 @@
     }
   ],
   "tags": [
-    
     {
       "name": "Auth",
       "description": "Auth operations."
     }
   ],
-
   "components": {
     "securitySchemes": {
       "bearerAuth": {
