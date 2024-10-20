@@ -18,3 +18,6 @@ export const refreshTokenValidUntil = new Date(
 ); // Токен на 30 дней
 
 export const TEMPLATES_DIR = path.join(process.cwd(), 'src', 'templates');
+
+//Документація  
+export const SWAGGER_PATH = path.join(process.cwd(), 'docs', 'swagger.json');
