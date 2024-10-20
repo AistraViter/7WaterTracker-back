@@ -10,6 +10,8 @@ info:
 tags:
   - name: Auth
     description: Auth operations.
+  - name: Water
+    description: Operations about water.
 servers:
   - url: http://localhost:3000
   - url: https://sevenwatertracker-back-1.onrender.com
@@ -23,6 +25,17 @@ paths:
   /auth/logout:
     post:
       $ref: ../swagger/paths/auth/logout/post.yaml
+  /auth/refresh:
+    post:
+      $ref: ../swagger/paths/auth/refresh/post.yaml
+  /water:
+    post:
+      $ref: ../swagger/paths/water/post.yaml
+  /water/{id}:
+    patch:
+      $ref: ../swagger/paths/water/{id}/patch.yaml
+    delete:
+      $ref: ../swagger/paths/water/{id}/delete.yaml
 components:
   securitySchemes:
     bearerAuth:
