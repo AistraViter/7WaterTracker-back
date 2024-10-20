@@ -3,7 +3,11 @@ import fs from 'fs/promises';
 import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
 import handlebars from 'handlebars';
-import { updateUserById, getUserById, updateUserDailyNorm } from '../services/users.js';
+import {
+  updateUserById,
+  getUserById,
+  updateUserDailyNorm,
+} from '../services/users.js';
 import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
 import { TEMPLATES_DIR } from '../constants/index.js';
 import { env } from '../utils/env.js';
@@ -13,44 +17,20 @@ import { WaterCollection } from '../db/models/Water.js';
 
 //////////////////////////////// updateDailyNorm ////////////////////////////////
 export const updateDailyNormController = async (req, res, next) => {
-  // userId comes from the req.user._id parameter, which is provided by the authenticate.js middleware
   const userId = req.user._id;
-  const { weight, activeTime, dailyNorm } = req.body;
-
-  let newDailyNorm;
+  const { dailyNorm } = req.body;
 
   const user = await getUserById(userId);
   if (!user) {
     return next(createHttpError(404, 'User is not found'));
   }
 
-  // check weight and activeTime are not empty
-  const M = weight !== undefined ? weight : user.weight;
-  const T = activeTime !== undefined ? activeTime : user.activeTime;
-
-  // calculate dailyNorm for genders
-  if (user.gender === 'Woman') {
-    newDailyNorm = Number((M * 0.03 + T * 0.4).toFixed(2));
-  } else if (user.gender === 'Man') {
-    newDailyNorm = Number((M * 0.04 + T * 0.6).toFixed(2));
-  }
-
-  // user enters custom dailyNorm
-  if (dailyNorm) {
-    newDailyNorm = dailyNorm;
-  }
-
-  // restricted dailyNorm
-  if (dailyNorm > 15000) {
-    newDailyNorm = 15000; // по тз максимум 15000мл
-  }
-
   try {
-    const updatedUser = await updateUserDailyNorm(userId, newDailyNorm);
+    const updatedUser = await updateUserDailyNorm(userId, dailyNorm);
 
     await WaterCollection.updateMany(
-      { userId: userId },  // Усі записи цього користувача
-      { $set: { dailyNorm: newDailyNorm } }  // Оновлюємо dailyNorm
+      { userId: userId }, // Усі записи цього користувача
+      { $set: { dailyNorm: dailyNorm } }, // Оновлюємо dailyNorm
     );
 
     res.json({
@@ -58,11 +38,11 @@ export const updateDailyNormController = async (req, res, next) => {
       dailyNorm: updatedUser.dailyNorm,
     });
   } catch (error) {
-    createHttpError(500, error);
+    return next(createHttpError(500, error));
   }
 };
 
-
+//////////////////////////////// editUserAvatarController ////////////////////////////////
 export const editUserAvatarController = async (req, res, next) => {
   const { _id } = req.user;
   const avatar = req.file;
@@ -77,6 +57,7 @@ export const editUserAvatarController = async (req, res, next) => {
   });
 };
 
+//////////////////////////////// getUserInfoController ////////////////////////////////
 export const getUserInfoController = async (req, res, next) => {
   const { _id } = req.user;
 
@@ -90,6 +71,7 @@ export const getUserInfoController = async (req, res, next) => {
   });
 };
 
+//////////////////////////////// editUserInfoController ////////////////////////////////
 export const editUserInfoController = async (req, res, next) => {
   const { _id } = req.user;
   const { password, confirmPassword, oldPassword } = req.body;

@@ -11,21 +11,23 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      lowercase: true, 
-      match: [/^\S+@\S+\.\S+$/, 'Please provide a valid email address'], 
+      lowercase: true,
+      match: [/^\S+@\S+\.\S+$/, 'Please provide a valid email address'],
     },
     password: {
       type: String,
       required: true,
     },
-    dailyNorma: {
+    // this field should be dailyNorm, but dailyNorma
+    // це поле повинно мати назву dailyNorm а не dailyNorma
+    dailyNorm: {
       type: Number,
-      default: 1500
+      default: 1500,
     },
     gender: {
       type: String,
       enum: ['Woman', 'Man'],
-      default: 'Woman', 
+      default: 'Woman',
       required: true,
     },
     photo: {
@@ -44,7 +46,6 @@ userSchema.methods.toJSON = function () {
   delete obj.password;
   return obj;
 }; //потрібно для видалення паролю
-
 
 const UsersCollection = model('users', userSchema);
 export { UsersCollection }; // Використовуйте іменованный експорт

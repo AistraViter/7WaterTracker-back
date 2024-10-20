@@ -30,14 +30,4 @@ export const updateDailyNormSchema = Joi.object({
     'number.min': 'Daily norma should be a positive number',
     'number.max': 'Daily norma should not exceed 15000 ml',
   }),
-  weight: Joi.number().integer().min(0).max(300).messages({
-    'number.base': 'Weight should be a number',
-    'number.min': 'Weight should be a positive number',
-    'number.max': 'Weight should not exceed 300 kg',
-  }),
-  activeTime: Joi.number().integer().min(0).max(24).messages({
-    'number.base': 'Active time should be a number',
-    'number.min': 'Active time should be a positive number',
-    'number.max': 'Active time should not exceed 24 hours',
-  }),
 });
