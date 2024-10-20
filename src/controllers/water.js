@@ -1,7 +1,7 @@
 import createHttpError from 'http-errors'; // Імпорт бібліотеки для створення HTTP помилок
 import { getWater, postWater, deleteWater, updateWaterById, getWaterForMonth } from '../services/water.js';
 import { validateWaterVolume } from '../db/hooks/validateWaterVolume.js';
-import { combineDateAndTime } from '../db/hooks/validateDateAndTime.js';
+import { combineDateAndTime, validateDate, validateTime } from '../db/hooks/validateDateAndTime.js';
 
 export const getWaterController = async (req, res) => {
   const {_id: userId} = req.user;
@@ -45,14 +45,32 @@ export const updateWaterController = async (req, res) => {
   const { _id: userId } = req.user; // id користувача
   const { waterVolume, date, time } = req.body; // дані з тіла запиту
 
-  validateWaterVolume(waterVolume);
-
-  let combinedDateTime;
+  let updateFields = {};
+  
+  if (waterVolume !== undefined) {
+    validateWaterVolume(waterVolume);
+    updateFields.waterVolume = waterVolume;
+  }
   if (date && time) {
-    combinedDateTime = combineDateAndTime(date, time);
+    const combinedDateTime = combineDateAndTime(date, time);
+    updateFields.date = combinedDateTime;
+  } else if (date) {
+    const validDate = validateDate(date);
+    updateFields.date = new Date(validDate);
+  } else if (time) {
+    const validTime = validateTime(time);
+    updateFields.time = validTime;
   }
 
-  const data = await updateWaterById(id, userId, { waterVolume, date: combinedDateTime });
+  if (Object.keys(updateFields).length === 0) {
+    throw createHttpError(400, 'No valid fields to update');
+  }
+
+  const data = await updateWaterById(id, userId, updateFields);
+
+  if (!data) {
+    throw createHttpError(404, 'Water record not found');
+  }
 
   res.status(200).json({
     status: 200,

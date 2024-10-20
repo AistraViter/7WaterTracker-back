@@ -1,7 +1,7 @@
 import createHttpError from "http-errors";
 
 // Валідація дати (YYYY-MM-DD)
-const validateDate = (dateString) => {
+export const validateDate = (dateString) => {
     const dateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
 
     if (!dateRegex.test(dateString)) {
@@ -12,7 +12,7 @@ const validateDate = (dateString) => {
   };
 
   // Валідація часу (HH:mm)
-  const validateTime = (timeString) => {
+export const validateTime = (timeString) => {
     const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
 
     if (!timeRegex.test(timeString)) {
