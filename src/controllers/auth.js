@@ -7,8 +7,11 @@ import {
 
 import createHttpError from 'http-errors';
 
-export function setRefreshTokenCookie(res, refreshToken) {
-  res.cookie('refreshToken', refreshToken, {
+export function setRefreshTokenCookie(res, session) {
+  res.cookie('refreshToken', session.refreshToken, {
+    httpOnly: true,
+  });
+  res.cookie('sessionId', session._id, {
     httpOnly: true,
   });
 }
@@ -16,7 +19,7 @@ export function setRefreshTokenCookie(res, refreshToken) {
 export const registrationUserController = async (req, res) => {
   const newUser = await registrationUser(req.body);
   const session = await loginUser(newUser.email, req.body.password);
-  setRefreshTokenCookie(res, session.refreshToken);
+  setRefreshTokenCookie(res, session);
 
   res.status(201).json({
     status: 201,
@@ -33,7 +36,7 @@ export async function loginUserController(req, res, next) {
 
   const session = await loginUser(email, password);
 
-  setRefreshTokenCookie(res, session.refreshToken);
+  setRefreshTokenCookie(res, session);
 
   res.status(200).json({
     status: 200,
@@ -51,6 +54,8 @@ export async function logoutUserController(req, res, next) {
 
   await logoutUser(refreshToken);
   res.clearCookie('refreshToken');
+  res.clearCookie('sessionId');
+
   res.status(204).send();
 }
 

@@ -11,6 +11,7 @@ import {
   JWT_SECRET,
   REFRESH_TOKEN_EXPIRES_IN,
 } from '../constants/index.js';
+import { setRefreshTokenCookie } from '../controllers/auth.js';
 
 export function createSession(user) {
   const accessToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
@@ -98,4 +99,47 @@ export const updateUserEmail = async (token) => {
   }
 
   return user;
+};
+
+export const refreshUserSession = async (req, res, next) => {
+  const { refreshToken } = req.cookies;
+
+  if (!refreshToken) {
+    throw createHttpError(401, 'Refresh token required');
+  }
+
+    const session = await Session.findOne({ refreshToken });
+    if (!session) {
+      throw createHttpError(401, 'Invalid session');
+    }
+
+    const isRefreshTokenExpired =
+      new Date() > new Date(session.refreshTokenValidUntil);
+    if (isRefreshTokenExpired) {
+      throw createHttpError(401, 'Refresh token expired');
+    }
+
+    const decoded = jwt.verify(refreshToken, JWT_SECRET);
+
+    const newAccessToken = jwt.sign({ userId: decoded.userId }, JWT_SECRET, {
+      expiresIn: JWT_EXPIRES_IN,
+    });
+
+    const newRefreshToken = jwt.sign({ userId: decoded.userId }, JWT_SECRET, {
+      expiresIn: REFRESH_TOKEN_EXPIRES_IN,
+    });
+
+    session.accessToken = newAccessToken;
+    session.refreshToken = newRefreshToken;
+    session.accessTokenValidUntil = new Date(Date.now() + 15 * 60 * 1000);
+    session.refreshTokenValidUntil = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+    await session.save();
+
+    setRefreshTokenCookie(res, session);
+
+    res.status(200).json({
+      status: 200,
+      message: 'Tokens refreshed successfully',
+      data: { accessToken: newAccessToken },
+    });
 };
