@@ -2,12 +2,6 @@ import { model, Schema } from 'mongoose';
 import { handleSaveError, setUpdateOptions } from './hooks.js';
 import { UsersCollection } from './user.js';
 
-// const setTimeToSevenAM = () => {
-//     const now = new Date();
-//     now.setHours(10, 0, 0, 0); // Встановлюємо час на 7:00:00.000
-//     return now;
-// };
-
 const waterSchema = new Schema(
   {
     date: {
