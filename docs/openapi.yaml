@@ -5,6 +5,7 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
+
   description: This is a documentation of water consumption app
 tags:
   - name: Auth
@@ -12,6 +13,13 @@ tags:
 servers:
   - url: http://localhost:3000
   - url: https://sevenwatertracker-back-1.onrender.com
+paths:
+  /auth/registration:
+    post:
+      $ref: ../swagger/paths/auth/registration/post.yaml
+      /auth/login:
+    post:
+      $ref: ../swagger/paths/auth/login/post.yaml
 components:
   securitySchemes:
     bearerAuth:
