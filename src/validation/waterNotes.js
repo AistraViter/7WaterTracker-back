@@ -1,18 +1,34 @@
 import Joi from 'joi';
 
-export const waterSchema = Joi.object({
+// Базова схема для води
+const baseWaterSchema = Joi.object({
   dailyNorm: Joi.number().integer().max(15000),
-  waterVolume: Joi.number().integer().min(1).max(5000).required(),
-  time: Joi.string().required(),
-  date: Joi.date().required(),
+  waterVolume: Joi.number().integer().min(1).max(5000).required().messages({
+    'number.base': 'Enter the correct amount of water format (number).',
+    'number.min': 'Enter the correct amount of water format (number).',
+    'number.max': 'The maximum amount of water is 5000 ml.',
+  }),
+  time: Joi.string()
+    .pattern(/^([01]\d|2[0-3]):([0-5]\d)$/)
+    .required()
+    .messages({
+      'string.pattern.base': 'Enter the correct time format (HH:mm).',
+      'string.empty': 'Time is required.',
+    }),
+  date: Joi.date().required().messages({
+    'date.base': 'Enter the correct date format (YYYY-MM-DD).',
+    'any.required': 'Date is required.',
+  }),
 });
 
-export const updateWaterSchema = Joi.object({
-  dailyNorm: Joi.number().integer().max(15000),
-  waterVolume: Joi.number().integer().min(1).max(5000),
-  time: Joi.string(),
-  date: Joi.date(),
-});
+// Схема для створення запису про воду
+export const createWaterSchema = baseWaterSchema;
+
+// Схема для оновлення запису про воду (робимо поля необов'язковими)
+export const updateWaterSchema = baseWaterSchema.fork(
+  ['dailyNorm', 'waterVolume', 'time', 'date'],
+  (field) => field.optional(),
+);
 
 export const waterForMonthSchema = Joi.object({
   month: Joi.number().min(1).max(12).required().messages({

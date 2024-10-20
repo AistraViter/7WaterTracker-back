@@ -8,6 +8,14 @@ export const getWater = async (userId) => {
   return water;
 };
 
+// Функція для отримання запису води за ID з урахуванням userId
+//Роутера такого немає, просто потрібна для патчу 
+export const getWaterById = async (id, userId) => {
+  const contact = await WaterCollection.findOne({ _id: id, userId });
+  return contact;
+};
+
+
 // Функція для додавання нового запису про споживання води
 export const postWater = async (userId, date, waterVolume, time) => {
   const waterload = {

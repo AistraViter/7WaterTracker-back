@@ -1,98 +1,93 @@
-import createHttpError from 'http-errors'; // Імпорт бібліотеки для створення HTTP помилок
-import { getWater, postWater, deleteWater, updateWaterById, getWaterForMonth } from '../services/water.js';
-import { validateWaterVolume } from '../db/hooks/validateWaterVolume.js';
-import { combineDateAndTime, validateDate, validateTime } from '../db/hooks/validateDateAndTime.js';
+import createHttpError from 'http-errors'; 
+import {
+  getWater,
+  getWaterById,
+  postWater,
+  deleteWater,
+  updateWaterById,
+  getWaterForMonth,
+} from '../services/water.js';
+import {
+  combineDateAndTime,
+} from '../db/hooks/validateDateAndTime.js';
 
 export const getWaterController = async (req, res) => {
-  const {_id: userId} = req.user;
-  const waterUser = await getWater({userId});
+  const { _id: userId } = req.user;
+  const waterUser = await getWater({ userId });
 
   res.status(200).json({
-      message: 'Successfully found all your water notes!',
-      data: waterUser,
-    });
+    message: 'Successfully found all your water notes!',
+    data: waterUser,
+  });
 };
 
 //Додавання запису по спожитій воді
 export const postWaterController = async (req, res) => {
-  const userId = req.user;
   const { date, waterVolume, time } = req.body;
-
-  // Валідація об'єму води
-  validateWaterVolume(waterVolume);
-
-  // Перевірка наявності дати й часу
-  if (!date || !time) {
+ 
+  if (!date || !time)
     throw createHttpError(400, 'Both date and time are required.');
-  }
 
-  // Об'єднання дати й часу
-  const combinedDateTime = combineDateAndTime(date, time);
-
-  // Додаємо запис про споживання води
-  const newWater = await postWater(userId, combinedDateTime, waterVolume);
-
-  res.status(201).json({
-    status: 201,
-    message: 'Successfully added water!',
-    data: newWater,
-  });
+  const newWater = await postWater(
+    req.user._id,
+    combineDateAndTime(date, time),
+    waterVolume,
+  );
+  res
+    .status(201)
+    .json({
+      status: 201,
+      message: 'Successfully added water!',
+      data: newWater,
+    });
 };
 
 //Редагування запису по спожитій воді
 export const updateWaterController = async (req, res) => {
-  const { id } = req.params; // id для запису про воду
-  const { _id: userId } = req.user; // id користувача
-  const { waterVolume, date, time } = req.body; // дані з тіла запиту
+  const { waterVolume, date, time } = req.body;
+  const { id } = req.params;
+  const userId = req.user._id;
 
-  let updateFields = {};
-  
-  if (waterVolume !== undefined) {
-    validateWaterVolume(waterVolume);
-    updateFields.waterVolume = waterVolume;
-  }
-  if (date && time) {
-    const combinedDateTime = combineDateAndTime(date, time);
-    updateFields.date = combinedDateTime;
-  } else if (date) {
-    const validDate = validateDate(date);
-    updateFields.date = new Date(validDate);
-  } else if (time) {
-    const validTime = validateTime(time);
-    updateFields.time = validTime;
-  }
+  // Отримуємо поточний запис про воду
+  const currentWaterRecord = await getWaterById(id, userId);
 
-  if (Object.keys(updateFields).length === 0) {
-    throw createHttpError(400, 'No valid fields to update');
-  }
-
-  const data = await updateWaterById(id, userId, updateFields);
-
-  if (!data) {
+  // Якщо запис не знайдено, кидаємо помилку
+  if (!currentWaterRecord) {
     throw createHttpError(404, 'Water record not found');
   }
+
+
+  // Використовуємо старі значення дати та часу, якщо нові не були передані
+  const updatedDate = date || currentWaterRecord.date;
+  const updatedTime = time || currentWaterRecord.time;
+
+  // Об'єднання дати і часу, якщо є нові дані
+  const updateFields = {};
+  if (date || time) {
+    updateFields.date = combineDateAndTime(updatedDate, updatedTime);
+  }
+
+  // Оновлення запису про воду
+  const updatedWater = await updateWaterById(id, userId, {
+    ...updateFields,
+    ...(waterVolume !== undefined && { waterVolume }),
+  });
 
   res.status(200).json({
     status: 200,
     message: 'Successfully updated water record',
-    data,
+    data: updatedWater,
   });
 };
 
 
- //Видалення запису по спожитій воді
- export const deleteWaterController = async (req, res) => {
-  const { id } = req.params;
-  const { _id: userId } = req.user;
-  const data = await deleteWater({
-    _id: id,
-    userId: userId,
+//Видалення запису по спожитій воді
+export const deleteWaterController = async (req, res) => {
+  const result = await deleteWater({
+    _id: req.params.id,
+    userId: req.user._id,
   });
-
-  if (!data) {
-    throw createHttpError(404, 'Water not found');
-  }
-
+  if (!result) throw createHttpError(404, 'Water not found');
   res.status(204).send();
 };
 
@@ -112,7 +107,7 @@ export async function getWaterForMonthController(req, res) {
   const data = await getWaterForMonth({
     month: parseInt(month, 10), // переконайся, що це число
     year: parseInt(year, 10),
-    userId
+    userId,
   });
 
   res.status(200).json({
