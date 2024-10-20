@@ -1,5 +1,5 @@
 import createHttpError from 'http-errors'; // Import for creating HTTP errors
-import { WaterCollection } from '../db/models/water.js';
+import { WaterCollection } from '../db/models/waterNote.js';
 
 
 // Функція для отримання всіх записів води
