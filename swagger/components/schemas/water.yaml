@@ -5,20 +5,20 @@ required:
   - waterVolume
   - userId
 properties:
-date:
-  type: string
-  format: date
-  description: 'The date of the water consumption record'
-  example: '2024-10-20'
-dailyNorm:
-  type: number
-  description: "User's daily water intake in milliliters"
-  example: 1500
-waterVolume:
-  type: number
-  description: 'The volume of water consumed in milliliters (1-5000 ml)'
-  example: 500
-userId:
-  type: string
-  description: User's ID
-  example: 60c72b2f9b1d8b3b4c7e4e57
+  date:
+    type: string
+    format: date
+    description: 'The date of the water consumption record'
+    example: '2024-10-20'
+  dailyNorm:
+    type: number
+    description: "User's daily water intake in milliliters"
+    example: 1500
+  waterVolume:
+    type: number
+    description: 'The volume of water consumed in milliliters (1-5000 ml)'
+    example: 500
+  userId:
+    type: string
+    description: User's ID
+    example: 60c72b2f9b1d8b3b4c7e4e57
