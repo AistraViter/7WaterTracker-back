@@ -1,6 +1,6 @@
 tags:
   - Water
-summary: Delete a water intake record
+summary: Delete a water
 operationId: deleteWater
 description: 'Delete a water for user id'
 security:
@@ -11,12 +11,11 @@ parameters:
     required: true
     schema:
       type: string
-      format: date
-      example: '2024-09-01T14:00'
-    description: 'The date of the water to delete'
+      example: '65ca67e7ae7f10c88b598384'
+    description: 'The water for this ID has been deleted.'
 responses:
   '200':
-    description: 'Successfully deleted the water for user id'
+    description: 'The water for this ID has been deleted.'
     content:
       application/json:
         schema:
@@ -27,7 +26,7 @@ responses:
               example: 200
             message:
               type: string
-              example: 'Successfully deleted the water for user id'
+              example: 'The water for this ID has been deleted.'
   '404':
     $ref: '../../../components/responses/404.yaml'
   '400':
