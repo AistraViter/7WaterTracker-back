@@ -2,7 +2,7 @@ tags:
   - Auth
 summary: Registration a new user
 operationId: registrationUser
-description: 'Registration a new user'
+description: "Registration a new user"
 security:
   - bearerAuth: []
 requestBody:

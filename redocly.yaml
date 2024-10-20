@@ -1,18 +1,22 @@
-# See https://redocly.com/docs/cli/configuration/ for more information.
-apis:
-  sample@v1:
-    root: docs/openapi.yaml
+# See https://redocly.com/docs/cli/configuration/
+
 extends:
   - recommended
+
 rules:
-  no-unused-components: error
+  # A sample custom rule. Read more about rules: https://redocly.com/docs/cli/rules/
+  rule/operation-description:
+    subject:
+      type: Operation
+      property: description
+    assertions:
+      defined: true
+      minLength: 10
+
 theme:
-  htmlTemplate: ./docs/index.html
-  colors:
-    primary:
-      main: '#32329f'
-  generateCodeSamples:
-    languages:
-      - lang: curl
-      - lang: Node.js
-      - lang: JavaScript
+  openapi:
+    generateCodeSamples:
+      languages:
+        - lang: curl
+        - lang: Node.js
+        - lang: Python

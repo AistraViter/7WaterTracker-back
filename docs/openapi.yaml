@@ -36,6 +36,13 @@ paths:
       $ref: ../swagger/paths/water/{id}/patch.yaml
     delete:
       $ref: ../swagger/paths/water/{id}/delete.yaml
+  /water/month:
+    get:
+      $ref: ../swagger/paths/water/month/get.yaml
+  /water/today:
+    get:
+      $ref: ../swagger/paths/water/today/get.yaml
+
 components:
   securitySchemes:
     bearerAuth:
