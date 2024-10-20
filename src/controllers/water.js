@@ -1,53 +1,7 @@
 import createHttpError from 'http-errors'; // Імпорт бібліотеки для створення HTTP помилок
 import { getWater, postWater, deleteWater, updateWaterById, getWaterForMonth } from '../services/water.js';
-
-const validateWaterVolume = (waterVolume) => {
-  if (waterVolume === undefined || typeof waterVolume !== 'number' || waterVolume <= 0) {
-      throw createHttpError(400, 'Enter the correct amount of water format (number).');
-  }
-  if (waterVolume > 5000) {
-      throw createHttpError(400, 'The maximum amount of water is 5000 ml.');
-  }
-};
-
-// Валідація дати (YYYY-MM-DD)
-const validateDate = (dateString) => {
-  const dateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
-
-  if (!dateRegex.test(dateString)) {
-    throw createHttpError(400, 'Enter the correct date format (YYYY-MM-DD).');
-  }
-
-  return dateString;
-};
-
-// Валідація часу (HH:mm)
-const validateTime = (timeString) => {
-  const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
-
-  if (!timeRegex.test(timeString)) {
-    throw createHttpError(400, 'Enter the correct time format (HH:mm).');
-  }
-
-  return timeString;
-};
-
-// Об'єднання дати та часу в один об'єкт Date
-const combineDateAndTime = (dateString, timeString) => {
-  const validDate = validateDate(dateString);
-  const validTime = validateTime(timeString);
-
-
-  const combinedDateTime = new Date(`${validDate}T${validTime}:00`);
-
-  if (isNaN(combinedDateTime.getTime())) {
-    throw createHttpError(400, 'Invalid date or time.');
-  }
-
-  return combinedDateTime;
-};
-
-
+import { validateWaterVolume } from '../db/hooks/validateWaterVolume.js';
+import { combineDateAndTime } from '../db/hooks/validateDateAndTime.js';
 
 export const getWaterController = async (req, res) => {
   const {_id: userId} = req.user;
@@ -91,12 +45,14 @@ export const updateWaterController = async (req, res) => {
   const { _id: userId } = req.user; // id користувача
   const { waterVolume, date, time } = req.body; // дані з тіла запиту
 
-  // Передаємо id та userId окремо, а також опції
-  const data = await updateWaterById(id, userId, { waterVolume, date, time});
+  validateWaterVolume(waterVolume);
 
-  if (!data) {
-    throw createHttpError(404, 'Water record not found');
+  let combinedDateTime;
+  if (date && time) {
+    combinedDateTime = combineDateAndTime(date, time);
   }
+
+  const data = await updateWaterById(id, userId, { waterVolume, date: combinedDateTime });
 
   res.status(200).json({
     status: 200,
