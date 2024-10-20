@@ -25,6 +25,10 @@ export const editUserInfoSchema = Joi.object({
 });
 
 export const updateDailyNormSchema = Joi.object({
+  gender: Joi.string()
+    .valid('woman', 'man')
+    .insensitive()
+    .messages({ 'any.only': 'Gender should be "Woman" or "Man"' }),
   dailyNorm: Joi.number().integer().min(0).max(15000).messages({
     'number.base': 'Daily norma should be a number',
     'number.min': 'Daily norma should be a positive number',
