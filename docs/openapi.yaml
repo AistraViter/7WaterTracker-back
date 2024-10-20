@@ -39,6 +39,9 @@ paths:
   /water/month:
     get:
       $ref: ../swagger/paths/water/month/get.yaml
+  /water/today:
+    get:
+      $ref: ../swagger/paths/water/today/get.yaml
 
 components:
   securitySchemes:
