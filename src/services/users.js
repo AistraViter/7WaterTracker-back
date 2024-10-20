@@ -12,6 +12,8 @@ export const updateUserDailyNorm = async (userId, newDailyNorm) => {
     { new: true },
   );
 
+  console.log('Updated User:', updatedUser);
+
   return updatedUser;
 };
 
