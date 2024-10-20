@@ -17,45 +17,20 @@ import { WaterCollection } from '../db/models/Water.js';
 
 //////////////////////////////// updateDailyNorm ////////////////////////////////
 export const updateDailyNormController = async (req, res, next) => {
-  // userId comes from the req.user._id parameter, which is provided by the authenticate.js middleware
   const userId = req.user._id;
-  const { gender, weight, activeTime, dailyNorm } = req.body;
-
-  let newDailyNorm;
+  const { dailyNorm } = req.body;
 
   const user = await getUserById(userId);
   if (!user) {
     return next(createHttpError(404, 'User is not found'));
   }
 
-  // check weight and activeTime are not empty
-  const M = weight !== undefined ? weight : user.weight;
-  const T = activeTime !== undefined ? activeTime : user.activeTime;
-
-  // calculate dailyNorm for genders
-  // user.gender replaced with gender from body
-  if (gender.toLowerCase() === 'woman') {
-    newDailyNorm = Number(((M * 0.03 + T * 0.4) * 1000).toFixed(2));
-  } else if (gender.toLowerCase() === 'man') {
-    newDailyNorm = Number(((M * 0.04 + T * 0.6) * 1000).toFixed(2));
-  }
-
-  // user enters custom dailyNorm
-  if (dailyNorm) {
-    newDailyNorm = dailyNorm;
-  }
-
-  // restricted dailyNorm - max = 15000ml
-  if (newDailyNorm > 15000) {
-    newDailyNorm = 15000;
-  }
-
   try {
-    const updatedUser = await updateUserDailyNorm(userId, newDailyNorm);
+    const updatedUser = await updateUserDailyNorm(userId, dailyNorm);
 
     await WaterCollection.updateMany(
       { userId: userId }, // Усі записи цього користувача
-      { $set: { dailyNorm: newDailyNorm } }, // Оновлюємо dailyNorm
+      { $set: { dailyNorm: dailyNorm } }, // Оновлюємо dailyNorm
     );
 
     res.json({
@@ -63,7 +38,7 @@ export const updateDailyNormController = async (req, res, next) => {
       dailyNorm: updatedUser.dailyNorm,
     });
   } catch (error) {
-    createHttpError(500, error);
+    return next(createHttpError(500, error));
   }
 };
 
