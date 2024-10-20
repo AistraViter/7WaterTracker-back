@@ -1,0 +1,35 @@
+type: object
+required:
+  - _id
+  - name
+  - email
+  - gender
+  - dailyNorma
+  - photo
+properties:
+  _id:
+    type: string
+    description: 'Unique identifier for the user'
+    example: 60c72b2f9b1d8b3b4c7e4e57
+  name:
+    type: string
+    description: "User's name"
+    example: 'John Doe'
+  email:
+    type: string
+    description: "User's email"
+    example: test@gmail.com
+  gender:
+    type: string
+    description: "User's gender"
+    enum: ['woman', 'man']
+    example: 'woman'
+  dailyNorma:
+    type: number
+    description: "User's daily water intake in milliliters"
+    example: 1500
+  photo:
+    type: string
+    description: "User's photo"
+    format: binary
+    example: 'https://res.cloudinary.com/dd6thsdhw/image/upload/image.png'
