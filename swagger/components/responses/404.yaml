@@ -1,0 +1,16 @@
+description: User not found
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 404
+        message:
+          type: string
+          example: User not found!
+          description: User could not be found
+        errorCode:
+          type: string
+          example: USER_NOT_FOUND
