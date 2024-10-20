@@ -33,15 +33,6 @@ export const updateWaterById = async (id, userId, options = {}) => {
   }
 
   return existingWaterNote;
-
-  // if (updatedData.waterVolume !== undefined) {
-  //   existingWaterNote.waterVolume = updatedData.waterVolume;
-  // }
-
-  // if (updatedData.date !== undefined) {
-  //   existingWaterNote.date = updatedData.date;
-  // }
-
 };
 
 // Функція для видалення запису про споживання води
