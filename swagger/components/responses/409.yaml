@@ -1,4 +1,4 @@
-description: Conflict error when the email is already in use
+description: DuplicateResourceError
 content:
   application/json:
     schema:
@@ -10,8 +10,8 @@ content:
         status:
           type: integer
           example: 409
-          description: Email in use
+          description: DuplicateResourceError
         message:
           type: string
           example: 'Email in use'
-          description: Description of the conflict error.
+          description: DuplicateResourceError

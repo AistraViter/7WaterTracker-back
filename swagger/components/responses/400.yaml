@@ -1,4 +1,4 @@
-description: Bad Request
+description: BadRequestError
 content:
   application/json:
     schema:
@@ -13,7 +13,13 @@ content:
           example: 400
         message:
           type: string
+<<<<<<< Updated upstream
           example: Old password is incorrect
+=======
+          example: BadRequestError
+          # замінити на те що ми пишемо: BadRequestError +
+          # для інших помилок аналогічно, такст взяти в ексельці на сторінці бекенду, виклала стандартний формат помилок
+>>>>>>> Stashed changes
         data:
           type: object
           required:
@@ -21,4 +27,9 @@ content:
           properties:
             message:
               type: string
+<<<<<<< Updated upstream
               example: 'Old password is incorrect'
+=======
+              example: File size exceeds the 3MB limit
+              # цей текст заміни теж на те що ми пишемо, наприклад File size exceeds the 3MB limit +
+>>>>>>> Stashed changes

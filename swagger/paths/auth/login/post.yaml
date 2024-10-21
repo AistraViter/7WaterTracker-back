@@ -3,8 +3,7 @@ tags:
 summary: Login user
 operationId: loginUser
 description: 'Logs in a user and returns an access token'
-security:
-  - bearerAuth: []
+security: []
 requestBody:
   required: true
   content:
@@ -49,6 +48,9 @@ responses:
                 accessToken:
                   type: string
                   example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+                refreshToken:
+                  type: string
+                  example: 'd1f4eaf5...'
 
   '401':
     $ref: '../../../components/responses/401.yaml'

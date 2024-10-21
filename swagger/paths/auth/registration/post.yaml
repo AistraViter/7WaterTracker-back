@@ -2,19 +2,36 @@ tags:
   - Auth
 summary: Registration a new user
 operationId: registrationUser
+<<<<<<< Updated upstream
 description: "Registration a new user"
 security:
   - bearerAuth: []
+=======
+description: 'Registration a new user'
+security: []
+#щоб зареєструвати нового юзера, не потрібна попередяня реєстрація
+#зміни security для всього розділу auth
+>>>>>>> Stashed changes
 requestBody:
   required: true
   content:
     application/json:
       schema:
+<<<<<<< Updated upstream
+=======
+        # сюди ми вносимо інфорацію зі схеми, але тільки та що потрібна при реєстрації користувача. Не потрібні рядки закреслю, поправ в інших, бідь ласка.
+        # дивитись у папці validation/user.js   userRegisterSchema  Для логін аналогічно
+>>>>>>> Stashed changes
         type: object
         required:
           - email
           - password
         properties:
+          name:
+            type: string
+            minLength: 2
+            example: 'John Doe'
+            description: "The user's name"
           email:
             type: string
             example: 'test@gmail.com'
@@ -25,6 +42,7 @@ requestBody:
             maxLength: 64
             example: 'password123'
             description: "The user's password"
+<<<<<<< Updated upstream
           name:
             type: string
             minLength: 2
@@ -43,6 +61,21 @@ requestBody:
             type: string
             example: 'https://example.com/photo.jpg'
             description: "URL of the user's profile picture"
+=======
+        #   gender:
+        #     type: string
+        #     description: "User's gender"
+        #     enum: ['woman', 'man']
+        #     example: 'woman'
+        #   dailyNorma:
+        #     type: number
+        #     description: "User's daily water intake in milliliters"
+        #     example: 1500
+        #   photo:
+        #     type: string
+        #     example: 'https://example.com/photo.jpg'
+        #     description: "URL of the user's profile picture"
+>>>>>>> Stashed changes
 responses:
   '201':
     description: 'Successfully registered a user'
@@ -54,6 +87,8 @@ responses:
             - status
             - message
             - data
+            - accessToken
+            - refreshToken
           properties:
             status:
               type: integer
@@ -64,7 +99,30 @@ responses:
             data:
               type: object
               $ref: '../../../components/schemas/user.yaml'
+            accessToken:
+              type: string
+              example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+            refreshToken:
+              type: string
+              example: 'd1f4eaf5...'
   '400':
     $ref: '../../../components/responses/400.yaml'
   '409':
     $ref: '../../../components/responses/409.yaml'
+<<<<<<< Updated upstream
+=======
+# ще треба додати таку інформвцію,запитай у чату джпт куда саме.  +
+# Для логін аналогічно, рефреш в нас поки немає, але може ще напишемо. Тож файл все не видаляй, але нам він проєкті теж не треба
+# schema:
+#   type: object
+#   required:
+#     - accessToken
+#     - refreshToken
+#   properties:
+#     accessToken:
+#       type: string
+#       example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+#     refreshToken:
+#       type: string
+#       example: 'd1f4eaf5...'
+>>>>>>> Stashed changes

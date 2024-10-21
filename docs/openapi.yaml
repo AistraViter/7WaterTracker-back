@@ -10,6 +10,12 @@ info:
 tags:
   - name: Auth
     description: Auth operations.
+<<<<<<< Updated upstream
+=======
+  # юзера додати +
+  - name: User
+    description: Operations about users.
+>>>>>>> Stashed changes
   - name: Water
     description: Operations about water.
 servers:

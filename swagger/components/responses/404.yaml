@@ -1,4 +1,4 @@
-description: User not found
+description: NotFoundError
 content:
   application/json:
     schema:
@@ -10,7 +10,7 @@ content:
         message:
           type: string
           example: User not found!
-          description: User could not be found
+          description: NotFoundError
         errorCode:
           type: string
           example: USER_NOT_FOUND

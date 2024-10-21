@@ -1,4 +1,4 @@
-description: Internal server error. Returns status code and error information.
+description: InternalServerError
 content:
 application/json:
   schema:
@@ -11,7 +11,7 @@ application/json:
       status:
         type: integer
         example: 500
-        description: HTTP status code indicating an internal server error.
+        description: InternalServerError
       message:
         type: string
         example: 'Internal server error.'
