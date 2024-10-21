@@ -5,18 +5,6 @@ export const getUserById = async (userId) => {
   return user;
 };
 
-export const updateUserDailyNorm = async (userId, newDailyNorm) => {
-  const updatedUser = await UsersCollection.findOneAndUpdate(
-    { _id: userId },
-    { dailyNorm: newDailyNorm },
-    { new: true },
-  );
-
-  console.log('Updated User:', updatedUser);
-
-  return updatedUser;
-};
-
 export const updateUserById = async (userId, update) => {
   const result = await UsersCollection.findOneAndUpdate(
     { _id: userId },
@@ -28,3 +16,14 @@ export const updateUserById = async (userId, update) => {
 
   return result;
 };
+
+export const updateUserDailyNorm = async (userId, newDailyNorm) => {
+  const updatedUser = await UsersCollection.findOneAndUpdate(
+    { _id: userId },
+    { dailyNorm: newDailyNorm },
+    { new: true },
+  );
+
+  return updatedUser;
+};
+

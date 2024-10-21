@@ -23,6 +23,10 @@
       "description": "Auth operations."
     },
     {
+      "name": "User",
+      "description": "Operations about users."
+    },
+    {
       "name": "Water",
       "description": "Operations about water."
     }
@@ -49,6 +53,12 @@
                   "password"
                 ],
                 "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 2,
+                    "example": "John Doe",
+                    "description": "The user's name"
+                  },
                   "email": {
                     "type": "string",
                     "example": "test@gmail.com",
@@ -60,12 +70,6 @@
                     "maxLength": 64,
                     "example": "password123",
                     "description": "The user's password"
-                  },
-                  "name": {
-                    "type": "string",
-                    "minLength": 2,
-                    "example": "John Doe",
-                    "description": "The user's name"
                   }
                 }
               }
@@ -82,7 +86,9 @@
                   "required": [
                     "status",
                     "message",
-                    "data"
+                    "data",
+                    "accessToken",
+                    "refreshToken"
                   ],
                   "properties": {
                     "status": {
@@ -96,6 +102,14 @@
                     "data": {
                       "type": "object",
                       "$ref": "#/components/schemas/user"
+                    },
+                    "accessToken": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    },
+                    "refreshToken": {
+                      "type": "string",
+                      "example": "d1f4eaf5..."
                     }
                   }
                 }
@@ -119,11 +133,7 @@
         "summary": "Login user",
         "operationId": "loginUser",
         "description": "Logs in a user and returns an access token",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
+        "security": [],
         "requestBody": {
           "required": true,
           "content": {
@@ -179,6 +189,10 @@
                         "accessToken": {
                           "type": "string",
                           "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                        },
+                        "refreshToken": {
+                          "type": "string",
+                          "example": "d1f4eaf5..."
                         }
                       }
                     }
@@ -201,17 +215,352 @@
         "summary": "Log out a user",
         "operationId": "logoutUser",
         "description": "Logs out a user by clearing session cookies",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
+        "security": [],
         "responses": {
           "204": {
             "description": "Successfully logged out a user, no content"
           },
           "401": {
             "$ref": "#/components/responses/401"
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Refresh user session",
+        "operationId": "refreshToken",
+        "description": "Refresh the user session and recive a new access token.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully refreshed a session.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully refreshed a session!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "accessToken"
+                      ],
+                      "properties": {
+                        "accessToken": {
+                          "type": "string",
+                          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NmY4NzQ4NTkyZTcwZjg4ZTRlODk4ZjAiLCJlbWFpbCI6ImFydGVtLmZzb24xMDNAdWtyLm5ldCIsImlhdCI6MTcyODAzMzAzNywiZXhwIjoxNzI4MDMzMzM3fQ.snMULCyHu4X2YUqBRBeQRY87rGZSZaMi2ajQ5c9DxUE"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized. Session not found or session expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 401
+                    },
+                    "message": {
+                      "type": "string",
+                      "enum": [
+                        "Session not found",
+                        "Session expired"
+                      ],
+                      "example": "Session not found or expired"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 500
+                    },
+                    "message": {
+                      "type": "string",
+                      "enum": [
+                        "Internal server error",
+                        "Cannot read refreshTokenValidUntil"
+                      ],
+                      "example": "Internal server error or Cannot read refreshTokenValidUntil"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/avatar": {
+      "patch": {
+        "patch": {
+          "tags": [
+            "User"
+          ],
+          "summary": "Changing user avatar",
+          "operationId": "editUserAvatar",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "avatar": {
+                      "type": "string",
+                      "format": "binary",
+                      "description": "Changing user avatar"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "User's photo has been updated successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "integer",
+                        "example": 200
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "User's photo has been updated successfully"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "$ref": "../../../components/responses/404.yaml"
+            },
+            "500": {
+              "$ref": "../../../components/responses/500.yaml"
+            }
+          }
+        }
+      }
+    },
+    "/user/dailyNorm": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Updating daily water norm",
+        "operationId": "updateDailyNorm",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "dailyNorm": {
+                    "type": "number",
+                    "example": 1500,
+                    "description": "Updating daily water norm"
+                  }
+                }
+              },
+              "responses": {
+                "200": {
+                  "description": "Daily water norm updated successfully",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "message": {
+                            "type": "string",
+                            "example": "Daily water norm updated successfully"
+                          },
+                          "dailyNorm": {
+                            "type": "number",
+                            "example": 1500
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "404": {
+                  "$ref": "../../../components/responses/404.yaml"
+                },
+                "500": {
+                  "$ref": "../../../components/responses/500.yaml"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/edit": {
+      "patch": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Editing user information",
+        "operationId": "editUserInfo",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "John Doe",
+                    "description": "User's name"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "johndoe@gmail.com",
+                    "description": "User's email"
+                  },
+                  "oldPassword": {
+                    "type": "string",
+                    "example": "oldpassword123",
+                    "description": "Old password"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "newpassword123",
+                    "description": "New password"
+                  },
+                  "confirmPassword": {
+                    "type": "string",
+                    "example": "newpassword123",
+                    "description": "Confirming new password"
+                  }
+                }
+              },
+              "responses": {
+                "200": {
+                  "description": "User's info has been updated successfully",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "integer",
+                            "example": 200
+                          },
+                          "message": {
+                            "type": "string",
+                            "example": "User's info has been updated successfully"
+                          },
+                          "data": {
+                            "$ref": "../components/schemas/user.yaml"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "400": {
+                  "$ref": "../../../components/responses/400.yaml"
+                },
+                "404": {
+                  "$ref": "../../../components/responses/404.yaml"
+                },
+                "500": {
+                  "$ref": "../../../components/responses/500.yaml"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/info": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Retrieving user information",
+        "operationId": "getUserInfo",
+        "responses": {
+          "200": {
+            "description": "User has been found successfully",
+            "content": {
+              "application/json": null,
+              "schema": {
+                "404": {
+                  "$ref": "../../../components/responses/404.yaml"
+                },
+                "500": {
+                  "$ref": "../../../components/responses/500.yaml"
+                },
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "integer",
+                    "example": 200
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "User has been found successfully"
+                  },
+                  "data": {
+                    "$ref": "../components/schemas/user.yaml"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -311,8 +660,7 @@
             "name": "id",
             "schema": {
               "type": "string",
-              "format": "date",
-              "example": "2024-09-01T14:00"
+              "example": "65ca67e7ae7f10c88b598384"
             },
             "required": true,
             "description": "The date of the record to update"
@@ -379,7 +727,7 @@
         "tags": [
           "Water"
         ],
-        "summary": "Delete a water intake record",
+        "summary": "Delete a water",
         "operationId": "deleteWater",
         "description": "Delete a water for user id",
         "security": [
@@ -394,15 +742,14 @@
             "required": true,
             "schema": {
               "type": "string",
-              "format": "date",
-              "example": "2024-09-01T14:00"
+              "example": "65ca67e7ae7f10c88b598384"
             },
-            "description": "The date of the water to delete"
+            "description": "The water for this ID has been deleted."
           }
         ],
         "responses": {
           "200": {
-            "description": "Successfully deleted the water for user id",
+            "description": "The water for this ID has been deleted.",
             "content": {
               "application/json": {
                 "schema": {
@@ -414,7 +761,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Successfully deleted the water for user id"
+                      "example": "The water for this ID has been deleted."
                     }
                   }
                 }
@@ -640,12 +987,6 @@
             "type": "number",
             "description": "User's daily water intake in milliliters",
             "example": 1500
-          },
-          "photo": {
-            "type": "string",
-            "description": "User's photo",
-            "format": "binary",
-            "example": "https://res.cloudinary.com/dd6thsdhw/image/upload/image.png"
           }
         }
       },
@@ -684,7 +1025,7 @@
     },
     "responses": {
       "400": {
-        "description": "Bad Request",
+        "description": "BadRequestError",
         "content": {
           "application/json": {
             "schema": {
@@ -701,7 +1042,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Old password is incorrect"
+                  "example": "BadRequestError"
                 },
                 "data": {
                   "type": "object",
@@ -711,7 +1052,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Old password is incorrect"
+                      "example": "File size exceeds the 3MB limit"
                     }
                   }
                 }
@@ -721,7 +1062,7 @@
         }
       },
       "401": {
-        "description": "Unauthorized error",
+        "description": "UnauthorizedError",
         "content": {
           "application/json": {
             "schema": {
@@ -738,7 +1079,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Session ID required"
+                  "example": "UnauthorizedError"
                 },
                 "data": {
                   "type": "object",
@@ -748,7 +1089,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Access token expired"
+                      "example": "Session ID required"
                     }
                   }
                 }
@@ -758,7 +1099,7 @@
         }
       },
       "404": {
-        "description": "User not found",
+        "description": "NotFoundError",
         "content": {
           "application/json": {
             "schema": {
@@ -771,7 +1112,7 @@
                 "message": {
                   "type": "string",
                   "example": "User not found!",
-                  "description": "User could not be found"
+                  "description": "NotFoundError"
                 },
                 "errorCode": {
                   "type": "string",
@@ -783,7 +1124,7 @@
         }
       },
       "409": {
-        "description": "Conflict error when the email is already in use",
+        "description": "DuplicateResourceError",
         "content": {
           "application/json": {
             "schema": {
@@ -796,12 +1137,12 @@
                 "status": {
                   "type": "integer",
                   "example": 409,
-                  "description": "Email in use"
+                  "description": "DuplicateResourceError"
                 },
                 "message": {
                   "type": "string",
                   "example": "Email in use",
-                  "description": "Description of the conflict error."
+                  "description": "DuplicateResourceError"
                 }
               }
             }
