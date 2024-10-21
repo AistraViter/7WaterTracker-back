@@ -2,32 +2,40 @@ import { Router } from 'express';
 import { validateBody } from '../middlewares/validateBody.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { isValidId } from '../middlewares/isValidId.js';
-import { waterSchema, updateWaterSchema } from '../validation/waterNotes.js';
+import {
+  createWaterSchema,
+  updateWaterSchema,
+  validateQueryWaterMonth,
+} from '../validation/waterNotes.js';
 import { authenticate } from '../middlewares/authenticate.js';
-import { postWaterController, getWaterController, updateWaterController, deleteWaterController } from '../controllers/water.js';
+import {
+  postWaterController,
+  getWaterController,
+  updateWaterController,
+  deleteWaterController,
+} from '../controllers/water.js';
+import { getWaterTodayController } from '../controllers/waterToday.js';
+import { getWaterForMonthController } from '../controllers/waterMonth.js';
 
 export const waterRouter = Router();
 
 waterRouter.use(authenticate);
 
-waterRouter.get(
-  '/note',
-  ctrlWrapper(getWaterController),
+waterRouter
+  .route('/note')
+  .get(ctrlWrapper(getWaterController))
+  .post(validateBody(createWaterSchema), ctrlWrapper(postWaterController));
 
-);
-waterRouter.post(
-  '/note',
-  validateBody(waterSchema),
-  ctrlWrapper(postWaterController),
-);
-waterRouter.patch(
-  '/note/:id',
-  isValidId('userId'),
-  validateBody(updateWaterSchema),
-  ctrlWrapper(updateWaterController),
-);
-waterRouter.delete(
-  '/note/:id',
-  isValidId('userId'),
-  ctrlWrapper(deleteWaterController),
-);
+waterRouter
+  .route('/note/:id')
+  .all(isValidId('id')) // Тут перевіряємо id запису води, а не userId // застосовується до всіх методів
+  .patch(validateBody(updateWaterSchema), ctrlWrapper(updateWaterController))
+  .delete(ctrlWrapper(deleteWaterController));
+
+waterRouter.get('/today', ctrlWrapper(getWaterTodayController));
+
+waterRouter.get(
+  '/month',
+  validateQueryWaterMonth,
+  ctrlWrapper(getWaterForMonthController),
+); // Додано валідацію

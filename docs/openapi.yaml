@@ -10,12 +10,11 @@ info:
 tags:
   - name: Auth
     description: Auth operations.
-<<<<<<< Updated upstream
-=======
+
   # юзера додати +
   - name: User
     description: Operations about users.
->>>>>>> Stashed changes
+
   - name: Water
     description: Operations about water.
 servers:
@@ -46,8 +45,12 @@ paths:
   /user/info:
     get:
       $ref: ../swagger/paths/user/info/get.yaml
+
   /water:
     post:
+      security:
+        - bearerAuth: []
+      # security: додати у всіх не auth
       $ref: ../swagger/paths/water/post.yaml
   /water/{id}:
     patch:

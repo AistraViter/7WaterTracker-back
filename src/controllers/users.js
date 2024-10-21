@@ -13,7 +13,7 @@ import { TEMPLATES_DIR } from '../constants/index.js';
 import { env } from '../utils/env.js';
 import { createJwtToken } from '../utils/jwt.js';
 import { sendEmail } from '../utils/sendEmail.js';
-import { WaterCollection } from '../db/models/Water.js';
+import { WaterCollection } from '../db/models/waterNote.js';
 
 //////////////////////////////// updateDailyNorm ////////////////////////////////
 export const updateDailyNormController = async (req, res, next) => {

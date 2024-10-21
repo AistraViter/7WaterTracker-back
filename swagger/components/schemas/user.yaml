@@ -1,16 +1,11 @@
 type: object
 required:
-  - _id
+  - _id 
   - name
   - email
   - gender
   - dailyNorma
-<<<<<<< Updated upstream
-  #- photo
-=======
-  # - photo не обов"язкове поле, до інших полів (гендер, дейлі норма) я невпевнена,  треба дивитись в моделі або в тз
-# +закомментировала, не стала удалять, а вдруг передумаем)))
->>>>>>> Stashed changes
+
 properties:
   _id:
     type: string
