@@ -2,6 +2,9 @@ tags:
   - User
 summary: 'Editing user information'
 operationId: editUserInfo
+description: 'Confirming new password'
+security:
+  - bearerAuth: []
 requestBody:
   required: true
   content:
@@ -29,25 +32,25 @@ requestBody:
             type: string
             example: 'newpassword123'
             description: 'Confirming new password'
-      responses:
-        200:
-          description: "User's info has been updated successfully"
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: integer
-                    example: 200
-                  message:
-                    type: string
-                    example: "User's info has been updated successfully"
-                  data:
-                    $ref: '../components/schemas/user.yaml'
-        400:
-          $ref: '../../../components/responses/400.yaml'
-        404:
-          $ref: '../../../components/responses/404.yaml'
-        500:
-          $ref: '../../../components/responses/500.yaml'
+responses:
+  '200':
+    description: "User's info has been updated successfully"
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: "User's info has been updated successfully"
+            data:
+              $ref: ..\..\..\components\schemas\user.yaml
+  '400':
+    $ref: '../../../components/responses/400.yaml'
+  '404':
+    $ref: '../../../components/responses/404.yaml'
+  '500':
+    $ref: '../../../components/responses/500.yaml'
