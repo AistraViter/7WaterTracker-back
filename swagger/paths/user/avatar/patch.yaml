@@ -1,20 +1,23 @@
 tags:
   - User
-summary: 'Changing user avatar'
+summary: Changing user avatar
 operationId: editUserAvatar
+description: "User's photo has been updated successfully"
+security:
+  - bearerAuth: []
 requestBody:
   required: true
-content:
-multipart/form-data:
-  schema:
-    type: object
-    properties:
-      avatar:
-        type: string
-        format: binary
-        description: 'Changing user avatar'
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        properties:
+          avatar:
+            type: string
+            format: binary
+            description: 'Changing user avatar'
 responses:
-  200:
+  '200':
     description: "User's photo has been updated successfully"
     content:
       application/json:
@@ -27,7 +30,7 @@ responses:
             message:
               type: string
               example: "User's photo has been updated successfully"
-    404:
-      $ref: '../../../components/responses/404.yaml'
-    500:
-      $ref: '../../../components/responses/500.yaml'
+  '404':
+    $ref: '../../../components/responses/404.yaml'
+  '500':
+    $ref: '../../../components/responses/500.yaml'
