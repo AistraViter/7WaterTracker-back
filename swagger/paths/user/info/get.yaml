@@ -1,0 +1,24 @@
+tags:
+  - User
+summary: Retrieving user information
+operationId: getUserInfo
+responses:
+  200:
+    description: 'User has been found successfully'
+    content:
+      application/json:
+      schema:
+        type: object
+        properties:
+          status:
+            type: integer
+            example: 200
+          message:
+            type: string
+            example: 'User has been found successfully'
+          data:
+            $ref: '../components/schemas/user.yaml'
+        404:
+          $ref: '../../../components/responses/404.yaml'
+        500:
+          $ref: '../../../components/responses/500.yaml'

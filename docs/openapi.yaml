@@ -34,6 +34,18 @@ paths:
   /auth/refresh:
     post:
       $ref: ../swagger/paths/auth/refresh/post.yaml
+  /user/avatar:
+    patch:
+      $ref: ../swagger/paths/user/avatar/patch.yaml
+  /user/dailyNorm:
+    put:
+      $ref: ../swagger/paths/user/dailyNorm/put.yaml
+  /user/edit:
+    patch:
+      $ref: ../swagger/paths/user/edit/patch.yaml
+  /user/info:
+    get:
+      $ref: ../swagger/paths/user/info/get.yaml
   /water:
     post:
       $ref: ../swagger/paths/water/post.yaml
