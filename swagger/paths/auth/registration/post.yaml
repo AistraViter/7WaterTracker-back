@@ -3,15 +3,19 @@ tags:
 summary: Registration a new user
 operationId: registrationUser
 description: "Registration a new user"
-security:
-  - bearerAuth: []
+security: [] 
+#щоб зареєструвати нового юзера, не потрібна попередяня реєстрація
+#зміни security для всього розділу auth 
 requestBody:
   required: true
   content:
     application/json:
       schema:
+# сюди ми вносимо інфорацію зі схеми, але тільки та що потрібна при реєстрації користувача. Не потрібні рядки закреслю, поправ в інших, бідь ласка.
+# дивитись у папці validation/user.js   userRegisterSchema  Для логін аналогічно
         type: object
         required:
+          - name
           - email
           - password
         properties:
@@ -30,19 +34,19 @@ requestBody:
             minLength: 2
             example: 'John Doe'
             description: "The user's name"
-          gender:
-            type: string
-            description: "User's gender"
-            enum: ['woman', 'man']
-            example: 'woman'
-          dailyNorma:
-            type: number
-            description: "User's daily water intake in milliliters"
-            example: 1500
-          photo:
-            type: string
-            example: 'https://example.com/photo.jpg'
-            description: "URL of the user's profile picture"
+        #   gender:
+        #     type: string
+        #     description: "User's gender"
+        #     enum: ['woman', 'man']
+        #     example: 'woman'
+        #   dailyNorma:
+        #     type: number
+        #     description: "User's daily water intake in milliliters"
+        #     example: 1500
+        #   photo:
+        #     type: string
+        #     example: 'https://example.com/photo.jpg'
+        #     description: "URL of the user's profile picture"
 responses:
   '201':
     description: 'Successfully registered a user'
@@ -68,3 +72,17 @@ responses:
     $ref: '../../../components/responses/400.yaml'
   '409':
     $ref: '../../../components/responses/409.yaml'
+# ще треба додати таку інформвцію,запитай у чату джпт куда саме. 
+# Для логін аналогічно, рефреш в нас поки немає, але може ще напишемо. Тож файл все не видаляй, але нам він проєкті теж не треба
+# schema:
+#   type: object
+#   required:
+#     - accessToken
+#     - refreshToken
+#   properties:
+#     accessToken:
+#       type: string
+#       example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+#     refreshToken:
+#       type: string
+#       example: 'd1f4eaf5...'
