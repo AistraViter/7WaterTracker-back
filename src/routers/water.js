@@ -5,6 +5,7 @@ import { isValidId } from '../middlewares/isValidId.js';
 import {
   createWaterSchema,
   updateWaterSchema,
+  validateQueryWaterMonth,
 } from '../validation/waterNotes.js';
 import { authenticate } from '../middlewares/authenticate.js';
 import {
@@ -12,9 +13,9 @@ import {
   getWaterController,
   updateWaterController,
   deleteWaterController,
-  getWaterForMonthController,
 } from '../controllers/water.js';
 import { getWaterTodayController } from '../controllers/waterToday.js';
+import { getWaterForMonthController } from '../controllers/waterMonth.js';
 
 export const waterRouter = Router();
 
@@ -33,4 +34,8 @@ waterRouter
 
 waterRouter.get('/today', ctrlWrapper(getWaterTodayController));
 
-waterRouter.get('/month', getWaterForMonthController);
+waterRouter.get(
+  '/month',
+  validateQueryWaterMonth,
+  ctrlWrapper(getWaterForMonthController),
+); // Додано валідацію

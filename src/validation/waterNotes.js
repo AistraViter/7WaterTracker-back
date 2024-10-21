@@ -44,11 +44,41 @@ export const updateWaterSchema = baseWaterSchema.fork(
   (field) => field.optional(),
 );
 
-export const waterForMonthSchema = Joi.object({
+const waterForMonthSchema = Joi.object({
   month: Joi.number().min(1).max(12).required().messages({
     'number.base': 'month should be number',
     'number.min': 'month should be greater than or equal to 1',
     'number.max': 'month should be less than or equal to 12',
     'any.required': 'Month is required',
   }),
+  year: Joi.number()
+    .integer()
+    .min(2000)
+    .max(new Date().getFullYear())
+    .required()
+    .messages({
+      'number.base': 'Year should be a number',
+      'number.integer': 'Year should be an integer',
+      'number.min': 'Year should be greater than or equal to 2000',
+      'number.max': `Year should be less than or equal to ${new Date().getFullYear()}`,
+      'any.required': 'Year is required',
+    }),
 });
+
+export const validateQueryWaterMonth = (req, res, next) => {
+  const queryParams = {
+    month: req.query.month || req.body.month,
+    year: req.query.year || req.body.year,
+  };
+
+  const { error } = waterForMonthSchema.validate(queryParams);
+  if (error) {
+    return res.status(400).json({
+      status: 400,
+      message: 'BadRequestError',
+      data: error.details,
+    });
+  }
+
+  next();
+};

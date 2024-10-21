@@ -54,23 +54,24 @@ export const getWaterForToday = async (userId, startDate, endDate) => {
 };
 
 // Функція для отримання записів споживання води за певний місяць
-export async function getWaterForMonth({ year, userId, month }) {
+export async function getWaterForMonth({ userId, month, year }) {
   if (!month) {
     throw createHttpError(400, 'Month is required');
   }
 
-  // Початок і кінець місяця
-  const startOfMonth = new Date(year, month - 1, 1);
-  const endOfMonth = new Date(year, month, 0, 23, 59, 59); // останній день місяця
-
-  // Запит з датами як об'єктами Date
-  const waterRecords = await WaterCollection.find({
-    userId: userId,
-    date: {
-      $gte: startOfMonth,
-      $lte: endOfMonth,
-    },
-  });
+  const waterRecords = await WaterCollection.aggregate([
+    {
+      $match: {
+        userId: userId, // Фільтрація за userId
+        $expr: {
+          $and: [
+            { $eq: [{ $month: "$date" }, month] }, // Фільтрація за місяцем
+            { $eq: [{ $year: "$date" }, year] }    // Фільтрація за роком
+          ]
+        }
+      }
+    }
+  ]);
 
   const dailyRecords = {};
 
