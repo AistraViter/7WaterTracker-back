@@ -7,7 +7,7 @@ import {
 } from '../controllers/auth.js';
 import { validateBody } from '../middlewares/validateBody.js'; // Middleware для валидации тела запроса
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
-import { userLoginSchema, userRegisterSchema } from '../validation/user.js'; // Схемы валидации
+import { userLoginSchema, userRegisterSchema } from '../validation/auth.js'; // Схемы валидации
 
 export const authRouter = Router();
 
