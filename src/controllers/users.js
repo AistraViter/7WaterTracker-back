@@ -24,22 +24,17 @@ export const updateDailyNormController = async (req, res, next) => {
   if (!user) {
     return next(createHttpError(404, 'User is not found'));
   }
+  const updatedUser = await updateUserDailyNorm(userId, dailyNorm);
+  await WaterCollection.updateMany(
+    { userId: userId }, // Усі записи цього користувача
+    { $set: { dailyNorm: dailyNorm } }, // Оновлюємо dailyNorm
+  );
 
-  try {
-    const updatedUser = await updateUserDailyNorm(userId, dailyNorm);
-
-    await WaterCollection.updateMany(
-      { userId: userId }, // Усі записи цього користувача
-      { $set: { dailyNorm: dailyNorm } }, // Оновлюємо dailyNorm
-    );
-
-    res.json({
-      message: 'Daily water norm updated successfully',
-      dailyNorm: updatedUser.dailyNorm,
-    });
-  } catch (error) {
-    return next(createHttpError(500, error));
-  }
+  res.json({
+    status: 200,
+    message: 'Daily water norm updated successfully',
+    dailyNorm: updatedUser.dailyNorm,
+  });
 };
 
 //////////////////////////////// editUserAvatarController ////////////////////////////////
