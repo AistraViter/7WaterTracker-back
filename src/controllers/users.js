@@ -43,7 +43,7 @@ export const editUserAvatarController = async (req, res, next) => {
   const avatar = req.file;
   const photoUrl = await saveFileToCloudinary(avatar, 'final-project');
 
-  const result = await updateUserById(_id, { photo: photoUrl });
+  const result = await updateUserById(_id, { avatar: photoUrl });
   if (!result) return next(createHttpError(404, 'User not found'));
 
   res.status(200).json({

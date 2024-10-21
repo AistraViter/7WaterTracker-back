@@ -28,7 +28,7 @@ const userSchema = new Schema(
       default: 'Woman',
       required: true,
     },
-    photo: {
+    avatar: {
       type: String,
       default: null,
     },
