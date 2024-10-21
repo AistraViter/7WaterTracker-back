@@ -18,8 +18,6 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    // this field should be dailyNorm, but dailyNorma
-    // це поле повинно мати назву dailyNorm а не dailyNorma
     dailyNorm: {
       type: Number,
       default: 1500,

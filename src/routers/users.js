@@ -7,11 +7,10 @@ import {
   getUserInfoController,
   updateDailyNormController,
 } from '../controllers/users.js';
+import { updateUserEmailController } from '../controllers/auth.js';
 import { authenticate } from '../middlewares/authenticate.js';
 import { upload } from '../middlewares/multer.js';
-import { editUserInfoSchema } from '../validation/editUserInfoValidation.js';
-import { updateDailyNormSchema } from '../validation/editUserInfoValidation.js';
-import { updateUserEmailController } from '../controllers/auth.js';
+import { editUserInfoSchema, updateDailyNormSchema } from '../validation/users.js';
 
 export const usersRouter = Router();
 
