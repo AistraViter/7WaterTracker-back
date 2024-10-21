@@ -33,12 +33,6 @@ requestBody:
             maxLength: 64
             example: 'password123'
             description: "The user's password"
-          name:
-            type: string
-            minLength: 2
-            example: 'John Doe'
-            description: "The user's name"
-
 responses:
   '201':
     description: 'Successfully registered a user'
