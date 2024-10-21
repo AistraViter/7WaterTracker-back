@@ -1,4 +1,4 @@
-description: Bad Request
+description: BadRequestError
 content:
   application/json:
     schema:
@@ -13,9 +13,9 @@ content:
           example: 400
         message:
           type: string
-          example: Old password is incorrect
-          # замінити на те що ми пишемо: BadRequestError 
-          # для інших помилок аналогічно, такст взяти в ексельці на сторінці бекенду, виклала стандартний формат помилок
+
+          example: BadRequestError
+
         data:
           type: object
           required:
@@ -23,5 +23,5 @@ content:
           properties:
             message:
               type: string
-              example: 'Old password is incorrect'
-              # цей текст заміни теж на те що ми пишемо, наприклад File size exceeds the 3MB limit
+              example: File size exceeds the 3MB limit
+

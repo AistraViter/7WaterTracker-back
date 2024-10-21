@@ -10,7 +10,11 @@ info:
 tags:
   - name: Auth
     description: Auth operations.
-# юзера додати
+
+  # юзера додати +
+  - name: User
+    description: Operations about users.
+
   - name: Water
     description: Operations about water.
 servers:
@@ -26,9 +30,22 @@ paths:
   /auth/logout:
     post:
       $ref: ../swagger/paths/auth/logout/post.yaml
-  # /auth/refresh: рефреш в нас немає, але може напишемо
-  #   post:
-  #     $ref: ../swagger/paths/auth/refresh/post.yaml
+  /auth/refresh:
+    post:
+      $ref: ../swagger/paths/auth/refresh/post.yaml
+  /user/avatar:
+    patch:
+      $ref: ../swagger/paths/user/avatar/patch.yaml
+  /user/dailyNorm:
+    put:
+      $ref: ../swagger/paths/user/dailyNorm/put.yaml
+  /user/edit:
+    patch:
+      $ref: ../swagger/paths/user/edit/patch.yaml
+  /user/info:
+    get:
+      $ref: ../swagger/paths/user/info/get.yaml
+
   /water:
     post:
       security:

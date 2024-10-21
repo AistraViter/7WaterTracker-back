@@ -5,7 +5,7 @@ required:
   - email
   - gender
   - dailyNorma
-  # - photo не обов"язкове поле, до інших полів (гендер, дейлі норма) я невпевнена,  треба дивитись в моделі або в тз
+
 properties:
   _id:
     type: string
@@ -28,8 +28,8 @@ properties:
     type: number
     description: "User's daily water intake in milliliters"
     example: 1500
-  photo:
-    type: string
-    description: "User's photo"
-    format: binary
-    example: 'https://res.cloudinary.com/dd6thsdhw/image/upload/image.png'
+  #photo:
+  # type: string
+  #description: "User's photo"
+  #format: binary
+  #example: 'https://res.cloudinary.com/dd6thsdhw/image/upload/image.png'

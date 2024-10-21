@@ -1,0 +1,53 @@
+tags:
+  - User
+summary: 'Editing user information'
+operationId: editUserInfo
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+            example: 'John Doe'
+            description: "User's name"
+          email:
+            type: string
+            example: 'johndoe@gmail.com'
+            description: "User's email"
+          oldPassword:
+            type: string
+            example: 'oldpassword123'
+            description: 'Old password'
+          password:
+            type: string
+            example: 'newpassword123'
+            description: 'New password'
+          confirmPassword:
+            type: string
+            example: 'newpassword123'
+            description: 'Confirming new password'
+      responses:
+        200:
+          description: "User's info has been updated successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: "User's info has been updated successfully"
+                  data:
+                    $ref: '../components/schemas/user.yaml'
+        400:
+          $ref: '../../../components/responses/400.yaml'
+        404:
+          $ref: '../../../components/responses/404.yaml'
+        500:
+          $ref: '../../../components/responses/500.yaml'

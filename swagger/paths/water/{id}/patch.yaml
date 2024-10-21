@@ -10,8 +10,7 @@ parameters:
     name: id
     schema:
       type: string
-      format: date
-      example: '2024-09-01T14:00'
+      example: '65ca67e7ae7f10c88b598384'
     required: true
     description: 'The date of the record to update'
 requestBody:
