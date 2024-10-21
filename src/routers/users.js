@@ -18,6 +18,7 @@ usersRouter.use(authenticate);
 
 usersRouter.get('/', ctrlWrapper(getUserInfoController));
 usersRouter.post('/email', ctrlWrapper(updateUserEmailController));
+
 usersRouter.patch(
   '/avatar',
   upload.single('avatar'),
