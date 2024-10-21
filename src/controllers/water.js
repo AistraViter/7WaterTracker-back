@@ -1,4 +1,4 @@
-import createHttpError from 'http-errors'; 
+import createHttpError from 'http-errors';
 import {
   getWater,
   getWaterById,
@@ -7,9 +7,7 @@ import {
   updateWaterById,
   getWaterForMonth,
 } from '../services/water.js';
-import {
-  combineDateAndTime,
-} from '../db/hooks/validateDateAndTime.js';
+import { combineDateAndTime } from '../validation/waterNotes.js';
 
 export const getWaterController = async (req, res) => {
   const { _id: userId } = req.user;
@@ -24,7 +22,7 @@ export const getWaterController = async (req, res) => {
 //Додавання запису по спожитій воді
 export const postWaterController = async (req, res) => {
   const { date, waterVolume, time } = req.body;
- 
+
   if (!date || !time)
     throw createHttpError(400, 'Both date and time are required.');
 
@@ -33,13 +31,11 @@ export const postWaterController = async (req, res) => {
     combineDateAndTime(date, time),
     waterVolume,
   );
-  res
-    .status(201)
-    .json({
-      status: 201,
-      message: 'Successfully added water!',
-      data: newWater,
-    });
+  res.status(201).json({
+    status: 201,
+    message: 'Successfully added water!',
+    data: newWater,
+  });
 };
 
 //Редагування запису по спожитій воді
@@ -55,7 +51,6 @@ export const updateWaterController = async (req, res) => {
   if (!currentWaterRecord) {
     throw createHttpError(404, 'Water record not found');
   }
-
 
   // Використовуємо старі значення дати та часу, якщо нові не були передані
   const updatedDate = date || currentWaterRecord.date;
@@ -79,7 +74,6 @@ export const updateWaterController = async (req, res) => {
     data: updatedWater,
   });
 };
-
 
 //Видалення запису по спожитій воді
 export const deleteWaterController = async (req, res) => {

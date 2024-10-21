@@ -1,4 +1,5 @@
 import Joi from 'joi';
+import createHttpError from 'http-errors';
 
 // Базова схема для води
 const baseWaterSchema = Joi.object({
@@ -20,6 +21,19 @@ const baseWaterSchema = Joi.object({
     'any.required': 'Date is required.',
   }),
 });
+
+// Об'єднання дати та часу в один об'єкт Date
+export const combineDateAndTime = (dateString, timeString) => {
+  const combinedDateTime = new Date(`${dateString}T${timeString}:00`);
+
+  if (isNaN(combinedDateTime.getTime())) {
+    throw createHttpError(400, 'Invalid date or time.');
+  }
+
+  combinedDateTime.setHours(combinedDateTime.getHours() + 3);
+
+  return combinedDateTime;
+};
 
 // Схема для створення запису про воду
 export const createWaterSchema = baseWaterSchema;

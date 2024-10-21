@@ -1,7 +1,6 @@
 import createHttpError from 'http-errors'; // Import for creating HTTP errors
 import { WaterCollection } from '../db/models/waterNote.js';
 
-
 // Функція для отримання всіх записів води
 export const getWater = async (userId) => {
   const water = WaterCollection.find(userId);
@@ -9,12 +8,11 @@ export const getWater = async (userId) => {
 };
 
 // Функція для отримання запису води за ID з урахуванням userId
-//Роутера такого немає, просто потрібна для патчу 
+//Роутера такого немає, просто потрібна для патчу
 export const getWaterById = async (id, userId) => {
   const contact = await WaterCollection.findOne({ _id: id, userId });
   return contact;
 };
-
 
 // Функція для додавання нового запису про споживання води
 export const postWater = async (userId, date, waterVolume, time) => {
@@ -22,18 +20,17 @@ export const postWater = async (userId, date, waterVolume, time) => {
     userId,
     date,
     waterVolume,
-    time
+    time,
   };
   return await WaterCollection.create(waterload);
 };
-
 
 // Функція для оновлення записів споживання води
 export const updateWaterById = async (id, userId, options = {}) => {
   const existingWaterNote = await WaterCollection.findOneAndUpdate(
     { _id: id, userId },
-        options,
-    { new: true }
+    options,
+    { new: true },
   );
 
   if (!existingWaterNote) {
@@ -47,8 +44,6 @@ export const updateWaterById = async (id, userId, options = {}) => {
 export const deleteWater = async (filter) => {
   return await WaterCollection.findOneAndDelete(filter);
 };
-
-
 
 // Функція для дістання дати для дня
 export const getWaterForToday = async (userId, startDate, endDate) => {
@@ -81,7 +76,9 @@ export async function getWaterForMonth({ year, userId, month }) {
 
   waterRecords.forEach((record) => {
     // Форматуємо дату
-    const date = `${record.date.getDate()}, ${record.date.toLocaleString('en', { month: 'long' })}`;
+    const date = `${record.date.getDate()}, ${record.date.toLocaleString('en', {
+      month: 'long',
+    })}`;
 
     if (!dailyRecords[date]) {
       dailyRecords[date] = {
@@ -107,4 +104,4 @@ export async function getWaterForMonth({ year, userId, month }) {
   });
 
   return result;
-};
+}
