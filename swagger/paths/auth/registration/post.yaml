@@ -11,7 +11,6 @@ requestBody:
   content:
     application/json:
       schema:
-
         type: object
         required:
           - name
@@ -33,6 +32,7 @@ requestBody:
             maxLength: 64
             example: 'password123'
             description: "The user's password"
+
 responses:
   '201':
     description: 'Successfully registered a user'
@@ -66,5 +66,3 @@ responses:
     $ref: '../../../components/responses/400.yaml'
   '409':
     $ref: '../../../components/responses/409.yaml'
-
-
