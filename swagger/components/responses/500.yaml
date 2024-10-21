@@ -24,3 +24,4 @@ content:
             message:
               type: string
               example: 'Something went wrong, please try again later.'
+#
