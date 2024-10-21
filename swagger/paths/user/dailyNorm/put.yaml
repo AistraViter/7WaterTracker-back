@@ -2,6 +2,9 @@ tags:
   - User
 summary: 'Updating daily water norm'
 operationId: updateDailyNorm
+description: 'Updating daily water norm'
+security:
+  - bearerAuth: []
 requestBody:
   required: true
   content:
@@ -13,21 +16,21 @@ requestBody:
             type: number
             example: 1500
             description: 'Updating daily water norm'
-      responses:
-        200:
-          description: 'Daily water norm updated successfully'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: 'Daily water norm updated successfully'
-                  dailyNorm:
-                    type: number
-                    example: 1500
-        404:
-          $ref: '../../../components/responses/404.yaml'
-        500:
-          $ref: '../../../components/responses/500.yaml'
+responses:
+  '200':
+    description: 'Daily water norm updated successfully'
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: 'Daily water norm updated successfully'
+            dailyNorm:
+              type: number
+              example: 1500
+  '404':
+    $ref: '../../../components/responses/404.yaml'
+  '500':
+    $ref: '../../../components/responses/500.yaml'
