@@ -10,15 +10,11 @@ info:
 tags:
   - name: Auth
     description: Auth operations.
-
-  # юзера додати +
   - name: User
     description: Operations about users.
-
   - name: Water
     description: Operations about water.
 servers:
-  - url: http://localhost:3000
   - url: https://sevenwatertracker-back-1.onrender.com
 paths:
   /auth/register:
@@ -30,43 +26,37 @@ paths:
   /auth/logout:
     post:
       $ref: ../swagger/paths/auth/logout/post.yaml
-  #/auth/refresh:
-  #  post:
-  #   $ref: ../swagger/paths/auth/refresh/post.yaml
-  /user:
+  /auth/refresh:
+    post:
+      $ref: ../swagger/paths/auth/refresh/post.yaml
+  /user/info:
     get:
-      $ref: ../swagger/paths/user/get.yaml
-    put:
-      $ref: ../swagger/paths/user/put.yaml
+      $ref: ../swagger/paths/user/info/get.yaml
+    patch:
+      $ref: ../swagger/paths/user/info/put.yaml
   /user/avatar:
     patch:
       $ref: ../swagger/paths/user/avatar/patch.yaml
   /user/daily-norm:
     put:
       $ref: ../swagger/paths/user/daily-norm/put.yaml
-  /user/email:
-    post:
-      $ref: ../swagger/paths/user/email/post.yaml
-
   /water/note:
     get:
       $ref: ../swagger/paths/water/note/get.yaml
     post:
-      #security:
-      #  - bearerAuth: []
-      # security: додати у всіх не auth
       $ref: ../swagger/paths/water/note/post.yaml
   /water/note/{id}:
     patch:
       $ref: ../swagger/paths/water/note/{id}/patch.yaml
     delete:
       $ref: ../swagger/paths/water/note/{id}/delete.yaml
-  /water/month:
-    get:
-      $ref: ../swagger/paths/water/month/get.yaml
   /water/today:
     get:
       $ref: ../swagger/paths/water/today/get.yaml
+  /water/month:
+    get:
+      $ref: ../swagger/paths/water/month/get.yaml
+        
 
 components:
   securitySchemes:

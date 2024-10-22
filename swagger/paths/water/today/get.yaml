@@ -1,6 +1,6 @@
 tags:
   - Water
-summary: Get information on water intake for a day
+summary: Get water intake information for a current day
 operationId: getWaterToday
 description: 'Retrieves water intake records for a specific day'
 security:

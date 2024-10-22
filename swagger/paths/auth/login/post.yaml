@@ -1,6 +1,6 @@
 tags:
   - Auth
-summary: Login user
+summary: Login a user
 operationId: loginUser
 description: 'Logs in a user and returns an access token'
 security: []

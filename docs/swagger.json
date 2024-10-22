@@ -11,9 +11,6 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000"
-    },
-    {
       "url": "https://sevenwatertracker-back-1.onrender.com"
     }
   ],
@@ -32,7 +29,7 @@
     }
   ],
   "paths": {
-    "/auth/registration": {
+    "/auth/register": {
       "post": {
         "tags": [
           "Auth"
@@ -48,17 +45,10 @@
               "schema": {
                 "type": "object",
                 "required": [
-                  "name",
                   "email",
                   "password"
                 ],
                 "properties": {
-                  "name": {
-                    "type": "string",
-                    "minLength": 2,
-                    "example": "John Doe",
-                    "description": "The user's name"
-                  },
                   "email": {
                     "type": "string",
                     "example": "test@gmail.com",
@@ -130,7 +120,7 @@
         "tags": [
           "Auth"
         ],
-        "summary": "Login user",
+        "summary": "Login a user",
         "operationId": "loginUser",
         "description": "Logs in a user and returns an access token",
         "security": [],
@@ -336,39 +326,22 @@
         }
       }
     },
-    "/user/avatar": {
-      "patch": {
+    "/user/info": {
+      "get": {
         "tags": [
           "User"
         ],
-        "summary": "Changing user avatar",
-        "operationId": "editUserAvatar",
-        "description": "User's photo has been updated successfully",
+        "summary": "Retrieving user information",
+        "operationId": "getUserInfo",
+        "description": "User has been found successfully",
         "security": [
           {
             "bearerAuth": []
           }
         ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "avatar": {
-                    "type": "string",
-                    "format": "binary",
-                    "description": "Changing user avatar"
-                  }
-                }
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
-            "description": "User's photo has been updated successfully",
+            "description": "User has been found successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -380,67 +353,10 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "User's photo has been updated successfully"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "$ref": "#/components/responses/404"
-          },
-          "500": {
-            "$ref": "#/components/responses/500"
-          }
-        }
-      }
-    },
-    "/user/dailyNorm": {
-      "put": {
-        "tags": [
-          "User"
-        ],
-        "summary": "Updating daily water norm",
-        "operationId": "updateDailyNorm",
-        "description": "Updating daily water norm",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "dailyNorm": {
-                    "type": "number",
-                    "example": 1500,
-                    "description": "Updating daily water norm"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Daily water norm updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Daily water norm updated successfully"
+                      "example": "User has been found successfully"
                     },
-                    "dailyNorm": {
-                      "type": "number",
-                      "example": 1500
+                    "data": {
+                      "$ref": "#/components/schemas/user"
                     }
                   }
                 }
@@ -454,9 +370,7 @@
             "$ref": "#/components/responses/500"
           }
         }
-      }
-    },
-    "/user/edit": {
+      },
       "patch": {
         "tags": [
           "User"
@@ -542,22 +456,39 @@
         }
       }
     },
-    "/user/info": {
-      "get": {
+    "/user/avatar": {
+      "patch": {
         "tags": [
           "User"
         ],
-        "summary": "Retrieving user information",
-        "operationId": "getUserInfo",
-        "description": "User has been found successfully",
+        "summary": "Changing user avatar",
+        "operationId": "editUserAvatar",
+        "description": "User's photo has been updated successfully",
         "security": [
           {
             "bearerAuth": []
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "avatar": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Changing user avatar"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "User has been found successfully",
+            "description": "User's photo has been updated successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -569,10 +500,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "User has been found successfully"
-                    },
-                    "data": {
-                      "$ref": "#/components/schemas/user"
+                      "example": "User's photo has been updated successfully"
                     }
                   }
                 }
@@ -588,19 +516,140 @@
         }
       }
     },
-    "/water": {
-      "post": {
+    "/user/daily-norm": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Updating daily water norm",
+        "operationId": "updateDailyNorm",
+        "description": "Updating daily water norm",
         "security": [
           {
             "bearerAuth": []
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "dailyNorm": {
+                    "type": "number",
+                    "example": 1500,
+                    "description": "Updating daily water norm"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Daily water norm updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Daily water norm updated successfully"
+                    },
+                    "dailyNorm": {
+                      "type": "number",
+                      "example": 1500
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/water/note": {
+      "get": {
+        "tags": [
+          "Water"
+        ],
+        "summary": "Get user's water consumption records",
+        "operationId": "getWater",
+        "description": "Retrieves all water consumption notes for the authenticated user.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved user's water notes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully found all your water notes!"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      },
+                      "properties": {
+                        "_id": {
+                          "type": "string",
+                          "example": "609e1298124b2e3c9c7f4a2a"
+                        },
+                        "userId": {
+                          "type": "string",
+                          "example": "60aabbccddeeff0011223344"
+                        },
+                        "date": {
+                          "type": "string",
+                          "example": "2024-10-21T10:00:00Z"
+                        },
+                        "waterVolume": {
+                          "type": "number",
+                          "example": 500
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "post": {
         "tags": [
           "Water"
         ],
         "summary": "Add a new water intake record",
         "operationId": "postWater",
         "description": "Adds a new water intake record based on provided date",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -664,7 +713,7 @@
         }
       }
     },
-    "/water/{id}": {
+    "/water/note/{id}": {
       "patch": {
         "tags": [
           "Water"
@@ -750,7 +799,7 @@
         "tags": [
           "Water"
         ],
-        "summary": "Delete a water",
+        "summary": "Delete a water record",
         "operationId": "deleteWater",
         "description": "Delete a water for user id",
         "security": [
@@ -785,6 +834,73 @@
                     "message": {
                       "type": "string",
                       "example": "The water for this ID has been deleted."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/water/today": {
+      "get": {
+        "tags": [
+          "Water"
+        ],
+        "summary": "Get water intake information for a current day",
+        "operationId": "getWaterToday",
+        "description": "Retrieves water intake records for a specific day",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "date": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2024-10-20",
+                    "description": "The date for which to retrieve water intake information"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved water intake information for the specified day",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "percentage": {
+                      "type": "string",
+                      "example": "50%"
+                    },
+                    "data": {
+                      "type": "array"
+                    },
+                    "items": {
+                      "$ref": "#/components/schemas/water"
                     }
                   }
                 }
@@ -880,73 +996,6 @@
                             "example": "83.33%"
                           }
                         }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/400"
-          },
-          "404": {
-            "$ref": "#/components/responses/404"
-          }
-        }
-      }
-    },
-    "/water/today": {
-      "get": {
-        "tags": [
-          "Water"
-        ],
-        "summary": "Get information on water intake for a day",
-        "operationId": "getWaterForToday",
-        "description": "Retrieves water intake records for a specific day",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "date": {
-                    "type": "string",
-                    "format": "date",
-                    "example": "2024-10-20",
-                    "description": "The date for which to retrieve water intake information"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successfully retrieved water intake information for the specified day",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 200
-                    },
-                    "percentage": {
-                      "type": "string",
-                      "example": "50%"
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/water"
                       }
                     }
                   }

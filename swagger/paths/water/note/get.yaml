@@ -1,6 +1,6 @@
 tags:
   - Water
-summary: Get user's water consumption notes
+summary: Get user's water consumption records
 operationId: getWater
 description: Retrieves all water consumption notes for the authenticated user.
 security:

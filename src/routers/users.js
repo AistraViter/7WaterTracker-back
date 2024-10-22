@@ -32,7 +32,7 @@ usersRouter.put(
 );
 
 usersRouter.put(
-  '/',
+  '/info',
   validateBody(editUserInfoSchema),
   ctrlWrapper(editUserInfoController),
 );

@@ -1,6 +1,6 @@
 tags:
   - Water
-summary: Delete a water
+summary: Delete a water record
 operationId: deleteWater
 description: 'Delete a water for user id'
 security:
