@@ -36,10 +36,12 @@ export const registrationUser = async (userData) => {
   }
 
   const hashedPassword = await bcrypt.hash(userData.password, 10);
+  const nameFromEmail = userData.email.split('@')[0];
 
   const newUser = await UsersCollection.create({
     ...userData,
     password: hashedPassword,
+    name: nameFromEmail,
   });
 
   return newUser;
