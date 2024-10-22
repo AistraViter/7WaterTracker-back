@@ -48,6 +48,6 @@ responses:
               example: 'Successfully updated a water intake record!'
             data:
               type: object
-              $ref: '../../../components/schemas/water.yaml'
+              $ref: ..\..\..\..\components\schemas\water.yaml
   '404':
-    $ref: '../../../components/responses/404.yaml'
+    $ref: '..\..\..\..\components\responses\404.yaml'

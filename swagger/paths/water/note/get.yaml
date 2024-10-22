@@ -1,0 +1,39 @@
+tags:
+  - Water
+summary: Get user's water consumption notes
+operationId: getWater
+description: Retrieves all water consumption notes for the authenticated user.
+security:
+  - bearerAuth: []
+responses:
+  '200':
+    description: Successfully retrieved user's water notes
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: 'Successfully found all your water notes!'
+            data:
+              type: array
+              items:
+                type: object
+              properties:
+                _id:
+                  type: string
+                  example: '609e1298124b2e3c9c7f4a2a'
+                userId:
+                  type: string
+                  example: '60aabbccddeeff0011223344'
+                date:
+                  type: string
+                  example: '2024-10-21T10:00:00Z'
+                waterVolume:
+                  type: number
+                  example: 500
+  '401':
+    $ref: '..\..\..\components\responses\401.yaml'
+  '500':
+    $ref: '..\..\..\components\responses\500.yaml'
