@@ -1,7 +1,7 @@
 tags:
   - Water
 summary: Get information on water intake for a day
-operationId: getWaterForToday
+operationId: getWaterToday
 description: 'Retrieves water intake records for a specific day'
 security:
   - bearerAuth: []
@@ -33,9 +33,9 @@ responses:
               example: '50%'
             data:
               type: array
-              items:
-                $ref: ../../../components/schemas/water.yaml
+            items:
+              $ref: ..\..\..\components\schemas\water.yaml
   '404':
-    $ref: '../../../components/responses/404.yaml'
+    $ref: '..\..\..\components\responses\404.yaml'
   '400':
     $ref: '../../../components/responses/400.yaml'

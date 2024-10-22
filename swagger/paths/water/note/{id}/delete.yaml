@@ -28,6 +28,6 @@ responses:
               type: string
               example: 'The water for this ID has been deleted.'
   '404':
-    $ref: '../../../components/responses/404.yaml'
+    $ref: '..\..\..\..\components\responses\404.yaml'
   '400':
-    $ref: '../../../components/responses/400.yaml'
+    $ref: '..\..\..\..\components\responses\400.yaml'

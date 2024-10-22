@@ -48,17 +48,19 @@ paths:
     post:
       $ref: ../swagger/paths/user/email/post.yaml
 
-  /water:
+  /water/note:
+    get:
+      $ref: ../swagger/paths/water/note/get.yaml
     post:
-      security:
-        - bearerAuth: []
+      #security:
+      #  - bearerAuth: []
       # security: додати у всіх не auth
-      $ref: ../swagger/paths/water/post.yaml
-  /water/{id}:
+      $ref: ../swagger/paths/water/note/post.yaml
+  /water/note/{id}:
     patch:
-      $ref: ../swagger/paths/water/{id}/patch.yaml
+      $ref: ../swagger/paths/water/note/{id}/patch.yaml
     delete:
-      $ref: ../swagger/paths/water/{id}/delete.yaml
+      $ref: ../swagger/paths/water/note/{id}/delete.yaml
   /water/month:
     get:
       $ref: ../swagger/paths/water/month/get.yaml
