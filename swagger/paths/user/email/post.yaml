@@ -1,0 +1,68 @@
+tags:
+  - User
+summary: Update user's email or password
+operationId: updateUserEmail
+description: Allows a user to update their email, name, gender, or password by providing their current and new credentials.
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+            description: "The user's name."
+            example: 'John Doe'
+          gender:
+            type: string
+            description: "The user's gender."
+            example: 'man'
+          email:
+            type: string
+            description: "The user's new email."
+            example: 'test@gmail.com'
+          oldPassword:
+            type: string
+            description: "The user's current password, required for password change."
+            example: 'oldpassword123'
+          password:
+            type: string
+            description: "The user's new password."
+            example: 'newpassword123'
+          confirmPassword:
+            type: string
+            description: 'Confirmation of the new password.'
+            example: 'newpassword123'
+responses:
+  '200':
+    description: "User's information has been updated successfully."
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: "User's info has been updated successfully"
+            data:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 'John Doe'
+                gender:
+                  type: string
+                  example: 'man'
+                email:
+                  type: string
+                  example: 'test@gmail.com'
+  '400':
+    $ref: '../../../components/responses/400.yaml'
+  '404':
+    $ref: '../../../components/responses/404.yaml'
