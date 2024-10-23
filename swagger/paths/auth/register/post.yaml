@@ -49,7 +49,7 @@ responses:
               example: 'Successfully registered a user!'
             data:
               type: object
-              $ref: '../../../components/schemas/user.yaml'
+              $ref: ..\..\..\components\schemas\session.yaml
             accessToken:
               type: string
               example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
