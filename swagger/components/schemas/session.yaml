@@ -1,0 +1,40 @@
+type: object
+required:
+  - userId
+  - accessToken
+  - refreshToken
+  - accessTokenValidUntil
+  - refreshTokenValidUntil
+properties:
+  _id:
+    type: string
+    example: '609e12a8124b2e3c9c7f4a2a'
+    description: 'Unique identifier of the session.'
+  userId:
+    type: string
+    description: 'The ID of the user associated with the session.'
+    example: '60aabbccddeeff0011223344'
+  accessToken:
+    type: string
+    description: 'Access token for the session.'
+    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+  refreshToken:
+    type: string
+    description: 'Refresh token for the session.'
+    example: 'dGhpc2lzbXlyZWZyZXNodG9rZW4uLi4='
+  accessTokenValidUntil:
+    type: string
+    description: 'Expiration time of the access token.'
+    example: '2024-10-23T15:30:00Z'
+  refreshTokenValidUntil:
+    type: string
+    description: 'Expiration time of the refresh token.'
+    example: '2024-11-20T15:30:00Z'
+  createdAt:
+    type: string
+    description: 'Timestamp when the session was created.'
+    example: '2024-10-21T10:00:00Z'
+  updatedAt:
+    type: string
+    description: 'Timestamp when the session was last updated.'
+    example: '2024-10-22T12:00:00Z'
