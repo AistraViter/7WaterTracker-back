@@ -6,26 +6,19 @@ required:
   - accessTokenValidUntil
   - refreshTokenValidUntil
 properties:
-  _id:
-    type: string
-    example: '609e12a8124b2e3c9c7f4a2a'
-    description: 'Unique identifier of the session.'
   userId:
     type: string
-    description: 'The ID of the user associated with the session.'
-    example: '60aabbccddeeff0011223344'
+    example: '65ca67e7ae7f10c88b598384'
   accessToken:
     type: string
-    description: 'Access token for the session.'
-    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+    example: 'someAccessToken'
   refreshToken:
     type: string
-    description: 'Refresh token for the session.'
-    example: 'dGhpc2lzbXlyZWZyZXNodG9rZW4uLi4='
+    example: 'someRefreshToken'
   accessTokenValidUntil:
     type: string
-    description: 'Expiration time of the access token.'
-    example: '2024-10-23T15:30:00Z'
+    format: date-time
+    example: '2023-01-01T00:00:00Z'
   refreshTokenValidUntil:
     type: string
     format: date-time
