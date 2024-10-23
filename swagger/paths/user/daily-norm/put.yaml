@@ -12,7 +12,7 @@ requestBody:
       schema:
         type: object
         properties:
-          dailyNorm:
+          dailyNorma:
             type: number
             example: 1500
             description: 'Updating daily water norm'
@@ -27,7 +27,7 @@ responses:
             message:
               type: string
               example: 'Daily water norm updated successfully'
-            dailyNorm:
+            dailyNorma:
               type: number
               example: 1500
   '404':

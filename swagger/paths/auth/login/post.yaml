@@ -45,14 +45,12 @@ responses:
             data:
               type: object
               $ref: ..\..\..\components\schemas\session.yaml
-              properties:
-                accessToken:
-                  type: string
-                  example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
-                refreshToken:
-                  type: string
-                  example: 'd1f4eaf5...'
+              #properties:
+              # accessToken:
+              #   example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+              # refreshToken:
+              #   type: string
+              #  example: 'd1f4eaf5...'
 
   '401':
     $ref: '../../../components/responses/401.yaml'
-#
