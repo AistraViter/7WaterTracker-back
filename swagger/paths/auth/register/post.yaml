@@ -44,8 +44,6 @@ responses:
             - status
             - message
             - data
-            - accessToken
-            - refreshToken
           properties:
             status:
               type: integer
@@ -55,15 +53,16 @@ responses:
               example: 'Successfully registered a user!'
             data:
               type: object
-              $ref: ..\..\..\components\schemas\session.yaml
-            accessToken:
-              type: string
-              example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
-            refreshToken:
-              type: string
-              example: 'd1f4eaf5...'
+              properties:
+                accessToken:
+                  type: string
+                  example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+                refreshToken:
+                  type: string
+                  example: 'd1f4eaf5...'
+                user:
+                  $ref: ..\..\..\components\schemas\user.yaml
   '400':
     $ref: '../../../components/responses/400.yaml'
   '409':
     $ref: '../../../components/responses/409.yaml'
-#
