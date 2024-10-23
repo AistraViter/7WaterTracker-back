@@ -109,10 +109,14 @@
             }
           },
           "400": {
-            "$ref": "#/components/responses/400"
+            "$ref": "#/components/responses/400",
+            "message": "Invalid email or password format"
           },
           "409": {
             "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -1017,11 +1021,8 @@
       "user": {
         "type": "object",
         "required": [
-          "_id",
           "name",
-          "email",
-          "gender",
-          "dailyNorma"
+          "email"
         ],
         "properties": {
           "_id": {
@@ -1032,7 +1033,7 @@
           "name": {
             "type": "string",
             "description": "User's name",
-            "example": "John Doe"
+            "example": "test"
           },
           "email": {
             "type": "string",
@@ -1052,6 +1053,12 @@
             "type": "number",
             "description": "User's daily water intake in milliliters",
             "example": 1500
+          },
+          "avatar": {
+            "type": "string",
+            "description": "User's photo",
+            "format": "binary",
+            "example": null
           }
         }
       },
@@ -1151,7 +1158,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "File size exceeds the 3MB limit"
+                      "example": "Bad request. Please check your input data"
                     }
                   }
                 }
@@ -1203,6 +1210,11 @@
           "application/json": {
             "schema": {
               "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
               "properties": {
                 "status": {
                   "type": "integer",
@@ -1210,12 +1222,19 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "User not found!",
-                  "description": "NotFoundError"
+                  "example": "NotFoundError"
                 },
-                "errorCode": {
-                  "type": "string",
-                  "example": "USER_NOT_FOUND"
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Object not found!"
+                    }
+                  }
                 }
               }
             }
@@ -1223,25 +1242,36 @@
         }
       },
       "409": {
-        "description": "DuplicateResourceError",
+        "description": "ConflictError",
         "content": {
           "application/json": {
             "schema": {
               "type": "object",
               "required": [
                 "status",
-                "message"
+                "message",
+                "data"
               ],
               "properties": {
                 "status": {
                   "type": "integer",
-                  "example": 409,
-                  "description": "DuplicateResourceError"
+                  "example": 409
                 },
                 "message": {
                   "type": "string",
-                  "example": "Email in use",
-                  "description": "DuplicateResourceError"
+                  "example": "ConflictError"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Email in use"
+                    }
+                  }
                 }
               }
             }
@@ -1262,13 +1292,11 @@
               "properties": {
                 "status": {
                   "type": "integer",
-                  "example": 500,
-                  "description": "InternalServerError"
+                  "example": 500
                 },
                 "message": {
                   "type": "string",
-                  "example": "Internal server error.",
-                  "description": "A generic message indicating that the server encountered an unexpected error."
+                  "example": "Internal server error."
                 },
                 "data": {
                   "type": "object",

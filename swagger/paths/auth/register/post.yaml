@@ -2,10 +2,8 @@ tags:
   - Auth
 summary: Registration a new user
 operationId: registrationUser
-
-description: 'Registration a new user'
+description: Registration a new user
 security: []
-
 requestBody:
   required: true
   content:
@@ -18,18 +16,17 @@ requestBody:
         properties:
           email:
             type: string
-            example: 'test@gmail.com'
-            description: "The user's email address"
+            example: test@gmail.com
+            description: The user's email address
           password:
             type: string
             minLength: 8
             maxLength: 64
-            example: 'password123'
-            description: "The user's password"
-
+            example: password123
+            description: The user's password
 responses:
   '201':
-    description: 'Successfully registered a user'
+    description: Successfully registered a user
     content:
       application/json:
         schema:
@@ -44,7 +41,7 @@ responses:
               example: 201
             message:
               type: string
-              example: 'Successfully registered a user!'
+              example: Successfully registered a user!
             data:
               type: object
               properties:
@@ -58,5 +55,8 @@ responses:
                   $ref: ..\..\..\components\schemas\user.yaml
   '400':
     $ref: '../../../components/responses/400.yaml'
+    message: Invalid email or password format
   '409':
     $ref: '../../../components/responses/409.yaml'
+  '500':
+    $ref: '../../../components/responses/500.yaml'

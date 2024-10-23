@@ -1,4 +1,4 @@
-description: DuplicateResourceError
+description: ConflictError
 content:
   application/json:
     schema:
@@ -6,12 +6,19 @@ content:
       required:
         - status
         - message
+        - data
       properties:
         status:
           type: integer
           example: 409
-          description: DuplicateResourceError
         message:
           type: string
-          example: 'Email in use'
-          description: DuplicateResourceError
+          example: ConflictError
+        data:
+          type: object
+          required:
+            - message
+          properties:
+            message:
+              type: string
+              example: Email in use

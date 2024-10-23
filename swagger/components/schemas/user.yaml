@@ -1,10 +1,7 @@
 type: object
 required:
-  - _id
   - name
   - email
-  - gender
-  - dailyNorma
 properties:
   _id:
     type: string
@@ -13,7 +10,7 @@ properties:
   name:
     type: string
     description: "User's name"
-    example: 'John Doe'
+    example: 'test'
   email:
     type: string
     description: "User's email"
@@ -27,8 +24,8 @@ properties:
     type: number
     description: "User's daily water intake in milliliters"
     example: 1500
-  #photo:
-  # type: string
-  #description: "User's photo"
-  #format: binary
-  #example: 'https://res.cloudinary.com/dd6thsdhw/image/upload/image.png'
+  avatar:
+    type: string
+    description: "User's photo"
+    format: binary
+    example: null

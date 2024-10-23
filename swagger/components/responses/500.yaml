@@ -11,11 +11,9 @@ content:
         status:
           type: integer
           example: 500
-          description: InternalServerError
         message:
           type: string
-          example: 'Internal server error.'
-          description: A generic message indicating that the server encountered an unexpected error.
+          example: Internal server error.
         data:
           type: object
           required:
@@ -23,5 +21,5 @@ content:
           properties:
             message:
               type: string
-              example: 'Something went wrong, please try again later.'
+              example: Something went wrong, please try again later.
 #

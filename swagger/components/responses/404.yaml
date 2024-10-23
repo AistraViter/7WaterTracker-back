@@ -3,14 +3,22 @@ content:
   application/json:
     schema:
       type: object
+      required:
+        - status
+        - message
+        - data
       properties:
         status:
           type: integer
           example: 404
         message:
           type: string
-          example: User not found!
-          description: NotFoundError
-        errorCode:
-          type: string
-          example: USER_NOT_FOUND
+          example: NotFoundError
+        data:
+          type: object
+          required:
+            - message
+          properties:
+              message:
+                type: string
+                example: Object not found!
