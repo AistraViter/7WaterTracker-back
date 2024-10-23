@@ -44,6 +44,7 @@ responses:
               example: 'Successfully logged in a user!'
             data:
               type: object
+              $ref: ..\..\..\components\schemas\session.yaml
               properties:
                 accessToken:
                   type: string
