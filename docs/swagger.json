@@ -76,9 +76,7 @@
                   "required": [
                     "status",
                     "message",
-                    "data",
-                    "accessToken",
-                    "refreshToken"
+                    "data"
                   ],
                   "properties": {
                     "status": {
@@ -91,15 +89,19 @@
                     },
                     "data": {
                       "type": "object",
-                      "$ref": "#/components/schemas/user"
-                    },
-                    "accessToken": {
-                      "type": "string",
-                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                    },
-                    "refreshToken": {
-                      "type": "string",
-                      "example": "d1f4eaf5..."
+                      "properties": {
+                        "accessToken": {
+                          "type": "string",
+                          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                        },
+                        "refreshToken": {
+                          "type": "string",
+                          "example": "d1f4eaf5..."
+                        },
+                        "user": {
+                          "$ref": "#/components/schemas/user"
+                        }
+                      }
                     }
                   }
                 }
@@ -175,16 +177,7 @@
                     },
                     "data": {
                       "type": "object",
-                      "properties": {
-                        "accessToken": {
-                          "type": "string",
-                          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                        },
-                        "refreshToken": {
-                          "type": "string",
-                          "example": "d1f4eaf5..."
-                        }
-                      }
+                      "$ref": "#/components/schemas/session"
                     }
                   }
                 }
@@ -536,7 +529,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "dailyNorm": {
+                  "dailyNorma": {
                     "type": "number",
                     "example": 1500,
                     "description": "Updating daily water norm"
@@ -558,7 +551,7 @@
                       "type": "string",
                       "example": "Daily water norm updated successfully"
                     },
-                    "dailyNorm": {
+                    "dailyNorma": {
                       "type": "number",
                       "example": 1500
                     }
@@ -1059,6 +1052,40 @@
             "type": "number",
             "description": "User's daily water intake in milliliters",
             "example": 1500
+          }
+        }
+      },
+      "session": {
+        "type": "object",
+        "required": [
+          "userId",
+          "accessToken",
+          "refreshToken",
+          "accessTokenValidUntil",
+          "refreshTokenValidUntil"
+        ],
+        "properties": {
+          "userId": {
+            "type": "string",
+            "example": "65ca67e7ae7f10c88b598384"
+          },
+          "accessToken": {
+            "type": "string",
+            "example": "someAccessToken"
+          },
+          "refreshToken": {
+            "type": "string",
+            "example": "someRefreshToken"
+          },
+          "accessTokenValidUntil": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-01-01T00:00:00Z"
+          },
+          "refreshTokenValidUntil": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-01-01T00:00:00Z"
           }
         }
       },

@@ -3,6 +3,7 @@ import {
   registrationUser,
   loginUser,
   logoutUser,
+  refreshUsersSession,
   updateUserEmail,
 } from '../services/auth.js';
 
@@ -69,3 +70,21 @@ export const updateUserEmailController = async (req, res) => {
   });
 };
 // Цей файл перевірено 20.10.2024 00.03 by AistraViter
+
+
+export const refreshUserSessionController = async (req, res) => {
+  const session = await refreshUsersSession({
+    sessionId: req.cookies.sessionId,
+    refreshToken: req.cookies.refreshToken,
+  });
+
+  setRefreshTokenCookie(res, session);
+
+  res.json({
+    status: 200,
+    message: 'Successfully refreshed a session!',
+    data: {
+      accessToken: session.accessToken,
+    },
+  });
+};

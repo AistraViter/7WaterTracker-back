@@ -103,3 +103,46 @@ export const updateUserEmail = async (token) => {
 };
 
 // Цей файл перевірено 19.10.2024 22.50 by AistraViter
+
+export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
+  console.log('SessionId:', sessionId, 'RefreshToken:', refreshToken);
+
+  // Знайти сесію за sessionId та refreshToken
+  const session = await SessionsCollection.findOne({
+    _id: sessionId,
+    refreshToken,
+  });
+
+  if (!session) {
+    console.log('Session not found for ID:', sessionId);
+    throw createHttpError(401, 'Session not found');
+  }
+  
+  console.log('Session found:', session);
+
+  // Перевірка на термін дії refreshToken
+  const isTokenExpired = new Date() > new Date(session.refreshTokenValidUntil);
+  console.log('Token valid until:', session.refreshTokenValidUntil);
+
+  if (isTokenExpired) {
+    console.log('Session token expired');
+    throw createHttpError(401, 'Session token expired');
+  }
+
+  // Створення нових токенів
+  const { accessToken, refreshToken: newRefreshToken } = createSession({ _id: session.userId });
+
+  // Оновлення сесії в базі даних
+  const updatedSession = await SessionsCollection.findOneAndUpdate(
+    { _id: sessionId },
+    {
+      accessToken,
+      refreshToken: newRefreshToken,
+      accessTokenValidUntil,
+      refreshTokenValidUntil,
+    },
+    { new: true } // Повернути оновлений документ
+  );
+
+  return updatedSession;
+};
