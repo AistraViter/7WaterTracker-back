@@ -5,20 +5,25 @@ required:
   - dailyNorm
   - userId
 properties:
+  userId:
+    type: string
+    description: User's ID.
+    example: 60c72b2f9b1d8b3b4c7e4e57
+  _id:
+    type: string
+    description: Unique identifier for this water note.
+    example: 60c72b2f9b1d8b3b4c7e4e57
   date:
     type: string
     format: date
-    description: The date of the water consumption record
+    description: The date of the water consumption record.
     example: '2024-10-20'
-  time: 
+  time:
     type: string
-    description: The time of the water consumption record
+    description: The time of the water consumption record.
     example: '21:59'
   waterVolume:
     type: number
-    description: The volume of water consumed in milliliters (1-5000 ml)
-    example: 500
-  userId:
-    type: string
-    description: User's ID
-    example: 60c72b2f9b1d8b3b4c7e4e57
+    description: The volume of water consumed in milliliters (1-5000 ml).
+    example: 250
+

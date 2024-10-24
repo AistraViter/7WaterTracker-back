@@ -14,19 +14,8 @@ parameters:
       example: '65ca67e7ae7f10c88b598384'
     description: 'The water for this ID has been deleted.'
 responses:
-  '200':
+  '204':
     description: 'The water for this ID has been deleted.'
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            status:
-              type: integer
-              example: 200
-            message:
-              type: string
-              example: 'The water for this ID has been deleted.'
   '404':
     $ref: '..\..\..\..\components\responses\404.yaml'
   '400':

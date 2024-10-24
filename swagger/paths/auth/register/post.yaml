@@ -26,7 +26,7 @@ requestBody:
             description: The user's password
 responses:
   '201':
-    description: Successfully registered a user!
+    description: Successfully registered a user
     content:
       application/json:
         schema:
@@ -47,13 +47,9 @@ responses:
               properties:
                 user:
                   $ref: ..\..\..\components\schemas\user.yaml
-                  avatar:
-                    example: null 
                 accessToken:
                   type: string
                   example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
-  '400':
-    $ref: '../../../components/responses/400.yaml'
   '404':
     $ref: '../../../components/responses/404.yaml'
   '409':

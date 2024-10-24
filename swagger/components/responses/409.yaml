@@ -1,4 +1,4 @@
-description: ConflictError
+description: Conflict Error
 content:
   application/json:
     schema:

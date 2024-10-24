@@ -68,7 +68,7 @@
         },
         "responses": {
           "201": {
-            "description": "Successfully registered a user!",
+            "description": "Successfully registered a user",
             "content": {
               "application/json": {
                 "schema": {
@@ -91,10 +91,7 @@
                       "type": "object",
                       "properties": {
                         "user": {
-                          "$ref": "#/components/schemas/user",
-                          "avatar": {
-                            "example": null
-                          }
+                          "$ref": "#/components/schemas/user"
                         },
                         "accessToken": {
                           "type": "string",
@@ -106,9 +103,6 @@
                 }
               }
             }
-          },
-          "400": {
-            "$ref": "#/components/responses/400"
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -145,12 +139,12 @@
                   "email": {
                     "type": "string",
                     "example": "test@gmail.com",
-                    "description": "The user's email address"
+                    "description": "The user's email address."
                   },
                   "password": {
                     "type": "string",
                     "example": "password123",
-                    "description": "The user's password"
+                    "description": "The user's password."
                   }
                 }
               }
@@ -192,12 +186,8 @@
               }
             }
           },
-          "400": {
-            "$ref": "#/components/responses/400"
-          },
           "401": {
-            "$ref": "#/components/responses/401",
-            "content": null
+            "$ref": "#/components/responses/401"
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -219,10 +209,13 @@
         "security": [],
         "responses": {
           "204": {
-            "description": "Successfully logged out a user, no content"
+            "description": "Successfully logged out a user, no content."
           },
           "401": {
             "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
           }
         }
       }
@@ -314,7 +307,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "User has been found successfully"
+                      "example": "User has been found successfully!"
                     },
                     "data": {
                       "$ref": "#/components/schemas/user"
@@ -332,7 +325,7 @@
           }
         }
       },
-      "patch": {
+      "put": {
         "tags": [
           "User"
         ],
@@ -354,16 +347,16 @@
                   "name": {
                     "type": "string",
                     "example": "John Doe",
-                    "description": "User's name"
+                    "description": "Сhange the username"
                   },
                   "email": {
                     "type": "string",
                     "example": "johndoe@gmail.com",
-                    "description": "User's email"
+                    "description": "Сhange the email"
                   },
                   "oldPassword": {
                     "type": "string",
-                    "example": "oldpassword123",
+                    "example": "password123",
                     "description": "Old password"
                   },
                   "password": {
@@ -395,7 +388,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "User's info has been updated successfully"
+                      "example": "User's info has been updated successfully!"
                     },
                     "data": {
                       "$ref": "#/components/schemas/user"
@@ -461,7 +454,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "User's photo has been updated successfully"
+                      "example": "User's photo has been updated successfully!"
                     }
                   }
                 }
@@ -517,7 +510,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Daily water norm updated successfully"
+                      "example": "Daily water norm updated successfully!"
                     },
                     "dailyNorm": {
                       "type": "number",
@@ -594,6 +587,9 @@
           "401": {
             "$ref": "#/components/responses/401"
           },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
           "500": {
             "$ref": "#/components/responses/500"
           }
@@ -619,7 +615,8 @@
                 "type": "object",
                 "required": [
                   "waterVolume",
-                  "date"
+                  "date",
+                  "time"
                 ],
                 "properties": {
                   "waterVolume": {
@@ -630,8 +627,13 @@
                   "date": {
                     "type": "string",
                     "format": "date",
-                    "example": "2024-09-01T14:00",
+                    "example": "2024-10-24",
                     "description": "The date of water consumption"
+                  },
+                  "time": {
+                    "type": "string",
+                    "description": "The time of the water consumption record",
+                    "example": "10:00"
                   }
                 }
               }
@@ -670,6 +672,12 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -707,14 +715,21 @@
                 "type": "object",
                 "properties": {
                   "waterVolume": {
+                    "example": 250,
                     "type": "number",
                     "description": "The updated amount of water consumed in milliliters"
                   },
                   "date": {
                     "type": "string",
                     "format": "date",
-                    "example": "2024-09-01T14:00",
+                    "example": "2024-09-01",
                     "description": "The updated date of water consumption"
+                  },
+                  "time": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "14:00",
+                    "description": "The updated time of water consumption"
                   }
                 }
               }
@@ -751,8 +766,14 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       },
@@ -781,25 +802,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "The water for this ID has been deleted.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 200
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "The water for this ID has been deleted."
-                    }
-                  }
-                }
-              }
-            }
+          "204": {
+            "description": "The water for this ID has been deleted."
           },
           "400": {
             "$ref": "#/components/responses/400"
@@ -823,24 +827,6 @@
             "bearerAuth": []
           }
         ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "date": {
-                    "type": "string",
-                    "format": "date",
-                    "example": "2024-10-20",
-                    "description": "The date for which to retrieve water intake information"
-                  }
-                }
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Successfully retrieved water intake information for the specified day",
@@ -853,15 +839,13 @@
                       "type": "integer",
                       "example": 200
                     },
-                    "percentage": {
-                      "type": "string",
-                      "example": "50%"
-                    },
-                    "data": {
-                      "type": "array"
-                    },
-                    "items": {
+                    "notes": {
+                      "type": "array",
                       "$ref": "#/components/schemas/water"
+                    },
+                    "percentage": {
+                      "type": "number",
+                      "example": 50
                     }
                   }
                 }
@@ -890,30 +874,28 @@
             "bearerAuth": []
           }
         ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "startOfMonth": {
-                    "type": "string",
-                    "format": "date",
-                    "example": "2024-09-01",
-                    "description": "The starting date of the month for which to retrieve water intake information"
-                  },
-                  "endOfMonth": {
-                    "type": "string",
-                    "format": "date",
-                    "example": "2024-09-30",
-                    "description": "The ending date of the month for which to retrieve water intake information"
-                  }
-                }
-              }
+        "parameters": [
+          {
+            "in": "query",
+            "name": "year",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "example": 2024,
+              "description": "A parameter to define notes for a specific year."
+            }
+          },
+          {
+            "in": "query",
+            "name": "month",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "example": 10,
+              "description": "Parameter to define notes for a specific month."
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "Successfully retrieved water intake information for the specified month",
@@ -937,24 +919,20 @@
                         "properties": {
                           "date": {
                             "type": "string",
-                            "example": "2024-10-20"
-                          },
-                          "dailyRecords": {
-                            "type": "number",
-                            "example": 1500
+                            "example": "19, October"
                           },
                           "consumptionCount": {
                             "type": "integer",
                             "example": 3
                           },
                           "dailyNorm": {
-                            "type": "number",
-                            "example": 1.8,
+                            "type": "string",
+                            "example": "1.8 L",
                             "description": "Daily recommended water intake in liters"
                           },
                           "percentage": {
                             "type": "string",
-                            "example": "83.33%"
+                            "example": "83 %"
                           }
                         }
                       }
@@ -989,19 +967,24 @@
           "email"
         ],
         "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Unique identifier for the user.",
+            "example": "60c72b2f9b1d8b3b4c7e4e57"
+          },
           "name": {
             "type": "string",
-            "description": "User's name",
+            "description": "User's name.",
             "example": "test"
           },
           "email": {
             "type": "string",
-            "description": "User's email",
+            "description": "User's email.",
             "example": "test@gmail.com"
           },
           "gender": {
             "type": "string",
-            "description": "User's gender",
+            "description": "User's gender.",
             "enum": [
               "Woman",
               "Man"
@@ -1010,19 +993,14 @@
           },
           "dailyNorm": {
             "type": "number",
-            "description": "User's daily water intake in milliliters",
+            "description": "User's daily water intake in milliliters.",
             "example": 1500
           },
           "avatar": {
             "type": "string",
-            "description": "User's photo",
+            "description": "User's photo.",
             "format": "binary",
             "example": "https://res.cloudinary.com/dd6thsdhw/image/upload/image.png"
-          },
-          "_id": {
-            "type": "string",
-            "description": "Unique identifier for the user",
-            "example": "60c72b2f9b1d8b3b4c7e4e57"
           }
         }
       },
@@ -1030,38 +1008,43 @@
         "type": "object",
         "required": [
           "date",
+          "time",
           "dailyNorm",
-          "waterVolume",
           "userId"
         ],
         "properties": {
+          "userId": {
+            "type": "string",
+            "description": "User's ID.",
+            "example": "60c72b2f9b1d8b3b4c7e4e57"
+          },
+          "_id": {
+            "type": "string",
+            "description": "Unique identifier for this water note.",
+            "example": "60c72b2f9b1d8b3b4c7e4e57"
+          },
           "date": {
             "type": "string",
             "format": "date",
-            "description": "The date of the water consumption record",
+            "description": "The date of the water consumption record.",
             "example": "2024-10-20"
           },
-          "dailyNorm": {
-            "type": "number",
-            "description": "User's daily water intake in milliliters",
-            "example": 1500
+          "time": {
+            "type": "string",
+            "description": "The time of the water consumption record.",
+            "example": "21:59"
           },
           "waterVolume": {
             "type": "number",
-            "description": "The volume of water consumed in milliliters (1-5000 ml)",
-            "example": 500
-          },
-          "userId": {
-            "type": "string",
-            "description": "User's ID",
-            "example": "60c72b2f9b1d8b3b4c7e4e57"
+            "description": "The volume of water consumed in milliliters (1-5000 ml).",
+            "example": 250
           }
         }
       }
     },
     "responses": {
       "400": {
-        "description": "BadRequestError",
+        "description": "Bad Request",
         "content": {
           "application/json": {
             "schema": {
@@ -1098,7 +1081,7 @@
         }
       },
       "401": {
-        "description": "UnauthorizedError",
+        "description": "Unauthorized Error",
         "content": {
           "application/json": {
             "schema": {
@@ -1135,7 +1118,7 @@
         }
       },
       "404": {
-        "description": "NotFoundError",
+        "description": "Not Found Error",
         "content": {
           "application/json": {
             "schema": {
@@ -1172,7 +1155,7 @@
         }
       },
       "409": {
-        "description": "ConflictError",
+        "description": "Conflict Error",
         "content": {
           "application/json": {
             "schema": {
@@ -1209,7 +1192,7 @@
         }
       },
       "500": {
-        "description": "InternalServerError",
+        "description": "Internal Server Error",
         "content": {
           "application/json": {
             "schema": {

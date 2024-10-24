@@ -1,3 +1,4 @@
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 import path from 'path';
 import fs from 'fs/promises';
 import bcrypt from 'bcrypt';
@@ -76,23 +77,24 @@ export const editUserInfoController = async (req, res, next) => {
   if (!user) return next(createHttpError(404, 'User not found'));
 
   let dataToUpdate = {};
+  if (oldPassword && password && confirmPassword) {
+    if (
+      oldPassword.length > 0 &&
+      password.length > 0 &&
+      confirmPassword.length > 0
+    ) {
+      const isCurrentPasswordValid = await bcrypt.compare(
+        oldPassword,
+        user.password,
+      );
 
-  if (
-    oldPassword.length > 0 &&
-    password.length > 0 &&
-    confirmPassword.length > 0
-  ) {
-    const isCurrentPasswordValid = await bcrypt.compare(
-      oldPassword,
-      user.password,
-    );
+      if (!isCurrentPasswordValid) {
+        return next(createHttpError(400, 'Old password is incorrect'));
+      }
 
-    if (!isCurrentPasswordValid) {
-      return next(createHttpError(400, 'Old password is incorrect'));
+      const hashedNewPassword = await bcrypt.hash(password, 10);
+      dataToUpdate.password = hashedNewPassword;
     }
-
-    const hashedNewPassword = await bcrypt.hash(password, 10);
-    dataToUpdate.password = hashedNewPassword;
   }
 
   if (email !== user.email) {
@@ -126,7 +128,7 @@ export const editUserInfoController = async (req, res, next) => {
 
   res.status(200).json({
     status: 200,
-    message: 'User`s ifno has been updated successfully',
+    message: 'User`s info has been updated successfully',
     data: updatedUser,
   });
 };

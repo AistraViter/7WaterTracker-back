@@ -25,7 +25,7 @@ requestBody:
             format: date
             example: '2024-10-24'
             description: The date of water consumption
-          time: 
+          time:
             type: string
             description: The time of the water consumption record
             example: '10:00'
@@ -52,3 +52,7 @@ responses:
               $ref: ..\..\..\components\schemas\water.yaml
   '400':
     $ref: '../../../components/responses/400.yaml'
+  '404':
+    $ref: '..\..\..\components\responses\404.yaml'
+  '500':
+    $ref: '..\..\..\components\responses\500.yaml'

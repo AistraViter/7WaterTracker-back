@@ -30,7 +30,7 @@ export const combineDateAndTime = (dateString, timeString) => {
     throw createHttpError(400, 'Invalid date or time.');
   }
 
-  combinedDateTime.setHours(combinedDateTime.getHours() + 0);
+  combinedDateTime.setHours(combinedDateTime.getHours() + 3); // додала до часу 3 години
 
   return combinedDateTime;
 };

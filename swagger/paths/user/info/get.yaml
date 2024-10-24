@@ -19,7 +19,7 @@ responses:
               example: 200
             message:
               type: string
-              example: 'User has been found successfully'
+              example: User has been found successfully!
             data:
               $ref: ..\..\..\components\schemas\user.yaml
   '404':
