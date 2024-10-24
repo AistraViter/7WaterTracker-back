@@ -1,4 +1,4 @@
-description: BadRequestError
+description: Bad Request
 content:
   application/json:
     schema:

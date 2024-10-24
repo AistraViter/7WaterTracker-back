@@ -5,23 +5,21 @@ operationId: getWaterForMonth
 description: 'Retrieves water intake records for a specific month'
 security:
   - bearerAuth: []
-requestBody:
-  required: true
-  content:
-    application/json:
-      schema:
-        type: object
-        properties:
-          startOfMonth:
-            type: string
-            format: date
-            example: '2024-09-01'
-            description: 'The starting date of the month for which to retrieve water intake information'
-          endOfMonth:
-            type: string
-            format: date
-            example: '2024-09-30'
-            description: 'The ending date of the month for which to retrieve water intake information'
+parameters:
+  - in: query
+    name: year
+    required: true
+    schema:
+      type: number
+      example: 2024
+      description: 'A parameter to define notes for a specific year.'
+  - in: query
+    name: month
+    required: true
+    schema:
+      type: number
+      example: 10
+      description: 'Parameter to define notes for a specific month.'
 responses:
   '200':
     description: 'Successfully retrieved water intake information for the specified month'
@@ -43,20 +41,17 @@ responses:
                 properties:
                   date:
                     type: string
-                    example: '2024-10-20'
-                  dailyRecords:
-                    type: number
-                    example: 1500
+                    example: '19, October'
                   consumptionCount:
                     type: integer
                     example: 3
                   dailyNorm:
-                    type: number
-                    example: 1.8
+                    type: string
+                    example: "1.8 L"
                     description: 'Daily recommended water intake in liters'
                   percentage:
                     type: string
-                    example: '83.33%'
+                    example: '83 %'
   '404':
     $ref: '../../../components/responses/404.yaml'
   '400':

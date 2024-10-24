@@ -3,30 +3,31 @@ required:
   - name
   - email
 properties:
+  _id:
+    type: string
+    description: Unique identifier for the user.
+    example: 60c72b2f9b1d8b3b4c7e4e57
   name:
     type: string
-    description: User's name
+    description: User's name.
     example: test
   email:
     type: string
-    description: User's email
+    description: User's email.
     example: test@gmail.com
   gender:
     type: string
-    description: "User's gender"
+    description: User's gender.
     enum: [Woman, Man]
     example: Woman
   dailyNorm:
     type: number
-    description: User's daily water intake in milliliters
+    description: User's daily water intake in milliliters.
     example: 1500
   avatar:
     type: string
-    description: User's photo
+    description: User's photo.
     format: binary
     example: 'https://res.cloudinary.com/dd6thsdhw/image/upload/image.png'
-  _id:
-    type: string
-    description: Unique identifier for the user
-    example: 60c72b2f9b1d8b3b4c7e4e57
-  
+
+

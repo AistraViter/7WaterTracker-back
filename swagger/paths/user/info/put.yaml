@@ -15,14 +15,14 @@ requestBody:
           name:
             type: string
             example: 'John Doe'
-            description: "User's name"
+            description: "Сhange the username"
           email:
             type: string
             example: 'johndoe@gmail.com'
-            description: "User's email"
+            description: "Сhange the email"
           oldPassword:
             type: string
-            example: 'oldpassword123'
+            example: 'password123'
             description: 'Old password'
           password:
             type: string
@@ -34,7 +34,7 @@ requestBody:
             description: 'Confirming new password'
 responses:
   '200':
-    description: "User's info has been updated successfully"
+    description: User's info has been updated successfully
     content:
       application/json:
         schema:
@@ -45,7 +45,7 @@ responses:
               example: 200
             message:
               type: string
-              example: "User's info has been updated successfully"
+              example: User's info has been updated successfully!
             data:
               $ref: ..\..\..\components\schemas\user.yaml
   '400':
