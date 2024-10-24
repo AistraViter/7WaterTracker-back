@@ -26,7 +26,7 @@ requestBody:
             description: The user's password
 responses:
   '201':
-    description: Successfully registered a user
+    description: Successfully registered a user!
     content:
       application/json:
         schema:
@@ -45,17 +45,17 @@ responses:
             data:
               type: object
               properties:
+                user:
+                  $ref: ..\..\..\components\schemas\user.yaml
+                  avatar:
+                    example: null 
                 accessToken:
                   type: string
                   example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
-                refreshToken:
-                  type: string
-                  example: 'd1f4eaf5...'
-                user:
-                  $ref: ..\..\..\components\schemas\user.yaml
   '400':
     $ref: '../../../components/responses/400.yaml'
-    message: Invalid email or password format
+  '404':
+    $ref: '../../../components/responses/404.yaml'
   '409':
     $ref: '../../../components/responses/409.yaml'
   '500':

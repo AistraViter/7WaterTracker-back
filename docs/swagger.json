@@ -68,7 +68,7 @@
         },
         "responses": {
           "201": {
-            "description": "Successfully registered a user",
+            "description": "Successfully registered a user!",
             "content": {
               "application/json": {
                 "schema": {
@@ -90,16 +90,15 @@
                     "data": {
                       "type": "object",
                       "properties": {
+                        "user": {
+                          "$ref": "#/components/schemas/user",
+                          "avatar": {
+                            "example": null
+                          }
+                        },
                         "accessToken": {
                           "type": "string",
                           "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                        },
-                        "refreshToken": {
-                          "type": "string",
-                          "example": "d1f4eaf5..."
-                        },
-                        "user": {
-                          "$ref": "#/components/schemas/user"
                         }
                       }
                     }
@@ -109,8 +108,10 @@
             }
           },
           "400": {
-            "$ref": "#/components/responses/400",
-            "message": "Invalid email or password format"
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
           },
           "409": {
             "$ref": "#/components/responses/409"
@@ -148,8 +149,6 @@
                   },
                   "password": {
                     "type": "string",
-                    "minLength": 8,
-                    "maxLength": 64,
                     "example": "password123",
                     "description": "The user's password"
                   }
@@ -181,15 +180,30 @@
                     },
                     "data": {
                       "type": "object",
-                      "$ref": "#/components/schemas/session"
+                      "properties": {
+                        "accessToken": {
+                          "type": "string",
+                          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                        }
+                      }
                     }
                   }
                 }
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
           "401": {
-            "$ref": "#/components/responses/401"
+            "$ref": "#/components/responses/401",
+            "content": null
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -265,60 +279,14 @@
             }
           },
           "401": {
-            "description": "Unauthorized. Session not found or session expired.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 401
-                    },
-                    "message": {
-                      "type": "string",
-                      "enum": [
-                        "Session not found",
-                        "Session expired"
-                      ],
-                      "example": "Session not found or expired"
-                    }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/401",
+            "description": "Unauthorized. Session not found or session expired"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
           },
           "500": {
-            "description": "Internal server error.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 500
-                    },
-                    "message": {
-                      "type": "string",
-                      "enum": [
-                        "Internal server error",
-                        "Cannot read refreshTokenValidUntil"
-                      ],
-                      "example": "Internal server error or Cannot read refreshTokenValidUntil"
-                    }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -533,7 +501,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "dailyNorma": {
+                  "dailyNorm": {
                     "type": "number",
                     "example": 1500,
                     "description": "Updating daily water norm"
@@ -555,7 +523,7 @@
                       "type": "string",
                       "example": "Daily water norm updated successfully"
                     },
-                    "dailyNorma": {
+                    "dailyNorm": {
                       "type": "number",
                       "example": 1500
                     }
@@ -1025,11 +993,6 @@
           "email"
         ],
         "properties": {
-          "_id": {
-            "type": "string",
-            "description": "Unique identifier for the user",
-            "example": "60c72b2f9b1d8b3b4c7e4e57"
-          },
           "name": {
             "type": "string",
             "description": "User's name",
@@ -1044,12 +1007,12 @@
             "type": "string",
             "description": "User's gender",
             "enum": [
-              "woman",
-              "man"
+              "Woman",
+              "Man"
             ],
-            "example": "woman"
+            "example": "Woman"
           },
-          "dailyNorma": {
+          "dailyNorm": {
             "type": "number",
             "description": "User's daily water intake in milliliters",
             "example": 1500
@@ -1058,41 +1021,12 @@
             "type": "string",
             "description": "User's photo",
             "format": "binary",
-            "example": null
-          }
-        }
-      },
-      "session": {
-        "type": "object",
-        "required": [
-          "userId",
-          "accessToken",
-          "refreshToken",
-          "accessTokenValidUntil",
-          "refreshTokenValidUntil"
-        ],
-        "properties": {
-          "userId": {
-            "type": "string",
-            "example": "65ca67e7ae7f10c88b598384"
+            "example": "https://res.cloudinary.com/dd6thsdhw/image/upload/image.png"
           },
-          "accessToken": {
+          "_id": {
             "type": "string",
-            "example": "someAccessToken"
-          },
-          "refreshToken": {
-            "type": "string",
-            "example": "someRefreshToken"
-          },
-          "accessTokenValidUntil": {
-            "type": "string",
-            "format": "date-time",
-            "example": "2023-01-01T00:00:00Z"
-          },
-          "refreshTokenValidUntil": {
-            "type": "string",
-            "format": "date-time",
-            "example": "2023-01-01T00:00:00Z"
+            "description": "Unique identifier for the user",
+            "example": "60c72b2f9b1d8b3b4c7e4e57"
           }
         }
       },
@@ -1232,7 +1166,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Object not found!"
+                      "example": "Route not found!"
                     }
                   }
                 }
@@ -1296,7 +1230,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Internal server error."
+                  "example": "InternalServerError"
                 },
                 "data": {
                   "type": "object",

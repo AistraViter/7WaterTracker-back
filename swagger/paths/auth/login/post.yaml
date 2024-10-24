@@ -2,7 +2,7 @@ tags:
   - Auth
 summary: Login a user
 operationId: loginUser
-description: 'Logs in a user and returns an access token'
+description: Logs in a user and returns an access token
 security: []
 requestBody:
   required: true
@@ -16,17 +16,15 @@ requestBody:
         properties:
           email:
             type: string
-            example: 'test@gmail.com'
-            description: "The user's email address"
+            example: test@gmail.com
+            description: The user's email address
           password:
             type: string
-            minLength: 8
-            maxLength: 64
-            example: 'password123'
-            description: "The user's password"
+            example: password123
+            description: The user's password
 responses:
   '200':
-    description: 'Successfully logged in a user'
+    description: Successfully logged in a user
     content:
       application/json:
         schema:
@@ -41,16 +39,20 @@ responses:
               example: 200
             message:
               type: string
-              example: 'Successfully logged in a user!'
+              example: Successfully logged in a user!
             data:
               type: object
-              $ref: ..\..\..\components\schemas\session.yaml
-              #properties:
-              # accessToken:
-              #   example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
-              # refreshToken:
-              #   type: string
-              #  example: 'd1f4eaf5...'
-
+              properties:
+                accessToken:
+                  type: string
+                  example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'          
+  '400':
+    $ref: '../../../components/responses/400.yaml'
   '401':
     $ref: '../../../components/responses/401.yaml'
+    content:   
+  '404':
+    $ref: '../../../components/responses/404.yaml'
+  '500':
+    $ref: '../../../components/responses/500.yaml'
+  

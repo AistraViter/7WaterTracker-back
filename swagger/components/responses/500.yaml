@@ -13,7 +13,7 @@ content:
           example: 500
         message:
           type: string
-          example: Internal server error.
+          example: InternalServerError
         data:
           type: object
           required:

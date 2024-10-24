@@ -21,4 +21,4 @@ content:
           properties:
               message:
                 type: string
-                example: Object not found!
+                example: Route not found!
