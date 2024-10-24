@@ -235,11 +235,7 @@
         "summary": "Refresh user session",
         "operationId": "refreshToken",
         "description": "Refresh the user session and recive a new access token.",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Successfully refreshed a session.",
