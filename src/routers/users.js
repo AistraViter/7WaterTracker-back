@@ -16,7 +16,7 @@ export const usersRouter = Router();
 
 usersRouter.use(authenticate);
 
-usersRouter.get('/', ctrlWrapper(getUserInfoController));
+usersRouter.get('/info', ctrlWrapper(getUserInfoController));
 usersRouter.post('/email', ctrlWrapper(updateUserEmailController));
 
 usersRouter.patch(
