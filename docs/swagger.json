@@ -11,7 +11,9 @@
   },
   "servers": [
     {
-      "url": "https://sevenwatertracker-back-1.onrender.com"
+      "url": "https://sevenwatertracker-back-1.onrender.com",
+      "url": "http://localhost:3000"
+
     }
   ],
   "tags": [

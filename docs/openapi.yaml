@@ -16,6 +16,7 @@ tags:
     description: Operations about water.
 servers:
   - url: https://sevenwatertracker-back-1.onrender.com
+  - url: http://localhost:3000
 paths:
   /auth/register:
     post:
