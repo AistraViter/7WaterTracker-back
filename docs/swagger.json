@@ -11,12 +11,17 @@
   },
   "servers": [
     {
-      "url": "https://sevenwatertracker-back-1.onrender.com",
+      "url": "https://sevenwatertracker-back-1.onrender.com"
+    },
+    {
       "url": "http://localhost:3000"
-
     }
   ],
   "tags": [
+    {
+      "name": "Health Check",
+      "description": "Returns a simple response indicating the server's health."
+    },
     {
       "name": "Auth",
       "description": "Auth operations."
@@ -31,6 +36,36 @@
     }
   ],
   "paths": {
+    "/health-check": {
+      "get": {
+        "tags": [
+          "Health Check"
+        ],
+        "summary": "Health Check",
+        "description": "Returns a simple response indicating the server's health, allowing you to confirm that the backend is reachable and functioning.",
+        "operationId": "getHealthCheck",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Server is healthy and reachable.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "OK"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
     "/auth/register": {
       "post": {
         "tags": [
@@ -961,89 +996,6 @@
         "scheme": "bearer"
       }
     },
-    "schemas": {
-      "user": {
-        "type": "object",
-        "required": [
-          "name",
-          "email"
-        ],
-        "properties": {
-          "_id": {
-            "type": "string",
-            "description": "Unique identifier for the user.",
-            "example": "60c72b2f9b1d8b3b4c7e4e57"
-          },
-          "name": {
-            "type": "string",
-            "description": "User's name.",
-            "example": "test"
-          },
-          "email": {
-            "type": "string",
-            "description": "User's email.",
-            "example": "test@gmail.com"
-          },
-          "gender": {
-            "type": "string",
-            "description": "User's gender.",
-            "enum": [
-              "Woman",
-              "Man"
-            ],
-            "example": "Woman"
-          },
-          "dailyNorm": {
-            "type": "number",
-            "description": "User's daily water intake in milliliters.",
-            "example": 1500
-          },
-          "avatar": {
-            "type": "string",
-            "description": "User's photo.",
-            "format": "binary",
-            "example": "https://res.cloudinary.com/dd6thsdhw/image/upload/image.png"
-          }
-        }
-      },
-      "water": {
-        "type": "object",
-        "required": [
-          "date",
-          "time",
-          "dailyNorm",
-          "userId"
-        ],
-        "properties": {
-          "userId": {
-            "type": "string",
-            "description": "User's ID.",
-            "example": "60c72b2f9b1d8b3b4c7e4e57"
-          },
-          "_id": {
-            "type": "string",
-            "description": "Unique identifier for this water note.",
-            "example": "60c72b2f9b1d8b3b4c7e4e57"
-          },
-          "date": {
-            "type": "string",
-            "format": "date",
-            "description": "The date of the water consumption record.",
-            "example": "2024-10-20"
-          },
-          "time": {
-            "type": "string",
-            "description": "The time of the water consumption record.",
-            "example": "21:59"
-          },
-          "waterVolume": {
-            "type": "number",
-            "description": "The volume of water consumed in milliliters (1-5000 ml).",
-            "example": 250
-          }
-        }
-      }
-    },
     "responses": {
       "400": {
         "description": "Bad Request",
@@ -1227,6 +1179,89 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "user": {
+        "type": "object",
+        "required": [
+          "name",
+          "email"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Unique identifier for the user.",
+            "example": "60c72b2f9b1d8b3b4c7e4e57"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name.",
+            "example": "test"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email.",
+            "example": "test@gmail.com"
+          },
+          "gender": {
+            "type": "string",
+            "description": "User's gender.",
+            "enum": [
+              "Woman",
+              "Man"
+            ],
+            "example": "Woman"
+          },
+          "dailyNorm": {
+            "type": "number",
+            "description": "User's daily water intake in milliliters.",
+            "example": 1500
+          },
+          "avatar": {
+            "type": "string",
+            "description": "User's photo.",
+            "format": "binary",
+            "example": "https://res.cloudinary.com/dd6thsdhw/image/upload/image.png"
+          }
+        }
+      },
+      "water": {
+        "type": "object",
+        "required": [
+          "date",
+          "time",
+          "dailyNorm",
+          "userId"
+        ],
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "User's ID.",
+            "example": "60c72b2f9b1d8b3b4c7e4e57"
+          },
+          "_id": {
+            "type": "string",
+            "description": "Unique identifier for this water note.",
+            "example": "60c72b2f9b1d8b3b4c7e4e57"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "The date of the water consumption record.",
+            "example": "2024-10-20"
+          },
+          "time": {
+            "type": "string",
+            "description": "The time of the water consumption record.",
+            "example": "21:59"
+          },
+          "waterVolume": {
+            "type": "number",
+            "description": "The volume of water consumed in milliliters (1-5000 ml).",
+            "example": 250
           }
         }
       }

@@ -8,6 +8,8 @@ info:
 
   description: This is a documentation of water consumption app
 tags:
+  - name: Health Check
+    description: Returns a simple response indicating the server's health.
   - name: Auth
     description: Auth operations.
   - name: User
@@ -18,6 +20,9 @@ servers:
   - url: https://sevenwatertracker-back-1.onrender.com
   - url: http://localhost:3000
 paths:
+  /health-check:
+    get:
+      $ref: ../swagger/paths/health-check/get.yaml
   /auth/register:
     post:
       $ref: ../swagger/paths/auth/register/post.yaml

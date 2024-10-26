@@ -1,0 +1,19 @@
+tags:
+  - Health Check
+summary: Health Check
+description: Returns a simple response indicating the server's health, allowing you to confirm that the backend is reachable and functioning.
+operationId: getHealthCheck  
+security: []
+responses:
+  '200':
+    description: Server is healthy and reachable.
+    content:
+      text/plain:
+        schema:
+          type: string
+          example: "OK"
+  '404':
+    $ref: '../../components/responses/404.yaml'
+  '500':
+    $ref: '../../components/responses/500.yaml'
+  

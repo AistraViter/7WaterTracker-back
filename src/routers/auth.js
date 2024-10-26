@@ -14,7 +14,7 @@ export const authRouter = Router();
 
 authRouter.post(
   '/register',
-  validateBody(userRegisterSchema), // Це треба переробити в стилі як зроблено логін.
+  validateBody(userRegisterSchema), 
   ctrlWrapper(registrationUserController),
 );
 
