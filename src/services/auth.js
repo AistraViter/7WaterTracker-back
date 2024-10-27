@@ -20,6 +20,10 @@ export function createSession(user) {
     expiresIn: REFRESH_TOKEN_EXPIRES_IN,
   });
 
+  console.log("Generated new accessToken:", accessToken); // Логування accessToken
+  console.log("Generated new refreshToken:", refreshToken); // Логування refreshToken
+
+
   return {
     accessToken,
     refreshToken,
@@ -58,7 +62,7 @@ export const loginUser = async (email, password) => {
     throw createHttpError(401, 'Incorrect email or password');
   }
 
-  await SessionsCollection.deleteOne({ userId: user._id });
+  await SessionsCollection.deleteMany({ userId: user._id });
 
   const { accessToken, refreshToken } = createSession(user);
 
