@@ -22,7 +22,7 @@ export function setRefreshTokenCookie(res, session) {
 export const registrationUserController = async (req, res) => {
   const newUser = await registrationUser(req.body);
   const session = await loginUser(newUser.email, req.body.password);
-  setRefreshTokenCookie(res, session); 
+  setRefreshTokenCookie(res, session);
   res.status(201).json({
     status: 201,
     message: 'Successfully registered a user!',
@@ -35,14 +35,14 @@ export const registrationUserController = async (req, res) => {
 
 export async function loginUserController(req, res, next) {
   const { email, password } = req.body;
-  const session = await loginUser(email, password);
+  const { user, session } = await loginUser(email, password);
 
   setRefreshTokenCookie(res, session);
 
   res.status(200).json({
     status: 200,
     message: 'Successfully logged in',
-    data: { accessToken: session.accessToken },
+    data: { user, accessToken: session.accessToken },
   });
 }
 
@@ -70,7 +70,6 @@ export const updateUserEmailController = async (req, res) => {
   });
 };
 // Цей файл перевірено 20.10.2024 00.03 by AistraViter
-
 
 export const refreshUserSessionController = async (req, res) => {
   const session = await refreshUsersSession({
