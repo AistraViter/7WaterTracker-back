@@ -20,9 +20,8 @@ export function createSession(user) {
     expiresIn: REFRESH_TOKEN_EXPIRES_IN,
   });
 
-  console.log("Generated new accessToken:", accessToken); // Логування accessToken
-  console.log("Generated new refreshToken:", refreshToken); // Логування refreshToken
-
+  console.log('Generated new accessToken:', accessToken); // Логування accessToken
+  console.log('Generated new refreshToken:', refreshToken); // Логування refreshToken
 
   return {
     accessToken,
@@ -62,7 +61,7 @@ export const loginUser = async (email, password) => {
     throw createHttpError(401, 'Incorrect email or password');
   }
 
-  await SessionsCollection.deleteMany({ userId: user._id });
+  await SessionsCollection.deleteOne({ userId: user._id });
 
   const { accessToken, refreshToken } = createSession(user);
 
@@ -74,7 +73,7 @@ export const loginUser = async (email, password) => {
     refreshTokenValidUntil,
   });
 
-  return session;
+  return { user, session };
 };
 
 export const logoutUser = async (refreshToken) => {
@@ -117,7 +116,7 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
   if (!session) {
     throw createHttpError(401, 'Session not found');
   }
-  
+
   const isTokenExpired = new Date() > new Date(session.refreshTokenValidUntil);
 
   if (isTokenExpired) {
@@ -125,7 +124,9 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
   }
 
   // Створення нових токенів
-  const { accessToken, refreshToken: newRefreshToken } = createSession({ _id: session.userId });
+  const { accessToken, refreshToken: newRefreshToken } = createSession({
+    _id: session.userId,
+  });
 
   // Оновлення сесії в базі даних
   const updatedSession = await SessionsCollection.findOneAndUpdate(
@@ -136,7 +137,7 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
       accessTokenValidUntil,
       refreshTokenValidUntil,
     },
-    { new: true } // Повернути оновлений документ
+    { new: true }, // Повернути оновлений документ
   );
 
   return updatedSession;
