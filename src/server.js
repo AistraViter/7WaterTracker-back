@@ -8,7 +8,6 @@ import cookieParser from 'cookie-parser';
 import router from './routers/index.js';
 import { swaggerDocs } from './middlewares/swaggerDocs.js';
 
-
 const PORT = Number(env('PORT', '3000'));
 
 export const setupServer = () => {
@@ -20,7 +19,15 @@ export const setupServer = () => {
   });
   app.use(cookieParser());
   app.use(logger);
-  app.use(cors());
+  app.use(
+    cors({
+      origin: [
+        'http://localhost:5173',
+        'https://7-water-tracker-front.vercel.app/',
+      ],
+      credentials: true,
+    }),
+  );
   app.use(express.json());
   app.get('/', (req, res) => {
     res.json({
@@ -46,4 +53,3 @@ export const setupServer = () => {
     console.log(`Server is running on port ${port}`);
   });
 };
-
