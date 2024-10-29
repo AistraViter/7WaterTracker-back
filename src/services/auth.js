@@ -140,5 +140,7 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
     { new: true }, // Повернути оновлений документ
   );
 
-  return updatedSession;
+  const user = await UsersCollection.findOne({ _id: updatedSession.userId });
+
+  return { user, updatedSession };
 };
