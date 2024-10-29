@@ -72,19 +72,18 @@ export const updateUserEmailController = async (req, res) => {
 // Цей файл перевірено 20.10.2024 00.03 by AistraViter
 
 export const refreshUserSessionController = async (req, res) => {
-  const { user, updatedSession } = await refreshUsersSession({
+  const session = await refreshUsersSession({
     sessionId: req.cookies.sessionId,
     refreshToken: req.cookies.refreshToken,
   });
 
-  setRefreshTokenCookie(res, updatedSession);
+  setRefreshTokenCookie(res, session);
 
   res.json({
     status: 200,
     message: 'Successfully refreshed a session!',
     data: {
-      user,
-      accessToken: updatedSession.accessToken,
+      accessToken: session.accessToken,
     },
   });
 };
